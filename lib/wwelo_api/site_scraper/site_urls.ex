@@ -10,12 +10,7 @@ defmodule WweloApi.SiteScraper.SiteUrls do
 
     response = HTTPoison.get!(wwe_events_results_url(params))
 
-     [_ | event_rows] = response.body
-     |> Floki.find(".TableContents")
-     |> Enum.at(0)
-     |> elem(2)
-     |> Enum.at(0)
-     |> elem(2)
+     [{_, _, [{_, _, [_| event_rows]}]}] = response.body |> Floki.find(".TableContents")
 
     event_rows
     |> Enum.map(fn(x) -> x
@@ -23,6 +18,12 @@ defmodule WweloApi.SiteScraper.SiteUrls do
     |> Enum.at(2)
     |> elem(2)
     |> Enum.at(2) end)
+    |> Enum.reduce([], fn(x, acc) ->
+      case x do
+      {_, [{_, event_url}], _} -> acc ++ [event_url]
+      _ -> acc
+      end
+    end)
 
   end
 
