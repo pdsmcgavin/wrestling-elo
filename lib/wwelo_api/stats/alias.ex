@@ -3,10 +3,9 @@ defmodule WweloApi.Stats.Alias do
   import Ecto.Changeset
   alias WweloApi.Stats.Alias
 
-
   schema "aliases" do
-    field :name, :string
-    field :wrestler_id, :integer
+    field(:name, :string)
+    field(:wrestler_id, :integer)
 
     timestamps()
   end

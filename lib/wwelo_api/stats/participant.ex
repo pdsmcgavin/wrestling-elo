@@ -3,13 +3,12 @@ defmodule WweloApi.Stats.Participant do
   import Ecto.Changeset
   alias WweloApi.Stats.Participant
 
-
   schema "participants" do
-    field :elo_after, :integer
-    field :match_id, :integer
-    field :match_team, :integer
-    field :outcome, :string
-    field :wrestler_id, :integer
+    field(:elo_after, :integer)
+    field(:match_id, :integer)
+    field(:match_team, :integer)
+    field(:outcome, :string)
+    field(:wrestler_id, :integer)
 
     timestamps()
   end

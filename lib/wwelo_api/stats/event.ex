@@ -3,15 +3,14 @@ defmodule WweloApi.Stats.Event do
   import Ecto.Changeset
   alias WweloApi.Stats.Event
 
-
   schema "events" do
-    field :arena, :string
-    field :brand, :string
-    field :date, :date
-    field :event_type, :string
-    field :location, :string
-    field :name, :string
-    field :promotion, :string
+    field(:arena, :string)
+    field(:brand, :string)
+    field(:date, :date)
+    field(:event_type, :string)
+    field(:location, :string)
+    field(:name, :string)
+    field(:promotion, :string)
 
     timestamps()
   end

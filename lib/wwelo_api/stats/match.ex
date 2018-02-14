@@ -3,11 +3,10 @@ defmodule WweloApi.Stats.Match do
   import Ecto.Changeset
   alias WweloApi.Stats.Match
 
-
   schema "matches" do
-    field :card_position, :integer
-    field :event_id, :integer
-    field :stipulation, :string
+    field(:card_position, :integer)
+    field(:event_id, :integer)
+    field(:stipulation, :string)
 
     timestamps()
   end
