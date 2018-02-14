@@ -9,22 +9,26 @@ defmodule WweloApi.SiteScraper.SiteUrls do
   def number_of_results(%{year: year}) do
     response=HTTPoison.get!(wwe_events_results_url(%{year: year, page_number: 1}))
 
-    results_text = Floki.find(response.body, ".TableHeaderOff") 
+    results_info = Floki.find(response.body, ".TableHeaderOff") 
       |> Floki.text
+      |> String.split
+      |> Enum.map(&Integer.parse(&1))
+      |> Enum.filter(&is_tuple(&1))
+      |> Enum.map(&elem(&1,0))
 
-    case results_text do
-    "No items were found that match the search parameters." -> 0
-    _ -> results_text |> String.split("total ")
-      |> Enum.at(1)
-      |> String.split(" ")
-      |> Enum.at(0)
-      |> String.to_integer
+    case results_info do
+      [1, results_per_page, number_of_results] -> %{results_per_page: results_per_page, number_of_results: number_of_results}
+      _ -> %{results_per_page: 100, number_of_results: 0}
     end
+
   end
 
   def number_of_results_pages(%{year: year}) do
-    number_of_results(%{year: year})
-    |> div(100)
+    %{results_per_page: results_per_page, number_of_results: number_of_results} = number_of_results(%{year: year})
+
+    number_of_results
+    |> Kernel.-(1)
+    |> div(results_per_page)
     |> Kernel.+(1)
   end
 
