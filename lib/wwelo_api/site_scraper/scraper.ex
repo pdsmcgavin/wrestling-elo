@@ -1,11 +1,11 @@
 defmodule WweloApi.SiteScraper.Scraper do
 
-    alias WweloApi.SiteScraper.SiteUrls
+    alias WweloApi.SiteScraper.Events
 
     def scrape_site() do
         years = 1963..2018
 
-        years |> Enum.map(fn(x) -> SiteUrls.number_of_results_pages(%{year: x}) end)
+        years |> Enum.each(fn(x) -> Events.save_events_of_year(%{year: x}) end)
     end
   
   end
