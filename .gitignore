@@ -15,5 +15,6 @@ erl_crash.dump
 # variables.
 /config/*.secret.exs
 
-# VSCode plugin
+# VSCode
+.vscode
 .elixir_ls

@@ -11,7 +11,7 @@ defmodule WweloApi.Application do
       # Start the Ecto repository
       supervisor(WweloApi.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(WweloApiWeb.Endpoint, []),
+      supervisor(WweloApiWeb.Endpoint, [])
       # Start your own worker by calling: WweloApi.Worker.start_link(arg1, arg2, arg3)
       # worker(WweloApi.Worker, [arg1, arg2, arg3]),
     ]
