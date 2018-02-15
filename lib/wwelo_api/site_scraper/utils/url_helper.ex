@@ -45,18 +45,11 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
     [{_, _, [{_, _, [_ | event_rows]}]}] = response.body |> Floki.find(".TableContents")
 
     event_rows
-    |> Enum.map(fn x ->
-      x
-      |> elem(2)
-      |> Enum.at(2)
-      |> elem(2)
-      |> Enum.at(2)
-    end)
-    |> Enum.reduce([], fn x, acc ->
-      case x do
-        {_, [{_, event_url_path}], _} -> acc ++ [event_url_path]
-        _ -> acc
-      end
+    |> Enum.map(fn event ->
+      event
+      |> PhStTransform.transform(%{Tuple => fn x -> Tuple.to_list(x) end})
+      |> List.flatten()
+      |> Enum.find(fn x -> String.starts_with?(x, "?id=1") end)
     end)
   end
 
