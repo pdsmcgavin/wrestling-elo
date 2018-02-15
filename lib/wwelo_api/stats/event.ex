@@ -29,11 +29,9 @@ defmodule WweloApi.Stats.Event do
     ])
     |> validate_required([
       :name,
-      :promotion,
       :date,
       :event_type,
-      :location,
-      :arena
+      :location
     ])
     |> unique_constraint(:name)
   end

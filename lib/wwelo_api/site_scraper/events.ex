@@ -72,7 +72,9 @@ defmodule WweloApi.SiteScraper.Events do
     event_query =
       from(
         e in Event,
-        where: e.name == ^event_info.name,
+        where:
+          e.name == ^event_info.name and e.date == ^event_info.date and
+            e.location == ^event_info.location,
         select: e
       )
 
