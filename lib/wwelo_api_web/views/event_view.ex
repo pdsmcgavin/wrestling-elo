@@ -11,13 +11,15 @@ defmodule WweloApiWeb.EventView do
   end
 
   def render("event.json", %{event: event}) do
-    %{id: event.id,
+    %{
+      id: event.id,
       name: event.name,
       promotion: event.promotion,
       date: event.date,
       brand: event.brand,
       event_type: event.event_type,
       location: event.location,
-      arena: event.arena}
+      arena: event.arena
+    }
   end
 end

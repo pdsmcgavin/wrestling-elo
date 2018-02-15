@@ -4,7 +4,7 @@ defmodule WweloApiWeb.WrestlerController do
   alias WweloApi.Stats
   alias WweloApi.Stats.Wrestler
 
-  action_fallback WweloApiWeb.FallbackController
+  action_fallback(WweloApiWeb.FallbackController)
 
   def index(conn, _params) do
     wrestlers = Stats.list_wrestlers()
@@ -28,13 +28,15 @@ defmodule WweloApiWeb.WrestlerController do
   def update(conn, %{"id" => id, "wrestler" => wrestler_params}) do
     wrestler = Stats.get_wrestler!(id)
 
-    with {:ok, %Wrestler{} = wrestler} <- Stats.update_wrestler(wrestler, wrestler_params) do
+    with {:ok, %Wrestler{} = wrestler} <-
+           Stats.update_wrestler(wrestler, wrestler_params) do
       render(conn, "show.json", wrestler: wrestler)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     wrestler = Stats.get_wrestler!(id)
+
     with {:ok, %Wrestler{}} <- Stats.delete_wrestler(wrestler) do
       send_resp(conn, :no_content, "")
     end

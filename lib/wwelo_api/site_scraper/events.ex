@@ -22,7 +22,11 @@ defmodule WweloApi.SiteScraper.Events do
   def get_event_info(%{event_url_path: event_url_path}) do
     response = HTTPoison.get!("https://www.cagematch.net/" <> event_url_path)
 
-    [{_, _, event_information}] = response.body |> Floki.find(".InformationBoxTable")
+    [{_, _, event_information}] =
+      response.body
+      |> UrlHelper.cp1252_to_utf8_converter()
+      |> Floki.find(".InformationBoxTable")
+
     # [{_, _,event_matches}] = response.body |> Floki.find(".Matches")
 
     event_information

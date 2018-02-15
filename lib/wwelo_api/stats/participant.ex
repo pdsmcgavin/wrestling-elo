@@ -17,6 +17,12 @@ defmodule WweloApi.Stats.Participant do
   def changeset(%Participant{} = participant, attrs) do
     participant
     |> cast(attrs, [:wrestler_id, :match_id, :outcome, :elo_after, :match_team])
-    |> validate_required([:wrestler_id, :match_id, :outcome, :elo_after, :match_team])
+    |> validate_required([
+      :wrestler_id,
+      :match_id,
+      :outcome,
+      :elo_after,
+      :match_team
+    ])
   end
 end

@@ -4,7 +4,7 @@ defmodule WweloApiWeb.EventController do
   alias WweloApi.Stats
   alias WweloApi.Stats.Event
 
-  action_fallback WweloApiWeb.FallbackController
+  action_fallback(WweloApiWeb.FallbackController)
 
   def index(conn, _params) do
     events = Stats.list_events()
@@ -35,6 +35,7 @@ defmodule WweloApiWeb.EventController do
 
   def delete(conn, %{"id" => id}) do
     event = Stats.get_event!(id)
+
     with {:ok, %Event{}} <- Stats.delete_event(event) do
       send_resp(conn, :no_content, "")
     end

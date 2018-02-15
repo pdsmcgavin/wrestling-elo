@@ -18,8 +18,23 @@ defmodule WweloApi.Stats.Event do
   @doc false
   def changeset(%Event{} = event, attrs) do
     event
-    |> cast(attrs, [:name, :promotion, :date, :brand, :event_type, :location, :arena])
-    |> validate_required([:name, :promotion, :date, :event_type, :location, :arena])
+    |> cast(attrs, [
+      :name,
+      :promotion,
+      :date,
+      :brand,
+      :event_type,
+      :location,
+      :arena
+    ])
+    |> validate_required([
+      :name,
+      :promotion,
+      :date,
+      :event_type,
+      :location,
+      :arena
+    ])
     |> unique_constraint(:name)
   end
 end

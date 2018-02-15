@@ -11,8 +11,6 @@ defmodule WweloApiWeb.AliasView do
   end
 
   def render("alias.json", %{alias: alias}) do
-    %{id: alias.id,
-      name: alias.name,
-      wrestler_id: alias.wrestler_id}
+    %{id: alias.id, name: alias.name, wrestler_id: alias.wrestler_id}
   end
 end

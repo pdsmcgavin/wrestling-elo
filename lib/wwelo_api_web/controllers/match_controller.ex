@@ -4,7 +4,7 @@ defmodule WweloApiWeb.MatchController do
   alias WweloApi.Stats
   alias WweloApi.Stats.Match
 
-  action_fallback WweloApiWeb.FallbackController
+  action_fallback(WweloApiWeb.FallbackController)
 
   def index(conn, _params) do
     matches = Stats.list_matches()
@@ -35,6 +35,7 @@ defmodule WweloApiWeb.MatchController do
 
   def delete(conn, %{"id" => id}) do
     match = Stats.get_match!(id)
+
     with {:ok, %Match{}} <- Stats.delete_match(match) do
       send_resp(conn, :no_content, "")
     end

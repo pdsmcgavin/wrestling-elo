@@ -4,7 +4,7 @@ defmodule WweloApiWeb.AliasController do
   alias WweloApi.Stats
   alias WweloApi.Stats.Alias
 
-  action_fallback WweloApiWeb.FallbackController
+  action_fallback(WweloApiWeb.FallbackController)
 
   def index(conn, _params) do
     aliases = Stats.list_aliases()
@@ -35,6 +35,7 @@ defmodule WweloApiWeb.AliasController do
 
   def delete(conn, %{"id" => id}) do
     alias = Stats.get_alias!(id)
+
     with {:ok, %Alias{}} <- Stats.delete_alias(alias) do
       send_resp(conn, :no_content, "")
     end

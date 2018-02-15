@@ -11,7 +11,8 @@ defmodule WweloApiWeb.WrestlerView do
   end
 
   def render("wrestler.json", %{wrestler: wrestler}) do
-    %{id: wrestler.id,
+    %{
+      id: wrestler.id,
       name: wrestler.name,
       gender: wrestler.gender,
       height: wrestler.height,
@@ -23,6 +24,7 @@ defmodule WweloApiWeb.WrestlerView do
       draw: wrestler.draw,
       current_elo: wrestler.current_elo,
       maximum_elo: wrestler.maximum_elo,
-      minimum_elo: wrestler.minimum_elo}
+      minimum_elo: wrestler.minimum_elo
+    }
   end
 end

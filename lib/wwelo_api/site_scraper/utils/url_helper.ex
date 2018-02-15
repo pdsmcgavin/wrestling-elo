@@ -10,7 +10,8 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
   end
 
   def number_of_results(%{year: year}) do
-    response = HTTPoison.get!(wwe_events_results_url(%{year: year, page_number: 1}))
+    response =
+      HTTPoison.get!(wwe_events_results_url(%{year: year, page_number: 1}))
 
     results_info =
       Floki.find(response.body, ".TableHeaderOff")
@@ -22,7 +23,10 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
 
     case results_info do
       [1, results_per_page, number_of_results] ->
-        %{results_per_page: results_per_page, number_of_results: number_of_results}
+        %{
+          results_per_page: results_per_page,
+          number_of_results: number_of_results
+        }
 
       _ ->
         %{results_per_page: 1, number_of_results: 0}
@@ -42,7 +46,8 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
   def wwe_event_url_paths_list(params = %{year: _, page_number: _}) do
     response = HTTPoison.get!(wwe_events_results_url(params))
 
-    [{_, _, [{_, _, [_ | event_rows]}]}] = response.body |> Floki.find(".TableContents")
+    [{_, _, [{_, _, [_ | event_rows]}]}] =
+      response.body |> Floki.find(".TableContents")
 
     event_rows
     |> Enum.map(fn event ->
@@ -66,5 +71,9 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
           acc ++ wwe_event_url_paths_list(%{year: year, page_number: x})
         end)
     end
+  end
+
+  def cp1252_to_utf8_converter(html) do
+    Mbcs.decode!(html, :cp1252, return: :binary)
   end
 end

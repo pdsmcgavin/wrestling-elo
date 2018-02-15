@@ -11,9 +11,11 @@ defmodule WweloApiWeb.MatchView do
   end
 
   def render("match.json", %{match: match}) do
-    %{id: match.id,
+    %{
+      id: match.id,
       event_id: match.event_id,
       stipulation: match.stipulation,
-      card_position: match.card_position}
+      card_position: match.card_position
+    }
   end
 end
