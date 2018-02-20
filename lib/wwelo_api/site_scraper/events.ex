@@ -20,14 +20,14 @@ defmodule WweloApi.SiteScraper.Events do
   end
 
   def get_event_info(%{event_url_path: event_url_path}) do
-    response = HTTPoison.get!("https://www.cagematch.net/" <> event_url_path)
+    event_url = "https://www.cagematch.net/" <> event_url_path
+    event_html_body = UrlHelper.get_page_html_body(%{url: event_url})
 
     [{_, _, event_information}] =
-      response.body
-      |> UrlHelper.cp1252_to_utf8_converter()
+      event_html_body
       |> Floki.find(".InformationBoxTable")
 
-    # [{_, _,event_matches}] = response.body |> Floki.find(".Matches")
+    # [{_, _,event_matches}] = event_html_body |> Floki.find(".Matches")
 
     event_information
   end
