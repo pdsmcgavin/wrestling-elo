@@ -6,7 +6,11 @@ defmodule WweloApi.SiteScraper.Matches do
   def save_matches_of_event(%{event_id: event_id, event_matches: matches}) do
     matches = matches |> filter_out_non_televised_matches
 
-    matches |> Enum.map(fn match -> get_match_stipulation(match) end)
+    matches |> Enum.zip(1..length(matches))
+    |> Enum.map(fn {match, card_position} ->
+      %{event_id: event_id, card_position: card_position}
+      |> Map.put(:stipulation, get_match_stipulation(match))
+    end)
   end
 
   #   def save_match_to_database(match_info) do
@@ -34,7 +38,11 @@ defmodule WweloApi.SiteScraper.Matches do
         {_, [{"class", "Match"}], _} ->
           true
 
+        {_, [{"class", "Dark Match"}], _} ->
+          false
+
         _ ->
+          # Checking for edge cases
           IO.inspect(match)
           false
       end
