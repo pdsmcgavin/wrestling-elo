@@ -13,9 +13,9 @@ defmodule WweloApi.SiteScraper.Events do
     list_of_event_urls = UrlHelper.wwe_event_url_paths_list(%{year: year})
 
     list_of_event_urls
-    |> Enum.map(fn x ->
+    |> Enum.map(fn url_path ->
       %{event_info: event_info, event_matches: event_matches} =
-        get_event_info(%{event_url_path: x})
+        get_event_info(%{event_url_path: url_path})
 
       event_id =
         event_info

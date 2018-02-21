@@ -68,8 +68,9 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
 
       _ ->
         1..number_of_pages
-        |> Enum.reduce([], fn x, acc ->
-          acc ++ wwe_event_url_paths_list(%{year: year, page_number: x})
+        |> Enum.reduce([], fn page_number, acc ->
+          acc ++
+            wwe_event_url_paths_list(%{year: year, page_number: page_number})
         end)
     end
   end
