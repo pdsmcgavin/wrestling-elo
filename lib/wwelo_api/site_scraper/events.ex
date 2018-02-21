@@ -9,13 +9,20 @@ defmodule WweloApi.SiteScraper.Events do
 
   def save_events_of_year(%{year: year}) do
     IO.inspect(year)
+
     list_of_event_urls = UrlHelper.wwe_event_url_paths_list(%{year: year})
 
     list_of_event_urls
     |> Enum.map(fn x ->
-      get_event_info(%{event_url_path: x})
-      |> convert_event_info
-      |> save_event_to_database
+      %{event_info: event_info, event_matches: event_matches} =
+        get_event_info(%{event_url_path: x})
+
+      event_id =
+        event_info
+        |> convert_event_info
+        |> save_event_to_database
+
+      %{event_id: event_id, event_matches: event_matches}
     end)
   end
 
@@ -23,13 +30,13 @@ defmodule WweloApi.SiteScraper.Events do
     event_url = "https://www.cagematch.net/" <> event_url_path
     event_html_body = UrlHelper.get_page_html_body(%{url: event_url})
 
-    [{_, _, event_information}] =
+    [{_, _, event_info}] =
       event_html_body
       |> Floki.find(".InformationBoxTable")
 
-    # [{_, _,event_matches}] = event_html_body |> Floki.find(".Matches")
+    [{_, _, event_matches}] = event_html_body |> Floki.find(".Matches")
 
-    event_information
+    %{event_info: event_info, event_matches: event_matches}
   end
 
   def convert_event_info(event_info) do
@@ -84,5 +91,6 @@ defmodule WweloApi.SiteScraper.Events do
       nil -> Stats.create_event(event_info) |> elem(1)
       _ -> event_result
     end
+    |> Map.get(:id)
   end
 end
