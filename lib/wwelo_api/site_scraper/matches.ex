@@ -1,4 +1,6 @@
 defmodule WweloApi.SiteScraper.Matches do
+  import Ecto.Query
+
   alias WweloApi.Repo
   alias WweloApi.Stats
   alias WweloApi.Stats.Match
@@ -10,27 +12,28 @@ defmodule WweloApi.SiteScraper.Matches do
     |> Enum.map(fn {match, card_position} ->
       %{event_id: event_id, card_position: card_position}
       |> Map.put(:stipulation, get_match_stipulation(match))
+      |> save_match_to_database
     end)
   end
 
-  #   def save_match_to_database(match_info) do
-  #     match_query =
-  #       from(
-  #         m in Match,
-  #         where:
-  #           m.event_id == ^match_info.event_id and
-  #             m.card_position == ^match_info.card_position,
-  #         select: m
-  #       )
+  def save_match_to_database(match_info) do
+    match_query =
+      from(
+        m in Match,
+        where:
+          m.event_id == ^match_info.event_id and
+            m.card_position == ^match_info.card_position,
+        select: m
+      )
 
-  #     match_result = Repo.one(match_query)
+    match_result = Repo.one(match_query)
 
-  #     case match_result do
-  #       nil -> Stats.create_match(match_info) |> elem(1)
-  #       _ -> match_result
-  #     end
-  #     |> Map.get(:id)
-  #   end
+    case match_result do
+      nil -> Stats.create_match(match_info) |> elem(1)
+      _ -> match_result
+    end
+    |> Map.get(:id)
+  end
 
   def filter_out_non_televised_matches(matches) do
     Enum.filter(matches, fn match ->
