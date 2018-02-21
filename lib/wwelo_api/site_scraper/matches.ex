@@ -6,14 +6,25 @@ defmodule WweloApi.SiteScraper.Matches do
   alias WweloApi.Stats.Match
 
   def save_matches_of_event(%{event_id: event_id, event_matches: matches}) do
-    matches = matches |> filter_out_non_televised_matches
+    card_positions = 1..length(matches)
 
-    matches |> Enum.zip(1..length(matches))
+    matches =
+      matches |> filter_out_non_televised_matches
+      |> Enum.zip(card_positions)
+
+    matches
     |> Enum.map(fn {match, card_position} ->
-      %{event_id: event_id, card_position: card_position}
-      |> Map.put(:stipulation, get_match_stipulation(match))
-      |> save_match_to_database
+      match_id =
+        convert_match_info(event_id, match, card_position)
+        |> save_match_to_database
+
+      %{match_id: match_id}
     end)
+  end
+
+  def convert_match_info(event_id, match, card_position) do
+    %{event_id: event_id, card_position: card_position}
+    |> Map.put(:stipulation, get_match_stipulation(match))
   end
 
   def save_match_to_database(match_info) do
