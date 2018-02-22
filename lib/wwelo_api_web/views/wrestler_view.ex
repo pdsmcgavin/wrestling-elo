@@ -21,7 +21,7 @@ defmodule WweloApiWeb.WrestlerView do
       career_end_date: wrestler.career_end_date,
       wins: wrestler.wins,
       losses: wrestler.losses,
-      draw: wrestler.draw,
+      draws: wrestler.draws,
       current_elo: wrestler.current_elo,
       maximum_elo: wrestler.maximum_elo,
       minimum_elo: wrestler.minimum_elo

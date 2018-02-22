@@ -13,7 +13,7 @@ defmodule WweloApiWeb.ParticipantView do
   def render("participant.json", %{participant: participant}) do
     %{
       id: participant.id,
-      wrestler_id: participant.wrestler_id,
+      alias_id: participant.alias_id,
       match_id: participant.match_id,
       outcome: participant.outcome,
       elo_after: participant.elo_after,

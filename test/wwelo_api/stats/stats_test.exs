@@ -10,7 +10,7 @@ defmodule WweloApi.StatsTest do
       career_end_date: ~D[2010-04-17],
       career_start_date: ~D[2010-04-17],
       current_elo: 42,
-      draw: 42,
+      draws: 42,
       gender: "some gender",
       height: 42,
       losses: 42,
@@ -24,7 +24,7 @@ defmodule WweloApi.StatsTest do
       career_end_date: ~D[2011-05-18],
       career_start_date: ~D[2011-05-18],
       current_elo: 43,
-      draw: 43,
+      draws: 43,
       gender: "some updated gender",
       height: 43,
       losses: 43,
@@ -38,7 +38,7 @@ defmodule WweloApi.StatsTest do
       career_end_date: nil,
       career_start_date: nil,
       current_elo: nil,
-      draw: nil,
+      draws: nil,
       gender: nil,
       height: nil,
       losses: nil,
@@ -73,7 +73,7 @@ defmodule WweloApi.StatsTest do
       assert wrestler.career_end_date == ~D[2010-04-17]
       assert wrestler.career_start_date == ~D[2010-04-17]
       assert wrestler.current_elo == 42
-      assert wrestler.draw == 42
+      assert wrestler.draws == 42
       assert wrestler.gender == "some gender"
       assert wrestler.height == 42
       assert wrestler.losses == 42
@@ -95,7 +95,7 @@ defmodule WweloApi.StatsTest do
       assert wrestler.career_end_date == ~D[2011-05-18]
       assert wrestler.career_start_date == ~D[2011-05-18]
       assert wrestler.current_elo == 43
-      assert wrestler.draw == 43
+      assert wrestler.draws == 43
       assert wrestler.gender == "some updated gender"
       assert wrestler.height == 43
       assert wrestler.losses == 43
@@ -377,21 +377,21 @@ defmodule WweloApi.StatsTest do
       match_id: 42,
       match_team: 42,
       outcome: "some outcome",
-      wrestler_id: 42
+      alias_id: 42
     }
     @update_attrs %{
       elo_after: 43,
       match_id: 43,
       match_team: 43,
       outcome: "some updated outcome",
-      wrestler_id: 43
+      alias_id: 43
     }
     @invalid_attrs %{
       elo_after: nil,
       match_id: nil,
       match_team: nil,
       outcome: nil,
-      wrestler_id: nil
+      alias_id: nil
     }
 
     def participant_fixture(attrs \\ %{}) do
@@ -421,7 +421,7 @@ defmodule WweloApi.StatsTest do
       assert participant.match_id == 42
       assert participant.match_team == 42
       assert participant.outcome == "some outcome"
-      assert participant.wrestler_id == 42
+      assert participant.alias_id == 42
     end
 
     test "create_participant/1 with invalid data returns error changeset" do
@@ -440,7 +440,7 @@ defmodule WweloApi.StatsTest do
       assert participant.match_id == 43
       assert participant.match_team == 43
       assert participant.outcome == "some updated outcome"
-      assert participant.wrestler_id == 43
+      assert participant.alias_id == 43
     end
 
     test "update_participant/2 with invalid data returns error changeset" do

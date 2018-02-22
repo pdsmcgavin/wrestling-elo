@@ -16,7 +16,7 @@ defmodule WweloApi.SiteScraper.Matches do
         convert_match_info(event_id, match, card_position)
         |> save_match_to_database
 
-      match_result = Floki.find(match, ".MatchResults")
+      [{_, _, match_result}] = Floki.find(match, ".MatchResults")
       %{match_id: match_id, match_result: match_result}
     end)
   end

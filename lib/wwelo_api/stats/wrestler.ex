@@ -6,13 +6,13 @@ defmodule WweloApi.Stats.Wrestler do
   schema "wrestlers" do
     field(:career_end_date, :date)
     field(:career_start_date, :date)
-    field(:current_elo, :integer)
-    field(:draw, :integer)
+    field(:current_elo, :float)
+    field(:draws, :integer)
     field(:gender, :string)
     field(:height, :integer)
     field(:losses, :integer)
-    field(:maximum_elo, :integer)
-    field(:minimum_elo, :integer)
+    field(:maximum_elo, :float)
+    field(:minimum_elo, :float)
     field(:name, :string)
     field(:weight, :integer)
     field(:wins, :integer)
@@ -32,7 +32,7 @@ defmodule WweloApi.Stats.Wrestler do
       :career_end_date,
       :wins,
       :losses,
-      :draw,
+      :draws,
       :current_elo,
       :maximum_elo,
       :minimum_elo
@@ -41,7 +41,7 @@ defmodule WweloApi.Stats.Wrestler do
       :name,
       :wins,
       :losses,
-      :draw,
+      :draws,
       :current_elo,
       :maximum_elo,
       :minimum_elo

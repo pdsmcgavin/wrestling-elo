@@ -9,21 +9,21 @@ defmodule WweloApiWeb.ParticipantControllerTest do
     match_id: 42,
     match_team: 42,
     outcome: "some outcome",
-    wrestler_id: 42
+    alias_id: 42
   }
   @update_attrs %{
     elo_after: 43,
     match_id: 43,
     match_team: 43,
     outcome: "some updated outcome",
-    wrestler_id: 43
+    alias_id: 43
   }
   @invalid_attrs %{
     elo_after: nil,
     match_id: nil,
     match_team: nil,
     outcome: nil,
-    wrestler_id: nil
+    alias_id: nil
   }
 
   def fixture(:participant) do
@@ -57,7 +57,7 @@ defmodule WweloApiWeb.ParticipantControllerTest do
                "match_id" => 42,
                "match_team" => 42,
                "outcome" => "some outcome",
-               "wrestler_id" => 42
+               "alias_id" => 42
              }
     end
 
@@ -93,7 +93,7 @@ defmodule WweloApiWeb.ParticipantControllerTest do
                "match_id" => 43,
                "match_team" => 43,
                "outcome" => "some updated outcome",
-               "wrestler_id" => 43
+               "alias_id" => 43
              }
     end
 
