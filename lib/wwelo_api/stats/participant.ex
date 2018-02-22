@@ -20,9 +20,7 @@ defmodule WweloApi.Stats.Participant do
     |> validate_required([
       :wrestler_id,
       :match_id,
-      :outcome,
-      :elo_after,
-      :match_team
+      :outcome
     ])
   end
 end

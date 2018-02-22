@@ -39,11 +39,6 @@ defmodule WweloApi.Stats.Wrestler do
     ])
     |> validate_required([
       :name,
-      :gender,
-      :height,
-      :weight,
-      :career_start_date,
-      :career_end_date,
       :wins,
       :losses,
       :draw,

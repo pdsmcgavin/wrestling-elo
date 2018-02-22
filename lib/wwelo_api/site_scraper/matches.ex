@@ -8,11 +8,9 @@ defmodule WweloApi.SiteScraper.Matches do
   def save_matches_of_event(%{event_id: event_id, event_matches: matches}) do
     card_positions = 1..length(matches)
 
-    matches =
-      matches |> filter_out_non_televised_matches
-      |> Enum.zip(card_positions)
-
     matches
+    |> filter_out_non_televised_matches
+    |> Enum.zip(card_positions)
     |> Enum.map(fn {match, card_position} ->
       match_id =
         convert_match_info(event_id, match, card_position)
@@ -75,6 +73,7 @@ defmodule WweloApi.SiteScraper.Matches do
         stipulation
 
       _ ->
+        # Checking for edge cases
         IO.inspect(match_type)
         "No stipulation found"
     end

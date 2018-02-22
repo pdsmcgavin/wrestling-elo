@@ -6,11 +6,13 @@ defmodule WweloApi.SiteScraper.Scraper do
     years = 2018..2018
 
     years
-    |> Enum.each(fn year ->
+    |> Enum.map(fn year ->
       event_match_list = Events.save_events_of_year(%{year: year})
 
-      Enum.each(event_match_list, fn event ->
-        Matches.save_matches_of_event(event)
+      Enum.map(event_match_list, fn event ->
+        match_result_list = Matches.save_matches_of_event(event)
+
+        match_result_list
       end)
     end)
   end
