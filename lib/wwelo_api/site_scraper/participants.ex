@@ -14,6 +14,10 @@ defmodule WweloApi.SiteScraper.Participants do
     match_result
   end
 
+  def split_result_into_winners_and_losers(%{match_result: match_result}) do
+    match_result
+  end
+
   def save_participant_to_database(participant_info) do
     participant_query =
       from(
