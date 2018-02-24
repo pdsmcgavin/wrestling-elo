@@ -15,13 +15,13 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
     @singles_outcome MapSet.new([
                        %{
                          alias: "AJ Styles",
-                         profile_url: "?id=2&nr=801",
+                         profile_url: "?id=2&nr=801&name=AJ+Styles",
                          outcome: "win",
                          match_team: 0
                        },
                        %{
                          alias: "Baron Corbin",
-                         profile_url: "12474",
+                         profile_url: "?id=2&nr=12474&name=Baron+Corbin",
                          outcome: "loss",
                          match_team: 1
                        }

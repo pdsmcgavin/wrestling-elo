@@ -9,13 +9,36 @@ defmodule WweloApi.SiteScraper.Participants do
         match_id: match_id,
         match_result: match_result
       }) do
-    participant_info = %{match_id: match_id}
-
-    match_result
+    split_result_into_winners_and_losers(%{match_result: match_result})
   end
 
   def split_result_into_winners_and_losers(%{match_result: match_result}) do
-    match_result
+    [winners, _, losers] =
+      match_result
+      |> Enum.chunk_by(fn x ->
+        is_bitstring(x) && String.contains?(x, "defeat")
+      end)
+
+    convert_participant_info(winners, "win", 0) ++
+      convert_participant_info(losers, "loss", 1)
+  end
+
+  def convert_participant_info(participants, outcome, match_team) do
+    participants
+    |> Enum.map(fn participant ->
+      case participant do
+        {_, [{_, url}], [alias]} ->
+          %{
+            alias: alias,
+            profile_url: url,
+            outcome: outcome,
+            match_team: match_team
+          }
+
+        _ ->
+          nil
+      end
+    end)
   end
 
   def save_participant_to_database(participant_info) do
