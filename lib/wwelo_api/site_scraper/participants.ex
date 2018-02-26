@@ -9,39 +9,43 @@ defmodule WweloApi.SiteScraper.Participants do
         match_id: match_id,
         match_result: match_result
       }) do
-    # convert_result_to_participant_info(%{
-    #   match_id: match_id,
-    #   match_result: match_result
-    # })
-
-    %{match_result: match_result}
+    convert_result_to_participant_info(%{
+      match_id: match_id,
+      match_result: match_result
+    })
   end
 
   def convert_result_to_participant_info(%{
         match_id: match_id,
         match_result: match_result
       }) do
-    %{winners: winners, losers: losers} =
-      split_result_into_winners_and_losers(%{match_result: match_result})
+    case split_result_into_winners_and_losers(%{match_result: match_result}) do
+      %{winners: winners, losers: losers} ->
+        winners = winners |> split_participants_into_teams
+        losers = losers |> split_participants_into_teams(length(winners))
 
-    winners = winners |> split_participants_into_teams
-    losers = losers |> split_participants_into_teams(length(winners))
+        [{winners, "win"}, {losers, "loss"}]
+        |> Enum.map(&convert_participant_info(&1))
+        |> List.flatten()
+        |> Enum.filter(&(!is_nil(&1)))
+        |> Enum.map(&Map.put(&1, :match_id, match_id))
 
-    [{winners, "win"}, {losers, "loss"}]
-    |> Enum.map(&convert_participant_info(&1))
-    |> List.flatten()
-    |> Enum.filter(&(!is_nil(&1)))
-    |> Enum.map(&Map.put(&1, :match_id, match_id))
+      nil ->
+        nil
+    end
   end
 
   def split_result_into_winners_and_losers(%{match_result: match_result}) do
-    [winners, _, losers] =
+    split_results =
       match_result
       |> Enum.chunk_by(fn x ->
         is_bitstring(x) && String.contains?(x, "defeat")
       end)
 
-    %{winners: winners, losers: losers}
+    case split_results do
+      [winners, _, losers] -> %{winners: winners, losers: losers}
+      _ -> nil
+    end
   end
 
   def split_participants_into_teams(participants, offset \\ 0) do

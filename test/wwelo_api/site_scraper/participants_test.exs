@@ -181,7 +181,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
           )
         )
 
-      # assert @singles_with_managers_outcome = map_set_output
+      assert @singles_with_managers_outcome = map_set_output
     end
   end
 end
