@@ -39,6 +39,60 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
       assert @singles_outcome = map_set_output
     end
 
+    @tag_match_result %{
+      match_id: 12,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=11151&name=Cedric+Alexander"}],
+         ["Cedric Alexander"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=7145&name=Mustafa+Ali"}], ["Mustafa Ali"]},
+        " defeat ",
+        {"a", [{"href", "?id=2&nr=4836&name=Ariya+Daivari"}], ["Ariya Daivari"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=2921&name=Drew+Gulak"}], ["Drew Gulak"]}
+      ]
+    }
+
+    @tag_outcome MapSet.new([
+                   %{
+                     alias: "Cedric Alexander",
+                     profile_url: "?id=2&nr=11151&name=Cedric+Alexander",
+                     outcome: "win",
+                     match_id: 12,
+                     match_team: 0
+                   },
+                   %{
+                     alias: "Mustafa Ali",
+                     profile_url: "?id=2&nr=7145&name=Mustafa+Ali",
+                     outcome: "win",
+                     match_id: 12,
+                     match_team: 0
+                   },
+                   %{
+                     alias: "Ariya Daivari",
+                     profile_url: "?id=2&nr=4836&name=Ariya+Daivari",
+                     outcome: "loss",
+                     match_id: 12,
+                     match_team: 1
+                   },
+                   %{
+                     alias: "Drew Gulak",
+                     profile_url: "?id=2&nr=2921&name=Drew+Gulak",
+                     outcome: "loss",
+                     match_id: 12,
+                     match_team: 1
+                   }
+                 ])
+
+    test "Tag match with wrestlers with profiles" do
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(@tag_match_result)
+        )
+
+      assert @tag_outcome = map_set_output
+    end
+
     @singles_match_with_managers_result %{
       match_id: 2020,
       match_result: [
