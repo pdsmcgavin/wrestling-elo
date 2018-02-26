@@ -9,10 +9,10 @@ defmodule WweloApi.SiteScraper.Participants do
         match_id: match_id,
         match_result: match_result
       }) do
-    convert_result_to_participant_info(%{
-      match_id: match_id,
-      match_result: match_result
-    })
+    # convert_result_to_participant_info(%{
+    #   match_id: match_id,
+    #   match_result: match_result
+    # })
 
     %{match_result: match_result}
   end
@@ -50,7 +50,6 @@ defmodule WweloApi.SiteScraper.Participants do
           }
 
         _ ->
-          IO.inspect(participant)
           nil
       end
     end)
