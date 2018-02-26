@@ -21,7 +21,16 @@ defmodule WweloApi.SiteScraper.Participants do
         match_id: match_id,
         match_result: match_result
       }) do
-    split_result_into_winners_and_losers(%{match_result: match_result})
+    %{winners: winners, losers: losers} =
+      split_result_into_winners_and_losers(%{match_result: match_result})
+
+    winners = winners |> split_participants_into_teams
+    losers = losers |> split_participants_into_teams(length(winners))
+
+    [{winners, "win"}, {losers, "loss"}]
+    |> Enum.map(&convert_participant_info(&1))
+    |> List.flatten()
+    |> Enum.filter(&(!is_nil(&1)))
     |> Enum.map(&Map.put(&1, :match_id, match_id))
   end
 
@@ -32,26 +41,38 @@ defmodule WweloApi.SiteScraper.Participants do
         is_bitstring(x) && String.contains?(x, "defeat")
       end)
 
-    (convert_participant_info(winners, "win", 0) ++
-       convert_participant_info(losers, "loss", 1))
-    |> Enum.filter(&(!is_nil(&1)))
+    %{winners: winners, losers: losers}
   end
 
-  def convert_participant_info(participants, outcome, match_team) do
+  def split_participants_into_teams(participants, offset \\ 0) do
     participants
-    |> Enum.map(fn participant ->
-      case participant do
-        {_, [{_, url}], [alias]} ->
-          %{
-            alias: alias,
-            profile_url: url,
-            outcome: outcome,
-            match_team: match_team
-          }
+    |> Enum.chunk_by(fn x ->
+      is_bitstring(x) && String.contains?(x, " and ")
+    end)
+    |> Enum.filter(fn x ->
+      !Enum.any?(x, &(is_bitstring(&1) && String.contains?(&1, " and ")))
+    end)
+    |> Enum.with_index(offset)
+  end
 
-        _ ->
-          nil
-      end
+  def convert_participant_info({participants, outcome}) do
+    participants
+    |> Enum.map(fn {team, match_team} ->
+      team
+      |> Enum.map(fn participant ->
+        case participant do
+          {_, [{_, url}], [alias]} ->
+            %{
+              alias: alias,
+              profile_url: url,
+              outcome: outcome,
+              match_team: match_team
+            }
+
+          _ ->
+            nil
+        end
+      end)
     end)
   end
 

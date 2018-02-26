@@ -93,6 +93,53 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
       assert @tag_outcome = map_set_output
     end
 
+    @triple_threat_match_result %{
+      match_id: 333,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=2515&name=Dolph+Ziggler"}], ["Dolph Ziggler"]},
+        " defeats ",
+        {"a", [{"href", "?id=2&nr=12474&name=Baron+Corbin"}], ["Baron Corbin"]},
+        " (c) and ",
+        {"a", [{"href", "?id=2&nr=880&name=Bobby+Roode"}], ["Bobby Roode"]},
+        " (12:45)"
+      ]
+    }
+
+    @triple_threat_outcome MapSet.new([
+                             %{
+                               alias: "Dolph Ziggler",
+                               profile_url: "?id=2&nr=2515&name=Dolph+Ziggler",
+                               outcome: "win",
+                               match_id: 333,
+                               match_team: 0
+                             },
+                             %{
+                               alias: "Baron Corbin",
+                               profile_url: "?id=2&nr=12474&name=Baron+Corbin",
+                               outcome: "loss",
+                               match_id: 333,
+                               match_team: 1
+                             },
+                             %{
+                               alias: "Bobby Roode",
+                               profile_url: "?id=2&nr=880&name=Bobby+Roode",
+                               outcome: "loss",
+                               match_id: 333,
+                               match_team: 2
+                             }
+                           ])
+
+    test "Triple threat match with wrestlers with profiles" do
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            @triple_threat_match_result
+          )
+        )
+
+      assert @triple_threat_outcome = map_set_output
+    end
+
     @singles_match_with_managers_result %{
       match_id: 2020,
       match_result: [
@@ -134,7 +181,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
           )
         )
 
-      assert @singles_with_managers_outcome = map_set_output
+      # assert @singles_with_managers_outcome = map_set_output
     end
   end
 end
