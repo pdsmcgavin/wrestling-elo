@@ -21,8 +21,13 @@ defmodule WweloApi.SiteScraper.Participants do
       }) do
     case split_result_into_winners_and_losers(%{match_result: match_result}) do
       %{winners: winners, losers: losers} ->
-        winners = winners |> split_participants_into_teams
-        losers = losers |> split_participants_into_teams(length(winners))
+        winners =
+          winners |> split_participants_into_teams
+          |> Enum.map(&remove_managers(&1))
+
+        losers =
+          losers |> split_participants_into_teams(length(winners))
+          |> Enum.map(&remove_managers(&1))
 
         [{winners, "win"}, {losers, "loss"}]
         |> Enum.map(&convert_participant_info(&1))
@@ -57,6 +62,17 @@ defmodule WweloApi.SiteScraper.Participants do
       !Enum.any?(x, &(is_bitstring(&1) && String.contains?(&1, " and ")))
     end)
     |> Enum.with_index(offset)
+  end
+
+  def remove_managers({participants, match_team}) do
+    participants =
+      participants
+      |> Enum.chunk_by(fn x ->
+        is_bitstring(x) && String.contains?(x, "w/")
+      end)
+      |> Enum.at(0)
+
+    {participants, match_team}
   end
 
   def convert_participant_info({participants, outcome}) do

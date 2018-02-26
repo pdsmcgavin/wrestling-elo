@@ -158,7 +158,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
                                      %{
                                        alias: "Jinder Mahal",
                                        profile_url:
-                                         "?id=2&nr=801&name=AJ+Styles",
+                                         "?id=2&nr=6171&name=Jinder+Mahal",
                                        outcome: "win",
                                        match_id: 2020,
                                        match_team: 0
