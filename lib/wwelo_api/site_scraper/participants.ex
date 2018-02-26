@@ -49,7 +49,7 @@ defmodule WweloApi.SiteScraper.Participants do
 
     case split_results do
       [winners, _, losers] -> %{winners: winners, losers: losers}
-      _ -> nil
+      _ -> IO.inspect(split_results)
     end
   end
 
@@ -81,10 +81,10 @@ defmodule WweloApi.SiteScraper.Participants do
       team
       |> Enum.map(fn participant ->
         case participant do
-          {_, [{_, url}], [alias]} ->
+          {_, [{_, "?id=2&" <> url}], [alias]} ->
             %{
               alias: alias,
-              profile_url: url,
+              profile_url: "?id=2&" <> url,
               outcome: outcome,
               match_team: match_team
             }
