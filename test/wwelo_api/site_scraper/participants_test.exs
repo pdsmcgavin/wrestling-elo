@@ -36,7 +36,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
           Participants.convert_result_to_participant_info(@singles_match_result)
         )
 
-      assert @singles_outcome = map_set_output
+      assert @singles_outcome == map_set_output
     end
 
     @tag_match_result %{
@@ -90,7 +90,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
           Participants.convert_result_to_participant_info(@tag_match_result)
         )
 
-      assert @tag_outcome = map_set_output
+      assert @tag_outcome == map_set_output
     end
 
     @triple_threat_match_result %{
@@ -137,7 +137,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
           )
         )
 
-      assert @triple_threat_outcome = map_set_output
+      assert @triple_threat_outcome == map_set_output
     end
 
     @singles_match_with_managers_result %{
@@ -181,7 +181,71 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
           )
         )
 
-      assert @singles_with_managers_outcome = map_set_output
+      assert @singles_with_managers_outcome == map_set_output
+    end
+
+    @tag_with_team_names_match_result %{
+      match_id: 22,
+      match_result: [
+        {"a", [{"href", "?id=28&nr=5931&name=The+Bludgeon+Brothers"}],
+         ["The Bludgeon Brothers"]},
+        " (",
+        {"a", [{"href", "?id=2&nr=5244&name=Harper"}], ["Harper"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=9368&name=Rowan"}], ["Rowan"]},
+        ") defeat ",
+        {"a", [{"href", "?id=28&nr=5967&name=The+Hype+Bros"}],
+         ["The Hype Bros"]},
+        " (",
+        {"a", [{"href", "?id=2&nr=12415&name=Mojo+Rawley"}], ["Mojo Rawley"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=2750&name=Zack+Ryder"}], ["Zack Ryder"]},
+        ") (3:00)"
+      ]
+    }
+
+    @tag_with_team_names_outcome MapSet.new([
+                                   %{
+                                     alias: "Harper",
+                                     profile_url: "?id=2&nr=5244&name=Harper",
+                                     outcome: "win",
+                                     match_id: 22,
+                                     match_team: 0
+                                   },
+                                   %{
+                                     alias: "Rowan",
+                                     profile_url: "?id=2&nr=9368&name=Rowan",
+                                     outcome: "win",
+                                     match_id: 22,
+                                     match_team: 0
+                                   },
+                                   %{
+                                     alias: "Mojo Rawley",
+                                     profile_url:
+                                       "?id=2&nr=12415&name=Mojo+Rawley",
+                                     outcome: "loss",
+                                     match_id: 22,
+                                     match_team: 1
+                                   },
+                                   %{
+                                     alias: "Zack Ryder",
+                                     profile_url:
+                                       "?id=2&nr=2750&name=Zack+Ryder",
+                                     outcome: "loss",
+                                     match_id: 22,
+                                     match_team: 1
+                                   }
+                                 ])
+
+    test "Tag match with wrestlers with profiles and team names" do
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            @tag_with_team_names_match_result
+          )
+        )
+
+      assert @tag_with_team_names_outcome == map_set_output
     end
   end
 end
