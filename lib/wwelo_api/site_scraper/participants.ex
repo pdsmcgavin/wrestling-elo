@@ -9,7 +9,20 @@ defmodule WweloApi.SiteScraper.Participants do
         match_id: match_id,
         match_result: match_result
       }) do
+    convert_result_to_participant_info(%{
+      match_id: match_id,
+      match_result: match_result
+    })
+
+    %{match_result: match_result}
+  end
+
+  def convert_result_to_participant_info(%{
+        match_id: match_id,
+        match_result: match_result
+      }) do
     split_result_into_winners_and_losers(%{match_result: match_result})
+    |> Enum.map(&Map.put(&1, :match_id, match_id))
   end
 
   def split_result_into_winners_and_losers(%{match_result: match_result}) do
@@ -19,8 +32,9 @@ defmodule WweloApi.SiteScraper.Participants do
         is_bitstring(x) && String.contains?(x, "defeat")
       end)
 
-    convert_participant_info(winners, "win", 0) ++
-      convert_participant_info(losers, "loss", 1)
+    (convert_participant_info(winners, "win", 0) ++
+       convert_participant_info(losers, "loss", 1))
+    |> Enum.filter(&(!is_nil(&1)))
   end
 
   def convert_participant_info(participants, outcome, match_team) do
@@ -36,6 +50,7 @@ defmodule WweloApi.SiteScraper.Participants do
           }
 
         _ ->
+          IO.inspect(participant)
           nil
       end
     end)

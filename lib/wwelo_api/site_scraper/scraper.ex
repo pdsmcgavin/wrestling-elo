@@ -4,7 +4,7 @@ defmodule WweloApi.SiteScraper.Scraper do
   alias WweloApi.SiteScraper.Participants
 
   def scrape_site() do
-    years = 2018..2018
+    years = 2017..2017
 
     years
     |> Enum.map(fn year ->

@@ -4,6 +4,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
 
   describe "Match results split into winners and losers" do
     @singles_match_result %{
+      match_id: 1337,
       match_result: [
         {"a", [{"href", "?id=2&nr=801&name=AJ+Styles"}], ["AJ Styles"]},
         " defeats ",
@@ -17,12 +18,14 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
                          alias: "AJ Styles",
                          profile_url: "?id=2&nr=801&name=AJ+Styles",
                          outcome: "win",
+                         match_id: 1337,
                          match_team: 0
                        },
                        %{
                          alias: "Baron Corbin",
                          profile_url: "?id=2&nr=12474&name=Baron+Corbin",
                          outcome: "loss",
+                         match_id: 1337,
                          match_team: 1
                        }
                      ])
@@ -30,9 +33,7 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
     test "Singles match with wrestler's with profiles" do
       map_set_output =
         MapSet.new(
-          Participants.split_result_into_winners_and_losers(
-            @singles_match_result
-          )
+          Participants.convert_result_to_participant_info(@singles_match_result)
         )
 
       assert @singles_outcome = map_set_output
