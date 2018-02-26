@@ -247,5 +247,66 @@ defmodule WweloApi.SiteScraper.ParticipantsTest do
 
       assert @tag_with_team_names_outcome == map_set_output
     end
+
+    @no_contest_match_result %{
+      match_id: 0,
+      match_result: [
+        {"a", [{"href", "?id=28&nr=6722&name=Breezango"}], ["Breezango"]},
+        " (",
+        {"a", [{"href", "?id=2&nr=1704&name=Fandango"}], ["Fandango"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=9500&name=Tyler+Breeze"}], ["Tyler Breeze"]},
+        ") vs. ",
+        {"a", [{"href", "?id=28&nr=5931&name=The+Bludgeon+Brothers"}],
+         ["The Bludgeon Brothers"]},
+        " (",
+        {"a", [{"href", "?id=2&nr=5244&name=Harper"}], ["Harper"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=9368&name=Rowan"}], ["Rowan"]},
+        ") - No Contest (2:00)"
+      ]
+    }
+
+    @no_contest_outcome MapSet.new([
+                          %{
+                            alias: "Fandango",
+                            profile_url: "?id=2&nr=1704&name=Fandango",
+                            outcome: "draw",
+                            match_id: 0,
+                            match_team: 0
+                          },
+                          %{
+                            alias: "Tyler Breeze",
+                            profile_url: "?id=2&nr=9500&name=Tyler+Breeze",
+                            outcome: "draw",
+                            match_id: 0,
+                            match_team: 0
+                          },
+                          %{
+                            alias: "Harper",
+                            profile_url: "?id=2&nr=5244&name=Harper",
+                            outcome: "draw",
+                            match_id: 0,
+                            match_team: 1
+                          },
+                          %{
+                            alias: "Rowan",
+                            profile_url: "?id=2&nr=9368&name=Rowan",
+                            outcome: "draw",
+                            match_id: 0,
+                            match_team: 1
+                          }
+                        ])
+
+    test "No contest match" do
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            @no_contest_match_result
+          )
+        )
+
+      assert @no_contest_outcome == map_set_output
+    end
   end
 end
