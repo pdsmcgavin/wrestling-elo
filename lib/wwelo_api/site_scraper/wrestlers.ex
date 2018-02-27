@@ -4,6 +4,7 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   alias WweloApi.Repo
   alias WweloApi.Stats
   alias WweloApi.Stats.Wrestler
+  alias WweloApi.SiteScraper.Utils.DateHelper
   alias WweloApi.SiteScraper.Utils.UrlHelper
 
   @default_elo 1200
@@ -34,21 +35,41 @@ defmodule WweloApi.SiteScraper.Wrestlers do
           Map.put(acc, :gender, gender)
 
         {_, _, [{_, _, ["Height:"]}, {_, _, [height]}]} ->
-          Map.put(acc, :height, height)
+          Map.put(acc, :height, height |> convert_height_to_integer)
 
         {_, _, [{_, _, ["Weight:"]}, {_, _, [weight]}]} ->
-          Map.put(acc, :weight, weight)
+          Map.put(acc, :weight, weight |> convert_weight_to_integer)
 
-        {_, _, [{_, _, ["Beginning of in-ring career:"]}, {_, _, [start_date]}]} ->
-          Map.put(acc, :start_date, start_date)
+        {_, _, [{_, _, ["Beginning of in-ring career:"]}, {_, _, [date]}]} ->
+          case DateHelper.format_date(date) do
+            {:ok, date} -> Map.put(acc, :start_date, date)
+            _ -> acc
+          end
 
-        {_, _, [{_, _, ["End of in-ring career:"]}, {_, _, [end_date]}]} ->
-          Map.put(acc, :end_date, end_date)
+        {_, _, [{_, _, ["End of in-ring career:"]}, {_, _, [date]}]} ->
+          case DateHelper.format_date(date) do
+            {:ok, date} -> Map.put(acc, :end_date, date)
+            _ -> acc
+          end
 
         _ ->
           acc
       end
     end)
+  end
+
+  def convert_height_to_integer(height) do
+    height
+    |> String.split(["(", " cm)"])
+    |> Enum.at(1)
+    |> String.to_integer()
+  end
+
+  def convert_weight_to_integer(weight) do
+    weight
+    |> String.split(["(", " kg)"])
+    |> Enum.at(1)
+    |> String.to_integer()
   end
 
   def save_wrestler_to_database(wrestler_info) do
