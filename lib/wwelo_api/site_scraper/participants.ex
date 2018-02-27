@@ -118,7 +118,7 @@ defmodule WweloApi.SiteScraper.Participants do
         p in Participant,
         where:
           p.match_id == ^participant_info.match_id and
-            p.wrestler_id == ^participant_info.wrestler_id,
+            p.alias_id == ^participant_info.alias_id,
         select: p
       )
 
