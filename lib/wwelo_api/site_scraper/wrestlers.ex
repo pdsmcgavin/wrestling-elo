@@ -58,6 +58,34 @@ defmodule WweloApi.SiteScraper.Wrestlers do
     end)
   end
 
+  def get_names_and_aliases(alter_egos) do
+    alter_egos
+    |> Enum.filter(&is_tuple(&1))
+    |> Enum.map(&elem(&1, 2))
+    |> Enum.filter(&(&1 != []))
+    |> List.flatten()
+    |> Enum.reduce(%{}, fn x, acc ->
+      cond do
+        Map.get(acc, :last_name) == "a.k.a." ->
+          Map.put(
+            acc,
+            String.to_atom(Map.get(acc, :current_name)),
+            Map.get(acc, String.to_atom(Map.get(acc, :current_name))) ++ [x]
+          )
+
+        x == "a.k.a." ->
+          acc
+
+        true ->
+          Map.put(acc, String.to_atom(x), [x])
+          |> Map.put(:current_name, x)
+      end
+      |> Map.put(:last_name, x)
+    end)
+    |> Map.delete(:current_name)
+    |> Map.delete(:last_name)
+  end
+
   def convert_height_to_integer(height) do
     height
     |> String.split(["(", " cm)"])
