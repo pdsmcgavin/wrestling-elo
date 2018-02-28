@@ -18,14 +18,17 @@ defmodule WweloApi.SiteScraper.Wrestlers do
     minimum_elo: @default_elo
   }
 
-  def get_wrestler_info(%{wrestler_url_path: wrestler_url_path}) do
+  def save_alter_egos_of_wrestler(%{wrestler_url_path: wrestler_url_path}) do
+    wrestler_url_path
+    |> get_wrestler_info
+    |> convert_wrestler_info
+  end
+
+  def get_wrestler_info(wrestler_url_path) do
     wrestler_url = "https://www.cagematch.net/" <> wrestler_url_path
 
-    wrestler_info =
-      UrlHelper.get_page_html_body(%{url: wrestler_url})
-      |> Floki.find(".InformationBoxRow")
-
-    wrestler_info
+    UrlHelper.get_page_html_body(%{url: wrestler_url})
+    |> Floki.find(".InformationBoxRow")
   end
 
   def convert_wrestler_info(wrestler_info) do
@@ -39,6 +42,9 @@ defmodule WweloApi.SiteScraper.Wrestlers do
 
         {_, _, [{_, _, ["Weight:"]}, {_, _, [weight]}]} ->
           Map.put(acc, :weight, weight |> convert_weight_to_integer)
+
+        {_, _, [{_, _, ["Alter egos:"]}, {_, _, alter_egos}]} ->
+          Map.put(acc, :names, alter_egos |> get_names_and_aliases)
 
         {_, _, [{_, _, ["Beginning of in-ring career:"]}, {_, _, [date]}]} ->
           case DateHelper.format_date(date) do
@@ -64,6 +70,7 @@ defmodule WweloApi.SiteScraper.Wrestlers do
     |> Enum.map(&elem(&1, 2))
     |> Enum.filter(&(&1 != []))
     |> List.flatten()
+    |> Enum.map(&(String.trim_leading(&1) |> String.trim_trailing()))
     |> Enum.reduce(%{}, fn x, acc ->
       cond do
         Map.get(acc, :last_name) == "a.k.a." ->
