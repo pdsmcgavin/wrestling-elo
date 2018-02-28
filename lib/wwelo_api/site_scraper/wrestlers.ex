@@ -4,6 +4,7 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   alias WweloApi.Repo
   alias WweloApi.Stats
   alias WweloApi.Stats.Wrestler
+  alias WweloApi.SiteScraper.Aliases
   alias WweloApi.SiteScraper.Utils.DateHelper
   alias WweloApi.SiteScraper.Utils.UrlHelper
 
@@ -24,9 +25,16 @@ defmodule WweloApi.SiteScraper.Wrestlers do
       |> get_wrestler_info
       |> convert_wrestler_info
 
-    Enum.map(Map.keys(wrestler_info.names), fn name ->
-      Map.put(wrestler_info, :name, name |> Atom.to_string())
-      |> save_wrestler_to_database()
+    wrestler_ids =
+      Enum.map(Map.keys(wrestler_info.names), fn name ->
+        Map.put(wrestler_info, :name, name |> Atom.to_string())
+        |> save_wrestler_to_database()
+      end)
+
+    Enum.zip(wrestler_ids, wrestler_info.names |> Map.values())
+    |> Enum.map(fn {wrestler_id, aliases} ->
+      %{wrestler_id: wrestler_id, aliases: aliases}
+      |> Aliases.save_aliases_to_database()
     end)
   end
 
