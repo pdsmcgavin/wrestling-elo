@@ -4,15 +4,30 @@ defmodule WweloApi.SiteScraper.Participants do
   alias WweloApi.Repo
   alias WweloApi.Stats
   alias WweloApi.Stats.Participant
+  alias WweloApi.SiteScraper.Aliases
+  alias WweloApi.SiteScraper.Wrestlers
 
   def save_participants_of_match(%{
         match_id: match_id,
         match_result: match_result
       }) do
-    convert_result_to_participant_info(%{
-      match_id: match_id,
-      match_result: match_result
-    })
+    participants =
+      convert_result_to_participant_info(%{
+        match_id: match_id,
+        match_result: match_result
+      })
+
+    case participants do
+      nil ->
+        nil
+
+      _ ->
+        participants
+        |> Enum.map(
+          &(get_and_add_alias_id(&1)
+            |> save_participant_to_database)
+        )
+    end
   end
 
   def convert_result_to_participant_info(%{
@@ -112,6 +127,27 @@ defmodule WweloApi.SiteScraper.Participants do
     end)
   end
 
+  # TODO: Can be refactored, The Velveteen Dream is ruining things with the "The"
+  def get_and_add_alias_id(participant_info) do
+    alias_id = Aliases.get_alias_id(participant_info.alias)
+
+    cond do
+      alias_id |> is_integer ->
+        participant_info |> Map.put(:alias_id, alias_id)
+
+      true ->
+        Wrestlers.save_alter_egos_of_wrestler(%{
+          wrestler_url_path: participant_info.profile_url
+        })
+
+        participant_info
+        |> Map.put(
+          :alias_id,
+          Aliases.get_alias_id(participant_info.alias)
+        )
+    end
+  end
+
   def save_participant_to_database(participant_info) do
     participant_query =
       from(
@@ -128,5 +164,6 @@ defmodule WweloApi.SiteScraper.Participants do
       nil -> Stats.create_participant(participant_info) |> elem(1)
       _ -> participant_result
     end
+    |> Map.get(:id)
   end
 end
