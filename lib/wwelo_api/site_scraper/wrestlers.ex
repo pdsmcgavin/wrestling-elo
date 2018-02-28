@@ -19,9 +19,15 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   }
 
   def save_alter_egos_of_wrestler(%{wrestler_url_path: wrestler_url_path}) do
-    wrestler_url_path
-    |> get_wrestler_info
-    |> convert_wrestler_info
+    wrestler_info =
+      wrestler_url_path
+      |> get_wrestler_info
+      |> convert_wrestler_info
+
+    Enum.map(Map.keys(wrestler_info.names), fn name ->
+      Map.put(wrestler_info, :name, name |> Atom.to_string())
+      |> save_wrestler_to_database()
+    end)
   end
 
   def get_wrestler_info(wrestler_url_path) do
@@ -48,13 +54,13 @@ defmodule WweloApi.SiteScraper.Wrestlers do
 
         {_, _, [{_, _, ["Beginning of in-ring career:"]}, {_, _, [date]}]} ->
           case DateHelper.format_date(date) do
-            {:ok, date} -> Map.put(acc, :start_date, date)
+            {:ok, date} -> Map.put(acc, :career_start_date, date)
             _ -> acc
           end
 
         {_, _, [{_, _, ["End of in-ring career:"]}, {_, _, [date]}]} ->
           case DateHelper.format_date(date) do
-            {:ok, date} -> Map.put(acc, :end_date, date)
+            {:ok, date} -> Map.put(acc, :career_end_date, date)
             _ -> acc
           end
 
@@ -121,5 +127,6 @@ defmodule WweloApi.SiteScraper.Wrestlers do
       nil -> Stats.create_wrestler(wrestler_info) |> elem(1)
       _ -> wrestler_result
     end
+    |> Map.get(:id)
   end
 end
