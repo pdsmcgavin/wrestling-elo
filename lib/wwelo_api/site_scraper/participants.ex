@@ -127,25 +127,39 @@ defmodule WweloApi.SiteScraper.Participants do
     end)
   end
 
-  # TODO: Can be refactored, The Velveteen Dream is ruining things with the "The"
   def get_and_add_alias_id(participant_info) do
     alias_id = Aliases.get_alias_id(participant_info.alias)
 
-    cond do
-      alias_id |> is_integer ->
-        participant_info |> Map.put(:alias_id, alias_id)
+    alias_id =
+      case alias_id do
+        nil ->
+          Wrestlers.save_alter_egos_of_wrestler(%{
+            wrestler_url_path: participant_info.profile_url
+          })
 
-      true ->
-        Wrestlers.save_alter_egos_of_wrestler(%{
-          wrestler_url_path: participant_info.profile_url
-        })
+          new_alias_id = Aliases.get_alias_id(participant_info.alias)
 
-        participant_info
-        |> Map.put(
-          :alias_id,
-          Aliases.get_alias_id(participant_info.alias)
-        )
-    end
+          case new_alias_id do
+            nil ->
+              Aliases.get_alias_id(
+                # For The Velveteen Dream edge case
+                participant_info.alias
+                |> String.trim_leading("The ")
+              )
+
+            _ ->
+              new_alias_id
+          end
+
+        _ ->
+          alias_id
+      end
+
+    participant_info
+    |> Map.put(
+      :alias_id,
+      alias_id
+    )
   end
 
   def save_participant_to_database(participant_info) do
