@@ -42,7 +42,8 @@ defmodule WweloApi.Mixfile do
       {:httpoison, "~> 1.0"},
       {:floki, "~> 0.18.0"},
       {:phst_transform, "~> 1.0.0"},
-      {:elixir_mbcs, github: "woxtu/elixir-mbcs", tag: "0.1.3"}
+      {:elixir_mbcs, github: "woxtu/elixir-mbcs", tag: "0.1.3"},
+      {:math, "~> 0.3.0"}
     ]
   end
 
