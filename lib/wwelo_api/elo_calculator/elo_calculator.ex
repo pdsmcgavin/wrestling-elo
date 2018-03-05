@@ -36,35 +36,28 @@ defmodule WweloApi.EloCalculator.EloCalculator do
     end)
   end
 
-  # TODO. Separate into smaller functions
-  def event_match_participant_join(amount) do
+  def list_of_matches_with_no_elo_calculation do
     query =
       from(
         e in Event,
         join: m in Match,
         where: m.event_id == e.id,
         join: p in Participant,
-        where: p.match_id == m.id,
-        join: a in Alias,
-        where: a.id == p.alias_id,
-        join: w in Wrestler,
-        where: w.id == a.wrestler_id
+        where: p.match_id == m.id
       )
 
     query =
       from(
-        [e, m, p, a, w] in query,
-        select:
-          {e.name, e.date, m.card_position, p.outcome, a.name, w.current_elo},
+        [e, m, p] in query,
+        select: m.id,
         order_by: [
           asc: e.date,
           asc: e.id,
-          asc: m.card_position,
-          desc: p.outcome
+          asc: m.card_position
         ],
         where: p.elo_after |> is_nil
       )
 
-    Repo.all(query) |> Enum.slice(0, amount)
+    Repo.all(query) |> Enum.uniq()
   end
 end
