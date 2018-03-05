@@ -4,7 +4,7 @@ defmodule WweloApiWeb.EloController do
   alias WweloApi.Stats
   alias WweloApi.Stats.Elo
 
-  action_fallback WweloApiWeb.FallbackController
+  action_fallback(WweloApiWeb.FallbackController)
 
   def index(conn, _params) do
     elos = Stats.list_elos()
@@ -35,6 +35,7 @@ defmodule WweloApiWeb.EloController do
 
   def delete(conn, %{"id" => id}) do
     elo = Stats.get_elo!(id)
+
     with {:ok, %Elo{}} <- Stats.delete_elo(elo) do
       send_resp(conn, :no_content, "")
     end
