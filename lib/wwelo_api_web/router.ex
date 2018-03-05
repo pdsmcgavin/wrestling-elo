@@ -8,6 +8,7 @@ defmodule WweloApiWeb.Router do
   scope "/api", WweloApiWeb do
     pipe_through(:api)
     resources("/aliases", AliasController, except: [:new, :edit])
+    resources("/elos", EloController, except: [:new, :edit])
     resources("/events", EventController, except: [:new, :edit])
     resources("/matches", MatchController, except: [:new, :edit])
     resources("/participants", ParticipantController, except: [:new, :edit])
