@@ -6,7 +6,6 @@ defmodule WweloApiWeb.EventControllerTest do
 
   @create_attrs %{
     arena: "some arena",
-    brand: "some brand",
     date: ~D[2010-04-17],
     event_type: "some event_type",
     location: "some location",
@@ -15,7 +14,6 @@ defmodule WweloApiWeb.EventControllerTest do
   }
   @update_attrs %{
     arena: "some updated arena",
-    brand: "some updated brand",
     date: ~D[2011-05-18],
     event_type: "some updated event_type",
     location: "some updated location",
@@ -24,7 +22,6 @@ defmodule WweloApiWeb.EventControllerTest do
   }
   @invalid_attrs %{
     arena: nil,
-    brand: nil,
     date: nil,
     event_type: nil,
     location: nil,
@@ -58,7 +55,6 @@ defmodule WweloApiWeb.EventControllerTest do
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
                "arena" => "some arena",
-               "brand" => "some brand",
                "date" => "2010-04-17",
                "event_type" => "some event_type",
                "location" => "some location",
@@ -88,7 +84,6 @@ defmodule WweloApiWeb.EventControllerTest do
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
                "arena" => "some updated arena",
-               "brand" => "some updated brand",
                "date" => "2011-05-18",
                "event_type" => "some updated event_type",
                "location" => "some updated location",

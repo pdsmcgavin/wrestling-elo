@@ -16,7 +16,6 @@ defmodule WweloApiWeb.ParticipantView do
       alias_id: participant.alias_id,
       match_id: participant.match_id,
       outcome: participant.outcome,
-      elo_after: participant.elo_after,
       match_team: participant.match_team
     }
   end

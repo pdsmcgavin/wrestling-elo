@@ -5,21 +5,18 @@ defmodule WweloApiWeb.ParticipantControllerTest do
   alias WweloApi.Stats.Participant
 
   @create_attrs %{
-    elo_after: 42,
     match_id: 42,
     match_team: 42,
     outcome: "some outcome",
     alias_id: 42
   }
   @update_attrs %{
-    elo_after: 43,
     match_id: 43,
     match_team: 43,
     outcome: "some updated outcome",
     alias_id: 43
   }
   @invalid_attrs %{
-    elo_after: nil,
     match_id: nil,
     match_team: nil,
     outcome: nil,
@@ -53,7 +50,6 @@ defmodule WweloApiWeb.ParticipantControllerTest do
 
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
-               "elo_after" => 42,
                "match_id" => 42,
                "match_team" => 42,
                "outcome" => "some outcome",
@@ -89,7 +85,6 @@ defmodule WweloApiWeb.ParticipantControllerTest do
 
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
-               "elo_after" => 43,
                "match_id" => 43,
                "match_team" => 43,
                "outcome" => "some updated outcome",

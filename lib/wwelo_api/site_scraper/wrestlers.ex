@@ -8,17 +8,6 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   alias WweloApi.SiteScraper.Utils.DateHelper
   alias WweloApi.SiteScraper.Utils.UrlHelper
 
-  @default_elo 1200
-
-  @default_wrestler_info %{
-    wins: 0,
-    losses: 0,
-    draws: 0,
-    current_elo: @default_elo,
-    maximum_elo: @default_elo,
-    minimum_elo: @default_elo
-  }
-
   def save_alter_egos_of_wrestler(%{wrestler_url_path: wrestler_url_path}) do
     wrestler_info =
       wrestler_url_path
@@ -46,7 +35,7 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   end
 
   def convert_wrestler_info(wrestler_info) do
-    Enum.reduce(wrestler_info, @default_wrestler_info, fn x, acc ->
+    Enum.reduce(wrestler_info, %{}, fn x, acc ->
       case x do
         {_, _, [{_, _, ["Gender:"]}, {_, _, [gender]}]} ->
           Map.put(acc, :gender, gender)
