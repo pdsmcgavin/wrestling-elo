@@ -7,26 +7,44 @@ defmodule WweloApiWeb.WrestlerControllerTest do
   @create_attrs %{
     career_end_date: ~D[2010-04-17],
     career_start_date: ~D[2010-04-17],
+    current_elo: 42.0,
+    draws: 42,
     gender: "some gender",
     height: 42,
+    losses: 42,
+    maximum_elo: 42.0,
+    minimum_elo: 42.0,
     name: "some name",
-    weight: 42
+    weight: 42,
+    wins: 42
   }
   @update_attrs %{
     career_end_date: ~D[2011-05-18],
     career_start_date: ~D[2011-05-18],
+    current_elo: 43.0,
+    draws: 43,
     gender: "some updated gender",
     height: 43,
+    losses: 43,
+    maximum_elo: 43.0,
+    minimum_elo: 43.0,
     name: "some updated name",
-    weight: 43
+    weight: 43,
+    wins: 43
   }
   @invalid_attrs %{
     career_end_date: nil,
     career_start_date: nil,
+    current_elo: nil,
+    draws: nil,
     gender: nil,
     height: nil,
+    losses: nil,
+    maximum_elo: nil,
+    minimum_elo: nil,
     name: nil,
-    weight: nil
+    weight: nil,
+    wins: nil
   }
 
   def fixture(:wrestler) do
@@ -56,10 +74,16 @@ defmodule WweloApiWeb.WrestlerControllerTest do
                "id" => id,
                "career_end_date" => "2010-04-17",
                "career_start_date" => "2010-04-17",
+               "current_elo" => 42.0,
+               "draws" => 42,
                "gender" => "some gender",
                "height" => 42,
+               "losses" => 42,
+               "maximum_elo" => 42.0,
+               "minimum_elo" => 42.0,
                "name" => "some name",
-               "weight" => 42
+               "weight" => 42,
+               "wins" => 42
              }
     end
 
@@ -91,10 +115,16 @@ defmodule WweloApiWeb.WrestlerControllerTest do
                "id" => id,
                "career_end_date" => "2011-05-18",
                "career_start_date" => "2011-05-18",
+               "current_elo" => 43.0,
+               "draws" => 43,
                "gender" => "some updated gender",
                "height" => 43,
+               "losses" => 43,
+               "maximum_elo" => 43.0,
+               "minimum_elo" => 43.0,
                "name" => "some updated name",
-               "weight" => 43
+               "weight" => 43,
+               "wins" => 43
              }
     end
 

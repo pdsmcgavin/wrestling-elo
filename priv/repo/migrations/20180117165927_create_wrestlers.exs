@@ -9,6 +9,12 @@ defmodule WweloApi.Repo.Migrations.CreateWrestlers do
       add(:weight, :integer)
       add(:career_start_date, :date)
       add(:career_end_date, :date)
+      add(:wins, :integer)
+      add(:losses, :integer)
+      add(:draws, :integer)
+      add(:current_elo, :float)
+      add(:maximum_elo, :float)
+      add(:minimum_elo, :float)
 
       timestamps()
     end

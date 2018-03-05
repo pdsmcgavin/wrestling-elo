@@ -4,6 +4,7 @@ defmodule WweloApi.Stats.Participant do
   alias WweloApi.Stats.Participant
 
   schema "participants" do
+    field(:elo_after, :float)
     field(:match_id, :integer)
     field(:match_team, :integer)
     field(:outcome, :string)
@@ -15,7 +16,7 @@ defmodule WweloApi.Stats.Participant do
   @doc false
   def changeset(%Participant{} = participant, attrs) do
     participant
-    |> cast(attrs, [:alias_id, :match_id, :outcome, :match_team])
+    |> cast(attrs, [:alias_id, :match_id, :outcome, :elo_after, :match_team])
     |> validate_required([
       :alias_id,
       :match_id,

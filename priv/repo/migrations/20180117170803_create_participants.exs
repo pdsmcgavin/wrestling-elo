@@ -6,6 +6,7 @@ defmodule WweloApi.Repo.Migrations.CreateParticipants do
       add(:wrestler_id, :integer)
       add(:match_id, :integer)
       add(:outcome, :string)
+      add(:elo_after, :float)
       add(:match_team, :integer)
 
       timestamps()

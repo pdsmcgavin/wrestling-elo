@@ -18,7 +18,13 @@ defmodule WweloApiWeb.WrestlerView do
       height: wrestler.height,
       weight: wrestler.weight,
       career_start_date: wrestler.career_start_date,
-      career_end_date: wrestler.career_end_date
+      career_end_date: wrestler.career_end_date,
+      wins: wrestler.wins,
+      losses: wrestler.losses,
+      draws: wrestler.draws,
+      current_elo: wrestler.current_elo,
+      maximum_elo: wrestler.maximum_elo,
+      minimum_elo: wrestler.minimum_elo
     }
   end
 end
