@@ -60,4 +60,26 @@ defmodule WweloApi.EloCalculator.EloCalculator do
 
     Repo.all(query) |> Enum.uniq()
   end
+
+  def pre_match_elos_and_outcomes(match_id) do
+    query =
+      from(
+        m in Match,
+        join: p in Participant,
+        where: p.match_id == m.id,
+        join: a in Alias,
+        where: p.alias_id == a.id,
+        join: w in Wrestler,
+        where: a.wrestler_id == w.id
+      )
+
+    query =
+      from(
+        [m, p, a, w] in query,
+        select: [a.name, p.outcome, w.current_elo],
+        where: m.id == ^match_id
+      )
+
+    Repo.all(query)
+  end
 end
