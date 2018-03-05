@@ -19,22 +19,23 @@ defmodule WweloApiWeb.EloControllerTest do
 
   describe "index" do
     test "lists all elos", %{conn: conn} do
-      conn = get(conn, elo_path(conn, :index))
+      conn = get conn, elo_path(conn, :index)
       assert json_response(conn, 200)["data"] == []
     end
   end
 
   describe "create elo" do
     test "renders elo when data is valid", %{conn: conn} do
-      conn = post(conn, elo_path(conn, :create), elo: @create_attrs)
+      conn = post conn, elo_path(conn, :create), elo: @create_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, elo_path(conn, :show, id))
-      assert json_response(conn, 200)["data"] == %{"id" => id}
+      conn = get conn, elo_path(conn, :show, id)
+      assert json_response(conn, 200)["data"] == %{
+        "id" => id}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, elo_path(conn, :create), elo: @invalid_attrs)
+      conn = post conn, elo_path(conn, :create), elo: @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -42,19 +43,17 @@ defmodule WweloApiWeb.EloControllerTest do
   describe "update elo" do
     setup [:create_elo]
 
-    test "renders elo when data is valid", %{
-      conn: conn,
-      elo: %Elo{id: id} = elo
-    } do
-      conn = put(conn, elo_path(conn, :update, elo), elo: @update_attrs)
+    test "renders elo when data is valid", %{conn: conn, elo: %Elo{id: id} = elo} do
+      conn = put conn, elo_path(conn, :update, elo), elo: @update_attrs
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, elo_path(conn, :show, id))
-      assert json_response(conn, 200)["data"] == %{"id" => id}
+      conn = get conn, elo_path(conn, :show, id)
+      assert json_response(conn, 200)["data"] == %{
+        "id" => id}
     end
 
     test "renders errors when data is invalid", %{conn: conn, elo: elo} do
-      conn = put(conn, elo_path(conn, :update, elo), elo: @invalid_attrs)
+      conn = put conn, elo_path(conn, :update, elo), elo: @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -63,12 +62,11 @@ defmodule WweloApiWeb.EloControllerTest do
     setup [:create_elo]
 
     test "deletes chosen elo", %{conn: conn, elo: elo} do
-      conn = delete(conn, elo_path(conn, :delete, elo))
+      conn = delete conn, elo_path(conn, :delete, elo)
       assert response(conn, 204)
-
-      assert_error_sent(404, fn ->
-        get(conn, elo_path(conn, :show, elo))
-      end)
+      assert_error_sent 404, fn ->
+        get conn, elo_path(conn, :show, elo)
+      end
     end
   end
 

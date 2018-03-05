@@ -3,7 +3,9 @@ defmodule WweloApi.Stats.Elo do
   import Ecto.Changeset
   alias WweloApi.Stats.Elo
 
+
   schema "elos" do
+
     timestamps()
   end
 
