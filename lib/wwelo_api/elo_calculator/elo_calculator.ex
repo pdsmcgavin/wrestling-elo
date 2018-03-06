@@ -3,6 +3,7 @@ defmodule WweloApi.EloCalculator.EloCalculator do
 
   alias WweloApi.Repo
   alias WweloApi.Stats.Alias
+  alias WweloApi.Stats.Elo
   alias WweloApi.Stats.Event
   alias WweloApi.Stats.Match
   alias WweloApi.Stats.Participant
@@ -41,18 +42,21 @@ defmodule WweloApi.EloCalculator.EloCalculator do
       from(
         e in Event,
         join: m in Match,
-        where: m.event_id == e.id
+        on: m.event_id == e.id,
+        left_join: elos in Elo,
+        on: m.id == elos.match_id
       )
 
     query =
       from(
-        [e, m] in query,
-        select: m.id,
+        [e, m, elos] in query,
+        select: {m.id, elos.id},
         order_by: [
           asc: e.date,
           asc: e.id,
           asc: m.card_position
-        ]
+        ],
+        where: elos.id |> is_nil
       )
 
     Repo.all(query)
