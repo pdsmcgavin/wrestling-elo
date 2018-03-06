@@ -9,44 +9,26 @@ defmodule WweloApi.StatsTest do
     @valid_attrs %{
       career_end_date: ~D[2010-04-17],
       career_start_date: ~D[2010-04-17],
-      current_elo: 42,
-      draws: 42,
       gender: "some gender",
       height: 42,
-      losses: 42,
-      maximum_elo: 42,
-      minimum_elo: 42,
       name: "some name",
-      weight: 42,
-      wins: 42
+      weight: 42
     }
     @update_attrs %{
       career_end_date: ~D[2011-05-18],
       career_start_date: ~D[2011-05-18],
-      current_elo: 43,
-      draws: 43,
       gender: "some updated gender",
       height: 43,
-      losses: 43,
-      maximum_elo: 43,
-      minimum_elo: 43,
       name: "some updated name",
-      weight: 43,
-      wins: 43
+      weight: 43
     }
     @invalid_attrs %{
       career_end_date: nil,
       career_start_date: nil,
-      current_elo: nil,
-      draws: nil,
       gender: nil,
       height: nil,
-      losses: nil,
-      maximum_elo: nil,
-      minimum_elo: nil,
       name: nil,
-      weight: nil,
-      wins: nil
+      weight: nil
     }
 
     def wrestler_fixture(attrs \\ %{}) do
@@ -72,16 +54,10 @@ defmodule WweloApi.StatsTest do
       assert {:ok, %Wrestler{} = wrestler} = Stats.create_wrestler(@valid_attrs)
       assert wrestler.career_end_date == ~D[2010-04-17]
       assert wrestler.career_start_date == ~D[2010-04-17]
-      assert wrestler.current_elo == 42
-      assert wrestler.draws == 42
       assert wrestler.gender == "some gender"
       assert wrestler.height == 42
-      assert wrestler.losses == 42
-      assert wrestler.maximum_elo == 42
-      assert wrestler.minimum_elo == 42
       assert wrestler.name == "some name"
       assert wrestler.weight == 42
-      assert wrestler.wins == 42
     end
 
     test "create_wrestler/1 with invalid data returns error changeset" do
@@ -94,16 +70,10 @@ defmodule WweloApi.StatsTest do
       assert %Wrestler{} = wrestler
       assert wrestler.career_end_date == ~D[2011-05-18]
       assert wrestler.career_start_date == ~D[2011-05-18]
-      assert wrestler.current_elo == 43
-      assert wrestler.draws == 43
       assert wrestler.gender == "some updated gender"
       assert wrestler.height == 43
-      assert wrestler.losses == 43
-      assert wrestler.maximum_elo == 43
-      assert wrestler.minimum_elo == 43
       assert wrestler.name == "some updated name"
       assert wrestler.weight == 43
-      assert wrestler.wins == 43
     end
 
     test "update_wrestler/2 with invalid data returns error changeset" do
@@ -200,7 +170,6 @@ defmodule WweloApi.StatsTest do
 
     @valid_attrs %{
       arena: "some arena",
-      brand: "some brand",
       date: ~D[2010-04-17],
       event_type: "some event_type",
       location: "some location",
@@ -209,7 +178,6 @@ defmodule WweloApi.StatsTest do
     }
     @update_attrs %{
       arena: "some updated arena",
-      brand: "some updated brand",
       date: ~D[2011-05-18],
       event_type: "some updated event_type",
       location: "some updated location",
@@ -218,7 +186,6 @@ defmodule WweloApi.StatsTest do
     }
     @invalid_attrs %{
       arena: nil,
-      brand: nil,
       date: nil,
       event_type: nil,
       location: nil,
@@ -248,7 +215,6 @@ defmodule WweloApi.StatsTest do
     test "create_event/1 with valid data creates a event" do
       assert {:ok, %Event{} = event} = Stats.create_event(@valid_attrs)
       assert event.arena == "some arena"
-      assert event.brand == "some brand"
       assert event.date == ~D[2010-04-17]
       assert event.event_type == "some event_type"
       assert event.location == "some location"
@@ -265,7 +231,6 @@ defmodule WweloApi.StatsTest do
       assert {:ok, event} = Stats.update_event(event, @update_attrs)
       assert %Event{} = event
       assert event.arena == "some updated arena"
-      assert event.brand == "some updated brand"
       assert event.date == ~D[2011-05-18]
       assert event.event_type == "some updated event_type"
       assert event.location == "some updated location"
@@ -373,21 +338,18 @@ defmodule WweloApi.StatsTest do
     alias WweloApi.Stats.Participant
 
     @valid_attrs %{
-      elo_after: 42,
       match_id: 42,
       match_team: 42,
       outcome: "some outcome",
       alias_id: 42
     }
     @update_attrs %{
-      elo_after: 43,
       match_id: 43,
       match_team: 43,
       outcome: "some updated outcome",
       alias_id: 43
     }
     @invalid_attrs %{
-      elo_after: nil,
       match_id: nil,
       match_team: nil,
       outcome: nil,
@@ -417,7 +379,6 @@ defmodule WweloApi.StatsTest do
       assert {:ok, %Participant{} = participant} =
                Stats.create_participant(@valid_attrs)
 
-      assert participant.elo_after == 42
       assert participant.match_id == 42
       assert participant.match_team == 42
       assert participant.outcome == "some outcome"
@@ -436,7 +397,6 @@ defmodule WweloApi.StatsTest do
                Stats.update_participant(participant, @update_attrs)
 
       assert %Participant{} = participant
-      assert participant.elo_after == 43
       assert participant.match_id == 43
       assert participant.match_team == 43
       assert participant.outcome == "some updated outcome"

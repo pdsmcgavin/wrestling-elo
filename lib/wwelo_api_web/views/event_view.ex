@@ -16,7 +16,6 @@ defmodule WweloApiWeb.EventView do
       name: event.name,
       promotion: event.promotion,
       date: event.date,
-      brand: event.brand,
       event_type: event.event_type,
       location: event.location,
       arena: event.arena

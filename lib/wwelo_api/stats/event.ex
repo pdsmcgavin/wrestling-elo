@@ -5,7 +5,6 @@ defmodule WweloApi.Stats.Event do
 
   schema "events" do
     field(:arena, :string)
-    field(:brand, :string)
     field(:date, :date)
     field(:event_type, :string)
     field(:location, :string)
@@ -22,7 +21,6 @@ defmodule WweloApi.Stats.Event do
       :name,
       :promotion,
       :date,
-      :brand,
       :event_type,
       :location,
       :arena
