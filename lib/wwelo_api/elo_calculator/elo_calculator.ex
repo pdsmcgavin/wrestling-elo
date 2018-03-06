@@ -41,23 +41,20 @@ defmodule WweloApi.EloCalculator.EloCalculator do
       from(
         e in Event,
         join: m in Match,
-        where: m.event_id == e.id,
-        join: p in Participant,
-        where: p.match_id == m.id
+        where: m.event_id == e.id
       )
 
     query =
       from(
-        [e, m, p] in query,
+        [e, m] in query,
         select: m.id,
         order_by: [
           asc: e.date,
           asc: e.id,
           asc: m.card_position
-        ],
-        where: p.elo_after |> is_nil
+        ]
       )
 
-    Repo.all(query) |> Enum.uniq()
+    Repo.all(query)
   end
 end

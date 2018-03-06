@@ -466,4 +466,68 @@ defmodule WweloApi.StatsTest do
       assert %Ecto.Changeset{} = Stats.change_participant(participant)
     end
   end
+
+  describe "elos" do
+    alias WweloApi.Stats.Elo
+
+    @valid_attrs %{elo: 120.5, match_id: 42, wrestler_id: 42}
+    @update_attrs %{elo: 456.7, match_id: 43, wrestler_id: 43}
+    @invalid_attrs %{elo: nil, match_id: nil, wrestler_id: nil}
+
+    def elo_fixture(attrs \\ %{}) do
+      {:ok, elo} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Stats.create_elo()
+
+      elo
+    end
+
+    test "list_elos/0 returns all elos" do
+      elo = elo_fixture()
+      assert Stats.list_elos() == [elo]
+    end
+
+    test "get_elo!/1 returns the elo with given id" do
+      elo = elo_fixture()
+      assert Stats.get_elo!(elo.id) == elo
+    end
+
+    test "create_elo/1 with valid data creates a elo" do
+      assert {:ok, %Elo{} = elo} = Stats.create_elo(@valid_attrs)
+      assert elo.elo == 120.5
+      assert elo.match_id == 42
+      assert elo.wrestler_id == 42
+    end
+
+    test "create_elo/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Stats.create_elo(@invalid_attrs)
+    end
+
+    test "update_elo/2 with valid data updates the elo" do
+      elo = elo_fixture()
+      assert {:ok, elo} = Stats.update_elo(elo, @update_attrs)
+      assert %Elo{} = elo
+      assert elo.elo == 456.7
+      assert elo.match_id == 43
+      assert elo.wrestler_id == 43
+    end
+
+    test "update_elo/2 with invalid data returns error changeset" do
+      elo = elo_fixture()
+      assert {:error, %Ecto.Changeset{}} = Stats.update_elo(elo, @invalid_attrs)
+      assert elo == Stats.get_elo!(elo.id)
+    end
+
+    test "delete_elo/1 deletes the elo" do
+      elo = elo_fixture()
+      assert {:ok, %Elo{}} = Stats.delete_elo(elo)
+      assert_raise Ecto.NoResultsError, fn -> Stats.get_elo!(elo.id) end
+    end
+
+    test "change_elo/1 returns a elo changeset" do
+      elo = elo_fixture()
+      assert %Ecto.Changeset{} = Stats.change_elo(elo)
+    end
+  end
 end

@@ -485,4 +485,100 @@ defmodule WweloApi.Stats do
   def change_participant(%Participant{} = participant) do
     Participant.changeset(participant, %{})
   end
+
+  alias WweloApi.Stats.Elo
+
+  @doc """
+  Returns the list of elos.
+
+  ## Examples
+
+      iex> list_elos()
+      [%Elo{}, ...]
+
+  """
+  def list_elos do
+    Repo.all(Elo)
+  end
+
+  @doc """
+  Gets a single elo.
+
+  Raises `Ecto.NoResultsError` if the Elo does not exist.
+
+  ## Examples
+
+      iex> get_elo!(123)
+      %Elo{}
+
+      iex> get_elo!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_elo!(id), do: Repo.get!(Elo, id)
+
+  @doc """
+  Creates a elo.
+
+  ## Examples
+
+      iex> create_elo(%{field: value})
+      {:ok, %Elo{}}
+
+      iex> create_elo(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_elo(attrs \\ %{}) do
+    %Elo{}
+    |> Elo.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a elo.
+
+  ## Examples
+
+      iex> update_elo(elo, %{field: new_value})
+      {:ok, %Elo{}}
+
+      iex> update_elo(elo, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_elo(%Elo{} = elo, attrs) do
+    elo
+    |> Elo.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Elo.
+
+  ## Examples
+
+      iex> delete_elo(elo)
+      {:ok, %Elo{}}
+
+      iex> delete_elo(elo)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_elo(%Elo{} = elo) do
+    Repo.delete(elo)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking elo changes.
+
+  ## Examples
+
+      iex> change_elo(elo)
+      %Ecto.Changeset{source: %Elo{}}
+
+  """
+  def change_elo(%Elo{} = elo) do
+    Elo.changeset(elo, %{})
+  end
 end
