@@ -9,6 +9,7 @@ defmodule WweloApi.EloCalculator.EloCalculator do
   alias WweloApi.Stats.Participant
   alias WweloApi.Stats.Wrestler
 
+  @default_elo 1200
   @match_weight 32
   @elo_base 10
   @distribution_factor 400
@@ -77,10 +78,53 @@ defmodule WweloApi.EloCalculator.EloCalculator do
     query =
       from(
         [m, p, a, w] in query,
-        select: {m.id, w.name, w.id, p.outcome, p.match_team},
+        select: %{
+          match_id: m.id,
+          name: w.name,
+          wrestler_id: w.id,
+          match_outcome: p.outcome,
+          match_team: p.match_team
+        },
         where: m.id == ^match_id
       )
 
     Repo.all(query)
+    |> Enum.map(fn wrestler ->
+      Map.put(
+        wrestler,
+        :previous_elo,
+        get_most_recent_elo(wrestler.wrestler_id)
+      )
+    end)
+  end
+
+  def get_most_recent_elo(wrestler_id) do
+    query =
+      from(
+        e in Event,
+        join: m in Match,
+        on: m.event_id == e.id,
+        left_join: elos in Elo,
+        on: m.id == elos.match_id
+      )
+
+    query =
+      from(
+        [e, m, elos] in query,
+        select: %{elo: elos.elo},
+        order_by: [
+          desc: e.date,
+          desc: e.id,
+          desc: m.card_position
+        ],
+        where: elos.wrestler_id == ^wrestler_id
+      )
+
+    matches = Repo.all(query)
+
+    cond do
+      matches |> length > 0 -> matches |> Enum.at(0) |> Map.get(:elo)
+      true -> @default_elo
+    end
   end
 end
