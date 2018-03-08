@@ -2,6 +2,7 @@ defmodule WweloApi.EloCalculator.EloCalculator do
   import Ecto.Query
 
   alias WweloApi.Repo
+  alias WweloApi.Stats
   alias WweloApi.Stats.Alias
   alias WweloApi.Stats.Elo
   alias WweloApi.Stats.Event
@@ -13,6 +14,19 @@ defmodule WweloApi.EloCalculator.EloCalculator do
   @match_weight 32
   @elo_base 10
   @distribution_factor 400
+
+  def calcualte_elos do
+    list_of_matches_with_no_elo_calculation()
+    |> Enum.map(fn match_id ->
+      participants_info_of_match(match_id)
+      |> group_participants_by_team
+      |> elo_change_for_match
+      |> List.flatten()
+      |> Enum.map(fn elo_info ->
+        save_elo_to_database(elo_info)
+      end)
+    end)
+  end
 
   def elo_change_for_match(list_of_participants) do
     rlist =
@@ -38,7 +52,7 @@ defmodule WweloApi.EloCalculator.EloCalculator do
         case outcome do
           "win" -> 1
           "loss" -> 0
-          "draw " -> 0.5
+          "draw" -> 0.5
           _ -> nil
         end
       end)
@@ -156,5 +170,24 @@ defmodule WweloApi.EloCalculator.EloCalculator do
     participants
     |> Enum.group_by(&Map.get(&1, :match_team))
     |> Map.values()
+  end
+
+  def save_elo_to_database(elo_info) do
+    elo_query =
+      from(
+        e in Elo,
+        where:
+          e.match_id == ^elo_info.match_id and
+            e.wrestler_id == ^elo_info.wrestler_id,
+        select: e
+      )
+
+    elo_result = Repo.one(elo_query)
+
+    case elo_result do
+      nil -> Stats.create_elo(elo_info) |> elem(1)
+      _ -> elo_result
+    end
+    |> Map.get(:id)
   end
 end
