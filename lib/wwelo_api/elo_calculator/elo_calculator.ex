@@ -14,17 +14,34 @@ defmodule WweloApi.EloCalculator.EloCalculator do
   @elo_base 10
   @distribution_factor 400
 
-  def elo_change_for_match([list_of_participants, slist]) do
+  def elo_change_for_match(list_of_participants) do
     rlist =
       list_of_participants
       |> Enum.map(fn participants ->
         participants
         |> Enum.reduce(0, fn x, acc ->
-          acc + Math.pow(@elo_base, x / @distribution_factor)
+          acc +
+            Math.pow(
+              @elo_base,
+              x.previous_elo / @distribution_factor
+            )
         end)
       end)
 
     elist = rlist |> Enum.map(fn r -> r / Enum.sum(rlist) end)
+
+    slist =
+      list_of_participants
+      |> Enum.map(fn participant ->
+        outcome = Enum.at(participant, 0) |> Map.get(:match_outcome)
+
+        case outcome do
+          "win" -> 1
+          "loss" -> 0
+          "draw " -> 0.5
+          _ -> nil
+        end
+      end)
 
     slist = slist |> Enum.map(&(&1 / Enum.sum(slist)))
 
@@ -33,8 +50,15 @@ defmodule WweloApi.EloCalculator.EloCalculator do
       |> Enum.map(fn {e, s} -> @match_weight * (s - e) end)
 
     Enum.zip(list_of_participants, change)
-    |> Enum.map(fn {elos, change} ->
-      Enum.map(elos, &(&1 + change / Enum.count(elos)))
+    |> Enum.map(fn {participants, change} ->
+      participants
+      |> Enum.map(fn participant ->
+        Map.put(
+          participant,
+          :elo,
+          participant.previous_elo + change / Enum.count(participants)
+        )
+      end)
     end)
   end
 
@@ -126,5 +150,11 @@ defmodule WweloApi.EloCalculator.EloCalculator do
       matches |> length > 0 -> matches |> Enum.at(0) |> Map.get(:elo)
       true -> @default_elo
     end
+  end
+
+  def group_participants_by_team(participants) do
+    participants
+    |> Enum.group_by(&Map.get(&1, :match_team))
+    |> Map.values()
   end
 end
