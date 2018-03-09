@@ -34,7 +34,11 @@ defmodule WweloApi.SiteScraper.Events do
       event_html_body
       |> Floki.find(".InformationBoxTable")
 
-    [{_, _, event_matches}] = event_html_body |> Floki.find(".Matches")
+    event_matches =
+      case event_html_body |> Floki.find(".Matches") do
+        [{_, _, event_matches}] -> event_matches
+        _ -> []
+      end
 
     %{event_info: event_info, event_matches: event_matches}
   end

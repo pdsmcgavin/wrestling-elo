@@ -8,22 +8,16 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   alias WweloApi.SiteScraper.Utils.DateHelper
   alias WweloApi.SiteScraper.Utils.UrlHelper
 
-  @default_elo 1200
-
-  @default_wrestler_info %{
-    wins: 0,
-    losses: 0,
-    draws: 0,
-    current_elo: @default_elo,
-    maximum_elo: @default_elo,
-    minimum_elo: @default_elo
-  }
-
   def save_alter_egos_of_wrestler(%{wrestler_url_path: wrestler_url_path}) do
     wrestler_info =
       wrestler_url_path
       |> get_wrestler_info
-      |> convert_wrestler_info
+
+    wrestler_info =
+      case wrestler_info do
+        [] -> empty_wrestler_profile_info(wrestler_url_path)
+        _ -> wrestler_info |> convert_wrestler_info
+      end
 
     wrestler_ids =
       Enum.map(Map.keys(wrestler_info.names), fn name ->
@@ -46,7 +40,7 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   end
 
   def convert_wrestler_info(wrestler_info) do
-    Enum.reduce(wrestler_info, @default_wrestler_info, fn x, acc ->
+    Enum.reduce(wrestler_info, %{}, fn x, acc ->
       case x do
         {_, _, [{_, _, ["Gender:"]}, {_, _, [gender]}]} ->
           Map.put(acc, :gender, gender)
@@ -78,10 +72,24 @@ defmodule WweloApi.SiteScraper.Wrestlers do
     end)
   end
 
+  def empty_wrestler_profile_info(wrestler_url_path) do
+    name =
+      wrestler_url_path
+      |> String.split("name=")
+      |> Enum.at(1)
+      |> String.replace("+", " ")
+
+    Map.put(%{}, :names, %{} |> Map.put(String.to_atom(name), [name]))
+  end
+
   def get_names_and_aliases(alter_egos) do
     alter_egos
-    |> Enum.filter(&is_tuple(&1))
-    |> Enum.map(&elem(&1, 2))
+    |> Enum.map(fn alter_ego ->
+      cond do
+        is_tuple(alter_ego) && tuple_size(alter_ego) == 3 -> elem(alter_ego, 2)
+        true -> alter_ego
+      end
+    end)
     |> Enum.filter(&(&1 != []))
     |> List.flatten()
     |> Enum.map(&(String.trim_leading(&1) |> String.trim_trailing()))

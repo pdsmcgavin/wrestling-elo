@@ -54,6 +54,7 @@ defmodule WweloApi.SiteScraper.Matches do
 
         _ ->
           # Checking for edge cases
+          IO.puts("Match edge case")
           IO.inspect(match)
           false
       end
@@ -64,16 +65,27 @@ defmodule WweloApi.SiteScraper.Matches do
     match_type = match |> Floki.find(".MatchType")
 
     case match_type do
-      [{_, [{"class", "MatchType"}], [{_, _, [title]}, stipulation]}] ->
-        title <> stipulation
-
-      [{_, [{"class", "MatchType"}], [stipulation]}] ->
-        stipulation
+      [{_, [{"class", "MatchType"}], stipulation}] ->
+        stipulation |> combine_stipulation_info
 
       _ ->
         # Checking for edge cases
+        IO.puts("Match type edge case")
         IO.inspect(match_type)
         "No stipulation found"
     end
+  end
+
+  def combine_stipulation_info(stipulation) when is_bitstring(stipulation),
+    do: stipulation |> IO.inspect()
+
+  def combine_stipulation_info(stipulation) do
+    stipulation
+    |> Enum.reduce("", fn x, acc ->
+      case x do
+        {_, _, [title]} -> acc <> title
+        string -> acc <> string
+      end
+    end)
   end
 end
