@@ -57,7 +57,11 @@ defmodule WweloApi.EloCalculator.EloCalculator do
         end
       end)
 
-    slist = slist |> Enum.map(&(&1 / Enum.sum(slist)))
+    slist =
+      cond do
+        Enum.sum(slist) > 1 -> slist |> Enum.map(&(&1 / Enum.sum(slist)))
+        true -> slist
+      end
 
     change =
       Enum.zip(elist, slist)
