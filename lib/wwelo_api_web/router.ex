@@ -7,6 +7,10 @@ defmodule WweloApiWeb.Router do
 
   scope "/api", WweloApiWeb do
     pipe_through(:api)
+
+    get("/stats", StatsController, :index)
+    get("/stats/:id", StatsController, :show)
+
     resources("/aliases", AliasController, except: [:new, :edit])
     resources("/elos", EloController, except: [:new, :edit])
     resources("/events", EventController, except: [:new, :edit])
