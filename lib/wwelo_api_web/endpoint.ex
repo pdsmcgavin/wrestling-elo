@@ -44,6 +44,7 @@ defmodule WweloApiWeb.Endpoint do
     signing_salt: "MMnhqdAr"
   )
 
+  plug(CORSPlug)
   plug(WweloApiWeb.Router)
 
   @doc """

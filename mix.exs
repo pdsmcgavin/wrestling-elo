@@ -43,7 +43,8 @@ defmodule WweloApi.Mixfile do
       {:floki, "~> 0.18.0"},
       {:phst_transform, "~> 1.0.0"},
       {:elixir_mbcs, github: "woxtu/elixir-mbcs", tag: "0.1.3"},
-      {:math, "~> 0.3.0"}
+      {:math, "~> 0.3.0"},
+      {:cors_plug, "~> 1.5"}
     ]
   end
 
