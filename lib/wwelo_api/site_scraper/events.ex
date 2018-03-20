@@ -8,6 +8,7 @@ defmodule WweloApi.SiteScraper.Events do
   alias WweloApi.SiteScraper.Utils.UrlHelper
 
   def save_events_of_year(%{year: year}) do
+    # credo:disable-for-next-line
     IO.inspect(year)
 
     list_of_event_urls = UrlHelper.wwe_event_url_paths_list(%{year: year})
@@ -45,38 +46,67 @@ defmodule WweloApi.SiteScraper.Events do
 
   def convert_event_info(event_info) do
     Enum.reduce(event_info, %{}, fn x, acc ->
-      case x do
-        {_, _, [{_, _, ["Name of the event:"]}, {_, _, [event_name]}]} ->
-          Map.put(acc, :name, event_name)
-
-        {_, _, [{_, _, ["Promotion:"]}, {_, _, [{_, _, [promotion]}]}]} ->
-          Map.put(acc, :promotion, promotion)
-
-        {_, _, [{_, _, ["Type:"]}, {_, _, [event_type]}]} ->
-          Map.put(acc, :event_type, event_type)
-
-        {_, _, [{_, _, ["Location:"]}, {_, _, [location]}]} ->
-          Map.put(acc, :location, location)
-
-        {_, _, [{_, _, ["Arena:"]}, {_, _, [arena]}]} ->
-          Map.put(acc, :arena, arena)
-
-        {_, _, [{_, _, ["Date:"]}, {_, _, [date]}]} ->
-          case DateHelper.format_date(date) do
-            {:ok, date} -> Map.put_new(acc, :date, date)
-            _ -> acc
-          end
-
-        {_, _, [{_, _, ["Broadcast date:"]}, {_, _, [date]}]} ->
-          case DateHelper.format_date(date) do
-            {:ok, date} -> Map.put(acc, :date, date)
-            _ -> acc
-          end
-
-        _ ->
-          acc
-      end
+      convert_event_info(x, acc)
     end)
+  end
+
+  def convert_event_info(
+        {_, _, [{_, _, ["Name of the event:"]}, {_, _, [event_name]}]},
+        acc
+      ) do
+    Map.put(acc, :name, event_name)
+  end
+
+  def convert_event_info(
+        {_, _, [{_, _, ["Promotion:"]}, {_, _, [{_, _, [promotion]}]}]},
+        acc
+      ) do
+    Map.put(acc, :promotion, promotion)
+  end
+
+  def convert_event_info(
+        {_, _, [{_, _, ["Type:"]}, {_, _, [event_type]}]},
+        acc
+      ) do
+    Map.put(acc, :event_type, event_type)
+  end
+
+  def convert_event_info(
+        {_, _, [{_, _, ["Location:"]}, {_, _, [location]}]},
+        acc
+      ) do
+    Map.put(acc, :location, location)
+  end
+
+  def convert_event_info(
+        {_, _, [{_, _, ["Arena:"]}, {_, _, [arena]}]},
+        acc
+      ) do
+    Map.put(acc, :arena, arena)
+  end
+
+  def convert_event_info(
+        {_, _, [{_, _, ["Date:"]}, {_, _, [date]}]},
+        acc
+      ) do
+    case DateHelper.format_date(date) do
+      {:ok, date} -> Map.put_new(acc, :date, date)
+      _ -> acc
+    end
+  end
+
+  def convert_event_info(
+        {_, _, [{_, _, ["Broadcast date:"]}, {_, _, [date]}]},
+        acc
+      ) do
+    case DateHelper.format_date(date) do
+      {:ok, date} -> Map.put(acc, :date, date)
+      _ -> acc
+    end
+  end
+
+  def convert_event_info(_, acc) do
+    acc
   end
 
   def save_event_to_database(event_info) do
@@ -91,10 +121,12 @@ defmodule WweloApi.SiteScraper.Events do
 
     event_result = Repo.one(event_query)
 
-    case event_result do
-      nil -> Stats.create_event(event_info) |> elem(1)
-      _ -> event_result
-    end
-    |> Map.get(:id)
+    event_result =
+      case event_result do
+        nil -> event_info |> Stats.create_event() |> elem(1)
+        _ -> event_result
+      end
+
+    event_result |> Map.get(:id)
   end
 end
