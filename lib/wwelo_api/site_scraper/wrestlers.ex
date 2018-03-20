@@ -21,11 +21,13 @@ defmodule WweloApi.SiteScraper.Wrestlers do
 
     wrestler_ids =
       Enum.map(Map.keys(wrestler_info.names), fn name ->
-        Map.put(wrestler_info, :name, name |> Atom.to_string())
+        wrestler_info
+        |> Map.put(:name, name |> Atom.to_string())
         |> save_wrestler_to_database()
       end)
 
-    Enum.zip(wrestler_ids, wrestler_info.names |> Map.values())
+    wrestler_ids
+    |> Enum.zip(wrestler_info.names |> Map.values())
     |> Enum.map(fn {wrestler_id, aliases} ->
       %{wrestler_id: wrestler_id, aliases: aliases}
       |> Aliases.save_aliases_to_database()
@@ -35,41 +37,67 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   def get_wrestler_info(wrestler_url_path) do
     wrestler_url = "https://www.cagematch.net/" <> wrestler_url_path
 
-    UrlHelper.get_page_html_body(%{url: wrestler_url})
+    %{url: wrestler_url}
+    |> UrlHelper.get_page_html_body()
     |> Floki.find(".InformationBoxRow")
   end
 
   def convert_wrestler_info(wrestler_info) do
     Enum.reduce(wrestler_info, %{}, fn x, acc ->
-      case x do
-        {_, _, [{_, _, ["Gender:"]}, {_, _, [gender]}]} ->
-          Map.put(acc, :gender, gender)
-
-        {_, _, [{_, _, ["Height:"]}, {_, _, [height]}]} ->
-          Map.put(acc, :height, height |> convert_height_to_integer)
-
-        {_, _, [{_, _, ["Weight:"]}, {_, _, [weight]}]} ->
-          Map.put(acc, :weight, weight |> convert_weight_to_integer)
-
-        {_, _, [{_, _, ["Alter egos:"]}, {_, _, alter_egos}]} ->
-          Map.put(acc, :names, alter_egos |> get_names_and_aliases)
-
-        {_, _, [{_, _, ["Beginning of in-ring career:"]}, {_, _, [date]}]} ->
-          case DateHelper.format_date(date) do
-            {:ok, date} -> Map.put(acc, :career_start_date, date)
-            _ -> acc
-          end
-
-        {_, _, [{_, _, ["End of in-ring career:"]}, {_, _, [date]}]} ->
-          case DateHelper.format_date(date) do
-            {:ok, date} -> Map.put(acc, :career_end_date, date)
-            _ -> acc
-          end
-
-        _ ->
-          acc
-      end
+      convert_wrestler_info(x, acc)
     end)
+  end
+
+  def convert_wrestler_info(
+        {_, _, [{_, _, ["Gender:"]}, {_, _, [gender]}]},
+        acc
+      ) do
+    Map.put(acc, :gender, gender)
+  end
+
+  def convert_wrestler_info(
+        {_, _, [{_, _, ["Height:"]}, {_, _, [height]}]},
+        acc
+      ) do
+    Map.put(acc, :height, height |> convert_height_to_integer)
+  end
+
+  def convert_wrestler_info(
+        {_, _, [{_, _, ["Weight:"]}, {_, _, [weight]}]},
+        acc
+      ) do
+    Map.put(acc, :weight, weight |> convert_weight_to_integer)
+  end
+
+  def convert_wrestler_info(
+        {_, _, [{_, _, ["Alter egos:"]}, {_, _, alter_egos}]},
+        acc
+      ) do
+    Map.put(acc, :names, alter_egos |> get_names_and_aliases)
+  end
+
+  def convert_wrestler_info(
+        {_, _, [{_, _, ["Beginning of in-ring career:"]}, {_, _, [date]}]},
+        acc
+      ) do
+    case DateHelper.format_date(date) do
+      {:ok, date} -> Map.put(acc, :career_start_date, date)
+      _ -> acc
+    end
+  end
+
+  def convert_wrestler_info(
+        {_, _, [{_, _, ["End of in-ring career:"]}, {_, _, [date]}]},
+        acc
+      ) do
+    case DateHelper.format_date(date) do
+      {:ok, date} -> Map.put(acc, :career_end_date, date)
+      _ -> acc
+    end
+  end
+
+  def convert_wrestler_info(_, acc) do
+    acc
   end
 
   def empty_wrestler_profile_info(wrestler_url_path) do
@@ -85,15 +113,16 @@ defmodule WweloApi.SiteScraper.Wrestlers do
   def get_names_and_aliases(alter_egos) do
     alter_egos
     |> Enum.map(fn alter_ego ->
-      cond do
-        is_tuple(alter_ego) && tuple_size(alter_ego) == 3 -> elem(alter_ego, 2)
-        true -> alter_ego
+      if is_tuple(alter_ego) && tuple_size(alter_ego) == 3 do
+        elem(alter_ego, 2)
+      else
+        alter_ego
       end
     end)
     |> List.flatten()
     |> Enum.map(&String.trim(&1))
     |> Enum.filter(&(&1 != ""))
-    |> Enum.map(&(String.trim_leading(&1) |> String.trim_trailing()))
+    |> Enum.map(&(&1 |> String.trim_leading() |> String.trim_trailing()))
     |> Enum.reduce(%{}, fn x, acc ->
       cond do
         Map.get(acc, :last_name) == "a.k.a." ->
@@ -107,7 +136,8 @@ defmodule WweloApi.SiteScraper.Wrestlers do
           acc
 
         true ->
-          Map.put(acc, String.to_atom(x), [x])
+          acc
+          |> Map.put(String.to_atom(x), [x])
           |> Map.put(:current_name, x)
       end
       |> Map.put(:last_name, x)
@@ -140,10 +170,12 @@ defmodule WweloApi.SiteScraper.Wrestlers do
 
     wrestler_result = Repo.one(wrestler_query)
 
-    case wrestler_result do
-      nil -> Stats.create_wrestler(wrestler_info) |> elem(1)
-      _ -> wrestler_result
-    end
-    |> Map.get(:id)
+    wrestler_result =
+      case wrestler_result do
+        nil -> wrestler_info |> Stats.create_wrestler() |> elem(1)
+        _ -> wrestler_result
+      end
+
+    wrestler_result |> Map.get(:id)
   end
 end

@@ -12,7 +12,8 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
       })
 
     results_info =
-      Floki.find(results_body, ".TableHeaderOff")
+      results_body
+      |> Floki.find(".TableHeaderOff")
       |> Floki.text()
       |> String.split()
       |> Enum.map(&Integer.parse(&1))

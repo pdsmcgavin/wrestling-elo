@@ -11,7 +11,8 @@ defmodule WweloApi.SiteScraper.Matches do
     |> Enum.with_index(1)
     |> Enum.map(fn {match, card_position} ->
       match_id =
-        convert_match_info(event_id, match, card_position)
+        event_id
+        |> convert_match_info(match, card_position)
         |> save_match_to_database
 
       [{_, _, match_result}] = Floki.find(match, ".MatchResults")
@@ -36,11 +37,13 @@ defmodule WweloApi.SiteScraper.Matches do
 
     match_result = Repo.one(match_query)
 
-    case match_result do
-      nil -> Stats.create_match(match_info) |> elem(1)
-      _ -> match_result
-    end
-    |> Map.get(:id)
+    match_result =
+      case match_result do
+        nil -> match_info |> Stats.create_match() |> elem(1)
+        _ -> match_result
+      end
+
+    match_result |> Map.get(:id)
   end
 
   def filter_out_non_televised_matches(matches) do

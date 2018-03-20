@@ -23,10 +23,11 @@ defmodule WweloApi.SiteScraper.Participants do
 
       _ ->
         participants
-        |> Enum.map(
-          &(get_and_add_alias_id(&1)
-            |> save_participant_to_database)
-        )
+        |> Enum.map(fn participant ->
+          participant
+          |> get_and_add_alias_id
+          |> save_participant_to_database
+        end)
     end
   end
 
@@ -174,10 +175,12 @@ defmodule WweloApi.SiteScraper.Participants do
 
     participant_result = Repo.one(participant_query)
 
-    case participant_result do
-      nil -> Stats.create_participant(participant_info) |> elem(1)
-      _ -> participant_result
-    end
-    |> Map.get(:id)
+    participant_result =
+      case participant_result do
+        nil -> Stats.create_participant() |> elem(1)
+        _ -> participant_result
+      end
+
+    participant_result |> Map.get(:id)
   end
 end

@@ -25,7 +25,8 @@ defmodule WweloApi.SiteScraper.Aliases do
     aliases_info
     |> Map.get(:aliases)
     |> Enum.map(fn alias ->
-      Map.put(aliases_info, :name, alias)
+      aliases_info
+      |> Map.put(:name, alias)
       |> save_alias_to_database
     end)
   end
@@ -41,10 +42,12 @@ defmodule WweloApi.SiteScraper.Aliases do
 
     alias_result = Repo.one(alias_query)
 
-    case alias_result do
-      nil -> Stats.create_alias(alias_info) |> elem(1)
-      _ -> alias_result
-    end
-    |> Map.get(:id)
+    alias_result =
+      case alias_result do
+        nil -> alias_info |> Stats.create_alias() |> elem(1)
+        _ -> alias_result
+      end
+
+    alias_result |> Map.get(:id)
   end
 end
