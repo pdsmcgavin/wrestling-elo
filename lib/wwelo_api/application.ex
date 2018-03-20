@@ -1,6 +1,9 @@
 defmodule WweloApi.Application do
   use Application
 
+  alias WweloApi.Repo
+  alias WweloApiWeb.Endpoint
+
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -9,9 +12,9 @@ defmodule WweloApi.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(WweloApi.Repo, []),
+      supervisor(Repo, []),
       # Start the endpoint when the application starts
-      supervisor(WweloApiWeb.Endpoint, [])
+      supervisor(Endpoint, [])
       # Start your own worker by calling: WweloApi.Worker.start_link(arg1, arg2, arg3)
       # worker(WweloApi.Worker, [arg1, arg2, arg3]),
     ]
@@ -25,7 +28,7 @@ defmodule WweloApi.Application do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    WweloApiWeb.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end

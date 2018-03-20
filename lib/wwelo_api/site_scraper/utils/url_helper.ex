@@ -41,7 +41,7 @@ defmodule WweloApi.SiteScraper.Utils.UrlHelper do
     |> Kernel.+(1)
   end
 
-  def wwe_event_url_paths_list(params = %{year: _, page_number: _}) do
+  def wwe_event_url_paths_list(%{year: _, page_number: _} = params) do
     results_body =
       get_page_html_body(%{
         url: wwe_events_results_url(params)

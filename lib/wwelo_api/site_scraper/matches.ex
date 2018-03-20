@@ -54,6 +54,7 @@ defmodule WweloApi.SiteScraper.Matches do
 
         _ ->
           # Checking for edge cases
+          # credo:disable-for-lines:2
           IO.puts("Match edge case")
           IO.inspect(match)
           false
@@ -70,14 +71,12 @@ defmodule WweloApi.SiteScraper.Matches do
 
       _ ->
         # Checking for edge cases
+        # credo:disable-for-lines:2
         IO.puts("Match type edge case")
         IO.inspect(match)
         "No stipulation found"
     end
   end
-
-  def combine_stipulation_info(stipulation) when is_bitstring(stipulation),
-    do: stipulation |> IO.inspect()
 
   def combine_stipulation_info(stipulation) do
     stipulation

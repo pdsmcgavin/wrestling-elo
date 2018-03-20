@@ -14,6 +14,8 @@ defmodule WweloApi.DataCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+
   using do
     quote do
       alias WweloApi.Repo
@@ -26,10 +28,10 @@ defmodule WweloApi.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WweloApi.Repo)
+    :ok = Sandbox.checkout(WweloApi.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(WweloApi.Repo, {:shared, self()})
+      Sandbox.mode(WweloApi.Repo, {:shared, self()})
     end
 
     :ok
@@ -44,6 +46,7 @@ defmodule WweloApi.DataCase do
 
   """
   def errors_on(changeset) do
+    # credo:disable-for-next-line
     Ecto.Changeset.traverse_errors(changeset, fn {message, opts} ->
       Enum.reduce(opts, message, fn {key, value}, acc ->
         String.replace(acc, "%{#{key}}", to_string(value))
