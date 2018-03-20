@@ -71,7 +71,7 @@ defmodule WweloApi.SiteScraper.Matches do
       _ ->
         # Checking for edge cases
         IO.puts("Match type edge case")
-        IO.inspect(match_type)
+        IO.inspect(match)
         "No stipulation found"
     end
   end
