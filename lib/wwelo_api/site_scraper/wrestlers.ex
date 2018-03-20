@@ -90,8 +90,9 @@ defmodule WweloApi.SiteScraper.Wrestlers do
         true -> alter_ego
       end
     end)
-    |> Enum.filter(&(&1 != []))
     |> List.flatten()
+    |> Enum.map(&String.trim(&1))
+    |> Enum.filter(&(&1 != ""))
     |> Enum.map(&(String.trim_leading(&1) |> String.trim_trailing()))
     |> Enum.reduce(%{}, fn x, acc ->
       cond do
