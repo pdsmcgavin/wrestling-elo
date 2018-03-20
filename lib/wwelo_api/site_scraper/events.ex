@@ -50,10 +50,7 @@ defmodule WweloApi.SiteScraper.Events do
     end)
   end
 
-<<<<<<< HEAD
   # TODO: Move all convert event info stuff to a separate module utils/EventConverterHelper.ex?
-=======
->>>>>>> 7f764d9812c1aab485491049ccd919778240a48a
   def convert_event_info(
         {_, _, [{_, _, ["Name of the event:"]}, {_, _, [event_name]}]},
         acc
