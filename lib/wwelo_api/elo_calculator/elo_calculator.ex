@@ -18,7 +18,8 @@ defmodule WweloApi.EloCalculator.EloCalculator do
   def calcualte_elos do
     list_of_matches_with_no_elo_calculation()
     |> Enum.map(fn match_id ->
-      participants_info_of_match(match_id)
+      match_id
+      |> participants_info_of_match
       |> group_participants_by_team
       |> elo_change_for_match
       |> List.flatten()
@@ -47,7 +48,7 @@ defmodule WweloApi.EloCalculator.EloCalculator do
     slist =
       list_of_participants
       |> Enum.map(fn participant ->
-        outcome = Enum.at(participant, 0) |> Map.get(:match_outcome)
+        outcome = participant |> Enum.at(0) |> Map.get(:match_outcome)
 
         case outcome do
           "win" -> 1
@@ -58,16 +59,19 @@ defmodule WweloApi.EloCalculator.EloCalculator do
       end)
 
     slist =
-      cond do
-        Enum.sum(slist) > 1 -> slist |> Enum.map(&(&1 / Enum.sum(slist)))
-        true -> slist
+      if Enum.sum(slist) > 1 do
+        slist |> Enum.map(&(&1 / Enum.sum(slist)))
+      else
+        slist
       end
 
     change =
-      Enum.zip(elist, slist)
+      elist
+      |> Enum.zip(slist)
       |> Enum.map(fn {e, s} -> @match_weight * (s - e) end)
 
-    Enum.zip(list_of_participants, change)
+    list_of_participants
+    |> Enum.zip(change)
     |> Enum.map(fn {participants, change} ->
       participants
       |> Enum.map(fn participant ->
@@ -130,7 +134,8 @@ defmodule WweloApi.EloCalculator.EloCalculator do
         where: m.id == ^match_id
       )
 
-    Repo.all(query)
+    query
+    |> Repo.all()
     |> Enum.map(fn wrestler ->
       Map.put(
         wrestler,
@@ -164,9 +169,10 @@ defmodule WweloApi.EloCalculator.EloCalculator do
 
     matches = Repo.all(query)
 
-    cond do
-      matches |> length > 0 -> matches |> Enum.at(0) |> Map.get(:elo)
-      true -> @default_elo
+    if matches |> length > 0 do
+      matches |> Enum.at(0) |> Map.get(:elo)
+    else
+      @default_elo
     end
   end
 
@@ -188,10 +194,12 @@ defmodule WweloApi.EloCalculator.EloCalculator do
 
     elo_result = Repo.one(elo_query)
 
-    case elo_result do
-      nil -> Stats.create_elo(elo_info) |> elem(1)
-      _ -> elo_result
-    end
-    |> Map.get(:id)
+    elo_result =
+      case elo_result do
+        nil -> elo_info |> Stats.create_elo() |> elem(1)
+        _ -> elo_result
+      end
+
+    elo_result |> Map.get(:id)
   end
 end

@@ -35,7 +35,8 @@ defmodule WweloApiWeb.StatsController do
       )
 
     elos =
-      Repo.all(query)
+      query
+      |> Repo.all()
       |> Enum.group_by(&Map.get(&1, :name), &Map.delete(&1, :name))
       |> Enum.map(fn {name, elos} -> %{name: name, elos: elos} end)
 
@@ -68,7 +69,8 @@ defmodule WweloApiWeb.StatsController do
       )
 
     elos =
-      Repo.all(query)
+      query
+      |> Repo.all()
       |> Enum.group_by(&Map.get(&1, :name), &Map.delete(&1, :name))
       |> Enum.map(fn {name, elos} -> %{name: name, elos: elos} end)
 
