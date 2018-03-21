@@ -1,7 +1,7 @@
 defmodule WweloApiWeb.ChangesetView do
   use WweloApiWeb, :view
 
-  import Ecto.Changeset
+  alias Ecto.Changeset
 
   @doc """
   Traverses and translates changeset errors.
