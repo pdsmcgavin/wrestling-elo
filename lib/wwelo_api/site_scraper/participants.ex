@@ -177,7 +177,7 @@ defmodule WweloApi.SiteScraper.Participants do
 
     participant_result =
       case participant_result do
-        nil -> Stats.create_participant() |> elem(1)
+        nil -> participant_info |> Stats.create_participant() |> elem(1)
         _ -> participant_result
       end
 
