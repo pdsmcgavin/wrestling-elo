@@ -1,4 +1,4 @@
-defmodule WweloApiWeb.ChannelCase do
+defmodule WweloWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -15,23 +15,21 @@ defmodule WweloApiWeb.ChannelCase do
 
   use ExUnit.CaseTemplate
 
-  alias Ecto.Adapters.SQL.Sandbox
-
   using do
     quote do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint WweloApiWeb.Endpoint
+      @endpoint WweloWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Sandbox.checkout(WweloApi.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Wwelo.Repo)
 
     unless tags[:async] do
-      Sandbox.mode(WweloApi.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Wwelo.Repo, {:shared, self()})
     end
 
     :ok

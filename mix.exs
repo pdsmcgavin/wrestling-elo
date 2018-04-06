@@ -1,9 +1,9 @@
-defmodule WweloApi.Mixfile do
+defmodule Wwelo.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :wwelo_api,
+      app: :wwelo,
       version: "0.0.1",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule WweloApi.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {WweloApi.Application, []},
+      mod: {Wwelo.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -37,6 +37,8 @@ defmodule WweloApi.Mixfile do
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
+      {:phoenix_html, "~> 2.10"},
+      {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:httpoison, "~> 1.0"},
@@ -45,7 +47,8 @@ defmodule WweloApi.Mixfile do
       {:elixir_mbcs, github: "woxtu/elixir-mbcs", tag: "0.1.3"},
       {:math, "~> 0.3.0"},
       {:cors_plug, "~> 1.5"},
-      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false}
+      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
+      {:react_phoenix, "~> 0.5.2"}
     ]
   end
 

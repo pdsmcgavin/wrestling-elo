@@ -1,4 +1,4 @@
-defmodule WweloApi.Repo.Migrations.CreateAliases do
+defmodule Wwelo.Repo.Migrations.CreateAliases do
   use Ecto.Migration
 
   def change do

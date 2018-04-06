@@ -6,15 +6,15 @@
 use Mix.Config
 
 # General application configuration
-config :wwelo_api, ecto_repos: [WweloApi.Repo]
+config :wwelo, ecto_repos: [Wwelo.Repo]
 
 # Configures the endpoint
-config :wwelo_api, WweloApiWeb.Endpoint,
+config :wwelo, WweloWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base:
-    "/kaqJnDsob65QTw9zsC6Cw4/tiS4Mksx9/g6399JJYby0HS9flz7+8KrjTSp8NvN",
-  render_errors: [view: WweloApiWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: WweloApi.PubSub, adapter: Phoenix.PubSub.PG2]
+    "z0hj8Xc8+FPtYzN28hssbjyswpTsFS2Z12QwHa4V5cC0akE2E9o8MlUnNwxJxpVy",
+  render_errors: [view: WweloWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Wwelo.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,

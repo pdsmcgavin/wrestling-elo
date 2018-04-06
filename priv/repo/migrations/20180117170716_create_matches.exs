@@ -1,4 +1,4 @@
-defmodule WweloApi.Repo.Migrations.CreateMatches do
+defmodule Wwelo.Repo.Migrations.CreateMatches do
   use Ecto.Migration
 
   def change do

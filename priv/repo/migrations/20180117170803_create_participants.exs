@@ -1,4 +1,4 @@
-defmodule WweloApi.Repo.Migrations.CreateParticipants do
+defmodule Wwelo.Repo.Migrations.CreateParticipants do
   use Ecto.Migration
 
   def change do

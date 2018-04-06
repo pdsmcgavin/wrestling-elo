@@ -1,4 +1,4 @@
-defmodule WweloApi.Repo.Migrations.ChangeParticipantColumnName do
+defmodule Wwelo.Repo.Migrations.ChangeParticipantColumnName do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule WweloApiWeb.ConnCase do
+defmodule WweloWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -15,27 +15,24 @@ defmodule WweloApiWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
-  alias Ecto.Adapters.SQL.Sandbox
-  alias Phoenix.ConnTest
-
   using do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import WweloApiWeb.Router.Helpers
+      import WweloWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint WweloApiWeb.Endpoint
+      @endpoint WweloWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Sandbox.checkout(WweloApi.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Wwelo.Repo)
 
     unless tags[:async] do
-      Sandbox.mode(WweloApi.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Wwelo.Repo, {:shared, self()})
     end
 
-    {:ok, conn: ConnTest.build_conn()}
+    {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

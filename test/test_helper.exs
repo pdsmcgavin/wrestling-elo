@@ -1,3 +1,3 @@
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(WweloApi.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Wwelo.Repo, :manual)

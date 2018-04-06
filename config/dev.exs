@@ -6,12 +6,19 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :wwelo_api, WweloApiWeb.Endpoint,
+config :wwelo, WweloWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [
+    node: [
+      "node_modules/brunch/bin/brunch",
+      "watch",
+      "--stdin",
+      cd: Path.expand("../assets", __DIR__)
+    ]
+  ]
 
 # ## SSL Support
 #
@@ -29,6 +36,17 @@ config :wwelo_api, WweloApiWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
+# Watch static and templates for browser reloading.
+config :wwelo, WweloWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/gettext/.*(po)$},
+      ~r{lib/wwelo_web/views/.*(ex)$},
+      ~r{lib/wwelo_web/templates/.*(eex)$}
+    ]
+  ]
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n", level: :info
 
@@ -37,10 +55,10 @@ config :logger, :console, format: "[$level] $message\n", level: :info
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :wwelo_api, WweloApi.Repo,
+config :wwelo, Wwelo.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "wwelo_api_dev",
+  database: "wwelo_dev",
   hostname: "localhost",
   pool_size: 10

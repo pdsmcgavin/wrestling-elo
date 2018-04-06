@@ -1,4 +1,4 @@
-defmodule WweloApi.Repo.Migrations.CreateEvents do
+defmodule Wwelo.Repo.Migrations.CreateEvents do
   use Ecto.Migration
 
   def change do

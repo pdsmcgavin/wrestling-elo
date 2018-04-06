@@ -1,4 +1,4 @@
-defmodule WweloApi.DataCase do
+defmodule Wwelo.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -14,24 +14,22 @@ defmodule WweloApi.DataCase do
 
   use ExUnit.CaseTemplate
 
-  alias Ecto.Adapters.SQL.Sandbox
-
   using do
     quote do
-      alias WweloApi.Repo
+      alias Wwelo.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import WweloApi.DataCase
+      import Wwelo.DataCase
     end
   end
 
   setup tags do
-    :ok = Sandbox.checkout(WweloApi.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Wwelo.Repo)
 
     unless tags[:async] do
-      Sandbox.mode(WweloApi.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Wwelo.Repo, {:shared, self()})
     end
 
     :ok
@@ -46,7 +44,6 @@ defmodule WweloApi.DataCase do
 
   """
   def errors_on(changeset) do
-    # credo:disable-for-next-line
     Ecto.Changeset.traverse_errors(changeset, fn {message, opts} ->
       Enum.reduce(opts, message, fn {key, value}, acc ->
         String.replace(acc, "%{#{key}}", to_string(value))

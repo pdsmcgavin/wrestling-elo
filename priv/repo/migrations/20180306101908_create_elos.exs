@@ -1,4 +1,4 @@
-defmodule WweloApi.Repo.Migrations.CreateElos do
+defmodule Wwelo.Repo.Migrations.CreateElos do
   use Ecto.Migration
 
   def change do
