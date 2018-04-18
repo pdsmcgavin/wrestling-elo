@@ -24,7 +24,8 @@ export default class wrestlerEloTable extends React.Component {
     ];
 
     var eloTableData = [
-      { name: "Braun Strowman", current_elo: 2000, min_elo: 20, max_elo: 2200 }
+      { name: "Braun Strowman", current_elo: 2000, min_elo: 20, max_elo: 2200 },
+      { name: "Roman Reigns", current_elo: 1000, min_elo: 10, max_elo: 1100 }
     ];
 
     return <ReactTable data={eloTableData} columns={columns} />;
