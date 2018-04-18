@@ -21,3 +21,9 @@ import "phoenix_html";
 // import socket from "./socket"
 
 import "react-phoenix";
+
+import WrestlerEloTable from "./components/wrestlerEloTable";
+
+window.Components = {
+  WrestlerEloTable
+};

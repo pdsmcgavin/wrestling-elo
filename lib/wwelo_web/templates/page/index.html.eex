@@ -1,3 +1,4 @@
 <div>
   <h2>WWElo</h2>
+  <%= ReactPhoenix.ClientSide.react_component("Components.WrestlerEloTable") %>
 </div>
