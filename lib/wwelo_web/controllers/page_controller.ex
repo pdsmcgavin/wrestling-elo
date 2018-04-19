@@ -1,7 +1,11 @@
 defmodule WweloWeb.PageController do
   use WweloWeb, :controller
 
+  alias Wwelo.Stats
+
   def index(conn, _params) do
-    render(conn, "index.html")
+    conn
+    |> assign(:wrestler_info_list, Stats.list_wrestlers_stats())
+    |> render("index.html")
   end
 end

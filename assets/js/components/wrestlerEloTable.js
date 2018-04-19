@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTable from "react-table";
 import "css-loader!react-table/react-table.css";
+import _ from "lodash";
 
 export default class wrestlerEloTable extends React.Component {
   render() {
@@ -23,10 +24,18 @@ export default class wrestlerEloTable extends React.Component {
       }
     ];
 
-    var eloTableData = [
-      { name: "Braun Strowman", current_elo: 2000, min_elo: 20, max_elo: 2200 },
-      { name: "Roman Reigns", current_elo: 1000, min_elo: 10, max_elo: 1100 }
-    ];
+    var eloTableData = [];
+
+    for (var i = 0; i < this.props.data.length; i++) {
+      if (this.props.data[i].elos.length >= 50) {
+        eloTableData.push({
+          name: this.props.data[i].name,
+          current_elo: Math.round(_.last(this.props.data[i].elos).elo),
+          max_elo: Math.round(_.maxBy(this.props.data[i].elos, "elo").elo),
+          min_elo: Math.round(_.minBy(this.props.data[i].elos, "elo").elo)
+        });
+      }
+    }
 
     return <ReactTable data={eloTableData} columns={columns} />;
   }
