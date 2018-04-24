@@ -10,7 +10,9 @@ defmodule Wwelo.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test]
     ]
   end
 
@@ -48,7 +50,8 @@ defmodule Wwelo.Mixfile do
       {:math, "~> 0.3.0"},
       {:cors_plug, "~> 1.5"},
       {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
-      {:react_phoenix, "~> 0.5.2"}
+      {:react_phoenix, "~> 0.5.2"},
+      {:excoveralls, "~> 0.8", only: :test}
     ]
   end
 
