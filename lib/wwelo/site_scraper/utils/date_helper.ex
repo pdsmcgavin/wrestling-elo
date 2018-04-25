@@ -1,4 +1,5 @@
 defmodule Wwelo.SiteScraper.Utils.DateHelper do
+  # TODO: Update use of Ecto.date to :date type as Ecto.Date is deprecated
   def format_date(date) do
     [day, month, year] =
       case String.split(date, ".") do
