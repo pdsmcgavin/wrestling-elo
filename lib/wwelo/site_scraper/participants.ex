@@ -107,6 +107,7 @@ defmodule Wwelo.SiteScraper.Participants do
     {participants, match_team}
   end
 
+  # credo:disable-for-lines:20
   def convert_participant_info({participants, outcome}) do
     participants
     |> Enum.map(fn {team, match_team} ->

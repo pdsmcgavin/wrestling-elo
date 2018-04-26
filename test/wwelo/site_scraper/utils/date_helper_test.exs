@@ -1,7 +1,7 @@
 defmodule Wwelo.SiteScraper.Utils.DateHelperTest do
   use Wwelo.DataCase
   alias Wwelo.SiteScraper.Utils.DateHelper
-  # TODO: Add tests for invalid dates
+
   describe "Given a date, it should returns an EctoDate object" do
     test "Full valid date will remain the same" do
       test_date = "25.12.2000"

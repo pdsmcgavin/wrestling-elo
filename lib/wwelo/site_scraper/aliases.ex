@@ -31,7 +31,6 @@ defmodule Wwelo.SiteScraper.Aliases do
     end)
   end
 
-  # TODO: Refactor this with get_alias_id()
   def save_alias_to_database(alias_info) do
     alias_query =
       from(

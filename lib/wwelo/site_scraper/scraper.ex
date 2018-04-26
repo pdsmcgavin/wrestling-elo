@@ -2,7 +2,7 @@ defmodule Wwelo.SiteScraper.Scraper do
   alias Wwelo.SiteScraper.Events
   alias Wwelo.SiteScraper.Matches
   alias Wwelo.SiteScraper.Participants
-
+  # credo:disable-for-this-file
   def scrape_site do
     years = 1963..DateTime.utc_now().year
 

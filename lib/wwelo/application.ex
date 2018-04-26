@@ -1,5 +1,6 @@
 defmodule Wwelo.Application do
   use Application
+  alias WweloWeb.Endpoint
 
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
@@ -11,7 +12,7 @@ defmodule Wwelo.Application do
       # Start the Ecto repository
       supervisor(Wwelo.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(WweloWeb.Endpoint, [])
+      supervisor(Endpoint, [])
       # Start your own worker by calling: Wwelo.Worker.start_link(arg1, arg2, arg3)
       # worker(Wwelo.Worker, [arg1, arg2, arg3]),
     ]
@@ -25,7 +26,7 @@ defmodule Wwelo.Application do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    WweloWeb.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end
