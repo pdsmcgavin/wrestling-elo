@@ -70,3 +70,8 @@ config :wwelo, Wwelo.Repo,
   database: "wwelo_dev",
   hostname: "localhost",
   pool_size: 10
+
+# Pre-commit hooks
+config :pre_commit,
+  commands: ["format", "coveralls"],
+  verbose: true
