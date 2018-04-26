@@ -6,8 +6,7 @@ defmodule Wwelo.SiteScraper.Utils.DateHelperTest do
     test "Full valid date will remain the same" do
       test_date = "25.12.2000"
 
-      assert DateHelper.format_date(test_date) ==
-               {:ok, Ecto.Date.cast({2000, 12, 25})}
+      assert DateHelper.format_date(test_date) == Ecto.Date.cast({2000, 12, 25})
     end
 
     test "Valid date missing the day will default to the 1st of the month" do

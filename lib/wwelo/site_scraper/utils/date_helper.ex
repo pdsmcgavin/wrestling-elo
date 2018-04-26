@@ -8,6 +8,7 @@ defmodule Wwelo.SiteScraper.Utils.DateHelper do
         [year] -> [01, 01, year]
       end
 
+    {year, month, day}
     Ecto.Date.cast({year, month, day})
   end
 end
