@@ -51,7 +51,8 @@ defmodule Wwelo.Mixfile do
       {:cors_plug, "~> 1.5"},
       {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
       {:react_phoenix, "~> 0.5.2"},
-      {:excoveralls, "~> 0.8", only: :test}
+      {:excoveralls, "~> 0.8", only: :test},
+      {:pre_commit, "~> 0.2.4", only: :dev}
     ]
   end
 
