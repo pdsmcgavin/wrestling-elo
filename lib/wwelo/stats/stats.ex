@@ -49,7 +49,7 @@ defmodule Wwelo.Stats do
     |> Repo.insert()
   end
 
-  def list_wrestlers_stats() do
+  def list_wrestlers_stats do
     query =
       from(
         elos in Elo,

@@ -5,7 +5,7 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
     response.body |> cp1252_to_utf8_converter
   end
 
-  def number_of_results(%{year: year}) do
+  def total_results(%{year: year}) do
     results_body =
       get_page_html_body(%{
         url: wwe_events_results_url(%{year: year, page_number: 1})
@@ -21,22 +21,22 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
       |> Enum.map(&elem(&1, 0))
 
     case results_info do
-      [1, results_per_page, number_of_results] ->
+      [1, results_per_page, total_results] ->
         %{
           results_per_page: results_per_page,
-          number_of_results: number_of_results
+          total_results: total_results
         }
 
       _ ->
-        %{results_per_page: 1, number_of_results: 0}
+        %{results_per_page: 1, total_results: 0}
     end
   end
 
   def number_of_results_pages(%{year: year}) do
-    %{results_per_page: results_per_page, number_of_results: number_of_results} =
-      number_of_results(%{year: year})
+    %{results_per_page: results_per_page, total_results: total_results} =
+      total_results(%{year: year})
 
-    number_of_results
+    total_results
     |> Kernel.-(1)
     |> div(results_per_page)
     |> Kernel.+(1)

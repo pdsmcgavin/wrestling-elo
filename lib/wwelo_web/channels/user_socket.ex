@@ -23,6 +23,7 @@ defmodule WweloWeb.UserSocket do
     {:ok, socket}
   end
 
+  # credo:disable-for-next-line
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
   #     def id(socket), do: "user_socket:#{socket.assigns.user_id}"

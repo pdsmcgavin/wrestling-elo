@@ -13,6 +13,7 @@ defmodule Wwelo.Application do
       supervisor(Wwelo.Repo, []),
       # Start the endpoint when the application starts
       supervisor(Endpoint, [])
+      # credo:disable-for-next-line
       # Start your own worker by calling: Wwelo.Worker.start_link(arg1, arg2, arg3)
       # worker(Wwelo.Worker, [arg1, arg2, arg3]),
     ]
