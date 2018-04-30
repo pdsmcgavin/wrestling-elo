@@ -1,4 +1,8 @@
 defmodule Wwelo.EloCalculator.EloCalculator do
+  @moduledoc """
+  Wrestler Elo calculation module
+  """
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -15,6 +19,17 @@ defmodule Wwelo.EloCalculator.EloCalculator do
   @elo_base 10
   @distribution_factor 400
 
+  @doc """
+  Calculates the Elo for match participants for all matches with no elo information and adds these to the elo database.
+
+  Returns a list (matches) of lists (participants) with ids to the newly created rows in the elo databse
+
+  ## Examples
+
+    iex> Wwelo.EloCalculator.EloCalculator.calcualte_elos
+    [[1, 2], [3, 4, 5]]
+
+  """
   def calcualte_elos do
     list_of_matches_with_no_elo_calculation()
     |> Enum.map(fn match_id ->
@@ -29,7 +44,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
-  def elo_change_for_match(list_of_participants) do
+  defp elo_change_for_match(list_of_participants) do
     rlist =
       list_of_participants
       |> Enum.map(fn participants ->
@@ -84,7 +99,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
-  def list_of_matches_with_no_elo_calculation do
+  defp list_of_matches_with_no_elo_calculation do
     query =
       from(
         e in Event,
@@ -109,7 +124,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     Repo.all(query)
   end
 
-  def participants_info_of_match(match_id) do
+  defp participants_info_of_match(match_id) do
     query =
       from(
         m in Match,
@@ -145,7 +160,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
-  def get_most_recent_elo(wrestler_id) do
+  defp get_most_recent_elo(wrestler_id) do
     query =
       from(
         e in Event,
@@ -176,13 +191,13 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end
   end
 
-  def group_participants_by_team(participants) do
+  defp group_participants_by_team(participants) do
     participants
     |> Enum.group_by(&Map.get(&1, :match_team))
     |> Map.values()
   end
 
-  def save_elo_to_database(elo_info) do
+  defp save_elo_to_database(elo_info) do
     elo_query =
       from(
         e in Elo,

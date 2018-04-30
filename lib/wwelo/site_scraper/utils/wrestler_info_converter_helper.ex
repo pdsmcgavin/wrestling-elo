@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
+  @moduledoc false
+
   alias Wwelo.SiteScraper.Utils.DateHelper
 
   def convert_wrestler_info(
@@ -53,21 +55,21 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
     acc
   end
 
-  def convert_height_to_integer(height) do
+  defp convert_height_to_integer(height) do
     height
     |> String.split(["(", " cm)"])
     |> Enum.at(1)
     |> String.to_integer()
   end
 
-  def convert_weight_to_integer(weight) do
+  defp convert_weight_to_integer(weight) do
     weight
     |> String.split(["(", " kg)"])
     |> Enum.at(1)
     |> String.to_integer()
   end
 
-  def get_names_and_aliases(alter_egos) do
+  defp get_names_and_aliases(alter_egos) do
     alter_egos
     |> Enum.map(fn alter_ego ->
       if is_tuple(alter_ego) && tuple_size(alter_ego) == 3 do

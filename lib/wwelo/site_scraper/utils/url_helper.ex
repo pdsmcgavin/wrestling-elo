@@ -1,45 +1,10 @@
 defmodule Wwelo.SiteScraper.Utils.UrlHelper do
+  @moduledoc false
+
   def get_page_html_body(%{url: url}) do
     response = HTTPoison.get!(url)
 
     response.body |> cp1252_to_utf8_converter
-  end
-
-  def total_results(%{year: year}) do
-    results_body =
-      get_page_html_body(%{
-        url: wwe_events_results_url(%{year: year, page_number: 1})
-      })
-
-    results_info =
-      results_body
-      |> Floki.find(".TableHeaderOff")
-      |> Floki.text()
-      |> String.split()
-      |> Enum.map(&Integer.parse(&1))
-      |> Enum.filter(&is_tuple(&1))
-      |> Enum.map(&elem(&1, 0))
-
-    case results_info do
-      [1, results_per_page, total_results] ->
-        %{
-          results_per_page: results_per_page,
-          total_results: total_results
-        }
-
-      _ ->
-        %{results_per_page: 1, total_results: 0}
-    end
-  end
-
-  def number_of_results_pages(%{year: year}) do
-    %{results_per_page: results_per_page, total_results: total_results} =
-      total_results(%{year: year})
-
-    total_results
-    |> Kernel.-(1)
-    |> div(results_per_page)
-    |> Kernel.+(1)
   end
 
   def wwe_event_url_paths_list(%{year: _, page_number: _} = params) do
@@ -76,11 +41,48 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
     end
   end
 
-  def cp1252_to_utf8_converter(html) do
+  defp total_results(%{year: year}) do
+    results_body =
+      get_page_html_body(%{
+        url: wwe_events_results_url(%{year: year, page_number: 1})
+      })
+
+    results_info =
+      results_body
+      |> Floki.find(".TableHeaderOff")
+      |> Floki.text()
+      |> String.split()
+      |> Enum.map(&Integer.parse(&1))
+      |> Enum.filter(&is_tuple(&1))
+      |> Enum.map(&elem(&1, 0))
+
+    case results_info do
+      [1, results_per_page, total_results] ->
+        %{
+          results_per_page: results_per_page,
+          total_results: total_results
+        }
+
+      _ ->
+        %{results_per_page: 1, total_results: 0}
+    end
+  end
+
+  defp number_of_results_pages(%{year: year}) do
+    %{results_per_page: results_per_page, total_results: total_results} =
+      total_results(%{year: year})
+
+    total_results
+    |> Kernel.-(1)
+    |> div(results_per_page)
+    |> Kernel.+(1)
+  end
+
+  defp cp1252_to_utf8_converter(html) do
     Mbcs.decode!(html, :cp1252, return: :binary)
   end
 
-  def wwe_events_results_url(%{year: year, page_number: page_number}) do
+  defp wwe_events_results_url(%{year: year, page_number: page_number}) do
     results_number = (page_number - 1) * 100
 
     "https://www.cagematch.net/?id=1&view=search&sPromotion=1&sDateFromDay=01&sDateFromMonth=01&sDateFromYear=#{

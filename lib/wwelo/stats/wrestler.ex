@@ -1,4 +1,6 @@
 defmodule Wwelo.Stats.Wrestler do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
   alias Wwelo.Stats.Wrestler

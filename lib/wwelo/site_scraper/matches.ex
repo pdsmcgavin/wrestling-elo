@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Matches do
+  @moduledoc false
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -20,12 +22,12 @@ defmodule Wwelo.SiteScraper.Matches do
     end)
   end
 
-  def convert_match_info(event_id, match, card_position) do
+  defp convert_match_info(event_id, match, card_position) do
     %{event_id: event_id, card_position: card_position}
     |> Map.put(:stipulation, get_match_stipulation(match))
   end
 
-  def save_match_to_database(match_info) do
+  defp save_match_to_database(match_info) do
     match_query =
       from(
         m in Match,
@@ -46,7 +48,7 @@ defmodule Wwelo.SiteScraper.Matches do
     match_result |> Map.get(:id)
   end
 
-  def filter_out_non_televised_matches(matches) do
+  defp filter_out_non_televised_matches(matches) do
     Enum.filter(matches, fn match ->
       case match do
         {_, [{"class", "Match"}], _} ->
@@ -65,7 +67,7 @@ defmodule Wwelo.SiteScraper.Matches do
     end)
   end
 
-  def get_match_stipulation(match) do
+  defp get_match_stipulation(match) do
     match_type = match |> Floki.find(".MatchType")
 
     case match_type do
@@ -81,7 +83,7 @@ defmodule Wwelo.SiteScraper.Matches do
     end
   end
 
-  def combine_stipulation_info(stipulation) do
+  defp combine_stipulation_info(stipulation) do
     stipulation
     |> Enum.reduce("", fn x, acc ->
       case x do

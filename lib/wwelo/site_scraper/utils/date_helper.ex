@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Utils.DateHelper do
+  @moduledoc false
+
   def format_date(date) do
     [day, month, year] =
       case String.split(date, ".") do

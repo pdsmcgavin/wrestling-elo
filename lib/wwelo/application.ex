@@ -1,4 +1,6 @@
 defmodule Wwelo.Application do
+  @moduledoc false
+
   use Application
   alias WweloWeb.Endpoint
 

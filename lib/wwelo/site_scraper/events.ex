@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Events do
+  @moduledoc false
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -27,7 +29,7 @@ defmodule Wwelo.SiteScraper.Events do
     end)
   end
 
-  def get_event_info(%{event_url_path: event_url_path}) do
+  defp get_event_info(%{event_url_path: event_url_path}) do
     event_url = "https://www.cagematch.net/" <> event_url_path
     event_html_body = UrlHelper.get_page_html_body(%{url: event_url})
 
@@ -44,13 +46,13 @@ defmodule Wwelo.SiteScraper.Events do
     %{event_info: event_info, event_matches: event_matches}
   end
 
-  def convert_event_info(event_info) do
+  defp convert_event_info(event_info) do
     Enum.reduce(event_info, %{}, fn x, acc ->
       EventInfoConverterHelper.convert_event_info(x, acc)
     end)
   end
 
-  def save_event_to_database(event_info) do
+  defp save_event_to_database(event_info) do
     event_query =
       from(
         e in Event,

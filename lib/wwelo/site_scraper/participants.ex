@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Participants do
+  @moduledoc false
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -67,7 +69,7 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
-  def split_result_into_winners_and_losers(%{match_result: match_result}) do
+  defp split_result_into_winners_and_losers(%{match_result: match_result}) do
     split_results =
       match_result
       |> Enum.chunk_by(fn x ->
@@ -81,11 +83,11 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
-  def split_participants_into_teams(
-        participants,
-        split_by,
-        offset \\ 0
-      ) do
+  defp split_participants_into_teams(
+         participants,
+         split_by,
+         offset \\ 0
+       ) do
     participants
     |> Enum.chunk_by(fn x ->
       is_bitstring(x) && String.contains?(x, split_by)
@@ -96,7 +98,7 @@ defmodule Wwelo.SiteScraper.Participants do
     |> Enum.with_index(offset)
   end
 
-  def remove_managers({participants, match_team}) do
+  defp remove_managers({participants, match_team}) do
     participants =
       participants
       |> Enum.chunk_by(fn x ->
@@ -108,7 +110,7 @@ defmodule Wwelo.SiteScraper.Participants do
   end
 
   # credo:disable-for-lines:20
-  def convert_participant_info({participants, outcome}) do
+  defp convert_participant_info({participants, outcome}) do
     participants
     |> Enum.map(fn {team, match_team} ->
       team
@@ -129,7 +131,7 @@ defmodule Wwelo.SiteScraper.Participants do
     end)
   end
 
-  def get_and_add_alias_id(participant_info) do
+  defp get_and_add_alias_id(participant_info) do
     alias_id = Aliases.get_alias_id(participant_info.alias)
 
     alias_id =
@@ -164,7 +166,7 @@ defmodule Wwelo.SiteScraper.Participants do
     )
   end
 
-  def save_participant_to_database(participant_info) do
+  defp save_participant_to_database(participant_info) do
     participant_query =
       from(
         p in Participant,

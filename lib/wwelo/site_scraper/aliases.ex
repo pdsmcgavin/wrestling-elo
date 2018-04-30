@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Aliases do
+  @moduledoc false
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -31,7 +33,7 @@ defmodule Wwelo.SiteScraper.Aliases do
     end)
   end
 
-  def save_alias_to_database(alias_info) do
+  defp save_alias_to_database(alias_info) do
     alias_query =
       from(
         a in Alias,

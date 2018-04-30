@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Wrestlers do
+  @moduledoc false
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -34,7 +36,7 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     end)
   end
 
-  def get_wrestler_info(wrestler_url_path) do
+  defp get_wrestler_info(wrestler_url_path) do
     wrestler_url = "https://www.cagematch.net/" <> wrestler_url_path
 
     %{url: wrestler_url}
@@ -42,13 +44,13 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     |> Floki.find(".InformationBoxRow")
   end
 
-  def convert_wrestler_info(wrestler_info) do
+  defp convert_wrestler_info(wrestler_info) do
     Enum.reduce(wrestler_info, %{}, fn x, acc ->
       WrestlerInfoConverterHelper.convert_wrestler_info(x, acc)
     end)
   end
 
-  def empty_wrestler_profile_info(wrestler_url_path) do
+  defp empty_wrestler_profile_info(wrestler_url_path) do
     name =
       wrestler_url_path
       |> String.split("name=")
@@ -58,7 +60,7 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     Map.put(%{}, :names, %{} |> Map.put(String.to_atom(name), [name]))
   end
 
-  def save_wrestler_to_database(wrestler_info) do
+  defp save_wrestler_to_database(wrestler_info) do
     wrestler_query =
       from(
         w in Wrestler,

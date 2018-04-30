@@ -73,5 +73,5 @@ config :wwelo, Wwelo.Repo,
 
 # Pre-commit hooks
 config :pre_commit,
-  commands: ["format", "coveralls"],
+  commands: ["format", "coveralls", "credo"],
   verbose: true

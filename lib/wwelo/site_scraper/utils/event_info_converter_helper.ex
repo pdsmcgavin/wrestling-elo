@@ -1,4 +1,6 @@
 defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
+  @moduledoc false
+
   alias Wwelo.SiteScraper.Utils.DateHelper
 
   def convert_event_info(

@@ -1,8 +1,23 @@
 defmodule Wwelo.SiteScraper.Scraper do
+  @moduledoc """
+  Website information scraper module
+  """
+
   alias Wwelo.SiteScraper.Events
   alias Wwelo.SiteScraper.Matches
   alias Wwelo.SiteScraper.Participants
-  # credo:disable-for-this-file
+
+  @doc """
+  Saves event, match, participant, wrestler and alias information from all WWE tv shows and pay per views from the first WWE event to present day
+
+  Returns a list (years) of lists (events) of lists (matches) of participants of matches
+
+  ## Examples
+
+    iex> Wwelo.SiteScraper.Scraper.scrape_site
+    [[[1, 2], [3, 4, 5]], [[1, 3], [2, 4]]]
+
+  """
   def scrape_site do
     years = 1963..DateTime.utc_now().year
 
@@ -19,4 +34,6 @@ defmodule Wwelo.SiteScraper.Scraper do
       end)
     end)
   end
+
+  # credo:disable-for-this-file
 end
