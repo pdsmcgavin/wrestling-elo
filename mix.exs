@@ -52,7 +52,9 @@ defmodule Wwelo.Mixfile do
       {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
       {:react_phoenix, "~> 0.5.2"},
       {:excoveralls, "~> 0.8", only: :test},
-      {:pre_commit, "~> 0.2.4", only: :dev}
+      {:pre_commit, "~> 0.2.4", only: :dev},
+      {:edeliver, "~> 1.5.0"},
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 
