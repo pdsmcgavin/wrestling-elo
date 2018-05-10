@@ -40,11 +40,13 @@ defmodule Wwelo.SiteScraper.Participants do
     case split_result_into_winners_and_losers(%{match_result: match_result}) do
       %{winners: winners, losers: losers} ->
         winners =
-          winners |> split_participants_into_teams(" and ")
+          winners
+          |> split_participants_into_teams(" and ")
           |> Enum.map(&remove_managers(&1))
 
         losers =
-          losers |> split_participants_into_teams(" and ", length(winners))
+          losers
+          |> split_participants_into_teams(" and ", length(winners))
           |> Enum.map(&remove_managers(&1))
 
         [{winners, "win"}, {losers, "loss"}]
@@ -55,7 +57,8 @@ defmodule Wwelo.SiteScraper.Participants do
 
       %{drawers: drawers} ->
         drawers =
-          drawers |> split_participants_into_teams(" vs. ")
+          drawers
+          |> split_participants_into_teams(" vs. ")
           |> Enum.map(&remove_managers(&1))
 
         [{drawers, "draw"}]

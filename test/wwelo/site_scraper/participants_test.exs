@@ -47,7 +47,8 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
         " & ",
         {"a", [{"href", "?id=2&nr=7145&name=Mustafa+Ali"}], ["Mustafa Ali"]},
         " defeat ",
-        {"a", [{"href", "?id=2&nr=4836&name=Ariya+Daivari"}], ["Ariya Daivari"]},
+        {"a", [{"href", "?id=2&nr=4836&name=Ariya+Daivari"}],
+         ["Ariya Daivari"]},
         " & ",
         {"a", [{"href", "?id=2&nr=2921&name=Drew+Gulak"}], ["Drew Gulak"]}
       ]
@@ -96,7 +97,8 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
     @triple_threat_match_result %{
       match_id: 333,
       match_result: [
-        {"a", [{"href", "?id=2&nr=2515&name=Dolph+Ziggler"}], ["Dolph Ziggler"]},
+        {"a", [{"href", "?id=2&nr=2515&name=Dolph+Ziggler"}],
+         ["Dolph Ziggler"]},
         " defeats ",
         {"a", [{"href", "?id=2&nr=12474&name=Baron+Corbin"}], ["Baron Corbin"]},
         " (c) and ",
@@ -149,7 +151,8 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
         " & ",
         {"a", [{"href", "?id=2&nr=6303&name=Sunil+Singh"}], ["Sunil Singh"]},
         ") defeats ",
-        {"a", [{"href", "?id=2&nr=3190&name=Tye+Dillinger"}], ["Tye Dillinger"]},
+        {"a", [{"href", "?id=2&nr=3190&name=Tye+Dillinger"}],
+         ["Tye Dillinger"]},
         " (9:00)"
       ]
     }
