@@ -3,7 +3,6 @@
  **/
 const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 
@@ -81,22 +80,12 @@ module.exports = env => {
         {
           test: /\.(css|styl)$/,
           exclude: /node_modules/,
-          use: isDev
-            ? ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
-            : ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: ["css-loader", "postcss-loader", "stylus-loader"]
-              })
+          use: ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
         },
 
         {
           test: /react-table.css$/,
-          use: isDev
-            ? ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
-            : ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: ["css-loader", "postcss-loader", "stylus-loader"]
-              })
+          use: ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
         }
       ]
     },
@@ -122,11 +111,6 @@ module.exports = env => {
               to: path.resolve(__dirname, "../priv/static")
             }
           ]),
-
-          new ExtractTextPlugin({
-            filename: "css/[name].css",
-            allChunks: true
-          }),
 
           new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,

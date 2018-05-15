@@ -18,27 +18,40 @@ pre_erlang_get_and_update_deps() {
 }
 
 pre_erlang_clean_compile() {
-  status "Running phx.digest" # log output prepended with "----->"
-  __sync_remote " # runs the commands on the build host
-    # [ -f ~/.profile ] && source ~/.profile # load profile (optional)
-    source ~/.profile
-    # echo \$PATH # check if rbenv is in the path
-    set -e # fail if any command fails (recommended)
-    cd '$BUILD_AT' # enter the build directory on the build host (required)
+  status "Installing ReactPhoenix dependencies"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
 
-    # prepare something
-    mkdir -p priv/static # required by the phx.digest task
+    cd '$BUILD_AT/deps/react_phoenix'
+    npm install $SILENCE
+  "
 
-    echo react-phoenix deps
-    cd deps/react_phoenix && npm i && cd ../..
-    echo node deps
-    cd assets && npm install && npm run deploy && cd ..
+  status "Installing NPM dependencies"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
 
-    # run your custom task
+    cd '$BUILD_AT/assets'
+    npm install $SILENCE
+  "
+
+  status "Building static files"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+
+    cd '$BUILD_AT/assets'
+    mkdir -p priv/static
+    npm run deploy $SILENCE
+  "
+
+  status "Running phoenix.digest"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+
+    cd '$BUILD_AT'
     APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phx.digest $SILENCE
-
-    mix ecto.migrate
-    mix compile
-    mix populate_database
   "
 }

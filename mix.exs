@@ -22,7 +22,11 @@ defmodule Wwelo.Mixfile do
   def application do
     [
       mod: {Wwelo.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [
+        :logger,
+        :runtime_tools,
+        :edeliver
+      ]
     ]
   end
 
