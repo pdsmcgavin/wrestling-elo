@@ -87,6 +87,16 @@ module.exports = env => {
                 fallback: "style-loader",
                 use: ["css-loader", "postcss-loader", "stylus-loader"]
               })
+        },
+
+        {
+          test: /react-table.css$/,
+          use: isDev
+            ? ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
+            : ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: ["css-loader", "postcss-loader", "stylus-loader"]
+              })
         }
       ]
     },

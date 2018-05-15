@@ -10,6 +10,10 @@ defmodule WweloWeb.LayoutView do
   end
 
   def css_link_tag do
-    ~s(<link rel="stylesheet" type="text/css" href="/css/app.css" media="screen,projection" />)
+    if Mix.env() == :prod do
+      ~s(<link rel="stylesheet" type="text/css" href="/css/app.css" media="screen,projection" />)
+    else
+      ""
+    end
   end
 end
