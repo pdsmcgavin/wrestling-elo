@@ -3,8 +3,9 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run watch",
-    "watch": "MIX_ENV=dev webpack-dev-server --inline --hot --stdin --colors --public localhost:8080",
-    "deploy": "MIX_ENV=prod webpack -p"
+    "watch":
+      "MIX_ENV=dev webpack-dev-server --inline --hot --stdin --colors --public localhost:8080",
+    "deploy": "NODE_ENV=production webpack -p"
   },
   "dependencies": {
     "babel-preset-env": "^1.6.1",

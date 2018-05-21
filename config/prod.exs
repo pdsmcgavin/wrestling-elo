@@ -19,7 +19,7 @@ config :wwelo, WweloWeb.Endpoint,
   server: true,
   root: ".",
   version: Mix.Project.config()[:version],
-  cache_static_manifest: "priv/static/manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
