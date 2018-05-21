@@ -19,8 +19,7 @@ defmodule Wwelo.SiteScraper.Scraper do
 
   """
   def scrape_site do
-    # DateTime.utc_now().year
-    years = 1963..1970
+    years = 1963..DateTime.utc_now().year
 
     years
     |> Enum.map(fn year ->
