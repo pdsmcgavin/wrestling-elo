@@ -8,7 +8,6 @@
     <meta name="author" content="">
 
     <title>Wwelo!</title>
-    <%= {:safe, css_link_tag() } %>
   </head>
 
   <body>
