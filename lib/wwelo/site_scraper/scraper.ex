@@ -3,9 +3,12 @@ defmodule Wwelo.SiteScraper.Scraper do
   Website information scraper module
   """
 
+  import Ecto.Query
+  alias Wwelo.Repo
   alias Wwelo.SiteScraper.Events
   alias Wwelo.SiteScraper.Matches
   alias Wwelo.SiteScraper.Participants
+  alias Wwelo.Stats.Event
 
   @doc """
   Saves event, match, participant, wrestler and alias information from all WWE tv shows and pay per views from the first WWE event to present day
@@ -19,7 +22,18 @@ defmodule Wwelo.SiteScraper.Scraper do
 
   """
   def scrape_site do
-    years = 1963..DateTime.utc_now().year
+    initial_year = 1963
+
+    last_event =
+      from(e in Event, select: e.date, order_by: [desc: e.date])
+      |> first
+      |> Repo.one()
+
+    years =
+      case last_event do
+        nil -> initial_year..DateTime.utc_now().year
+        _ -> Map.get(Date.add(last_event, -7), :year)..DateTime.utc_now().year
+      end
 
     years
     |> Enum.map(fn year ->
