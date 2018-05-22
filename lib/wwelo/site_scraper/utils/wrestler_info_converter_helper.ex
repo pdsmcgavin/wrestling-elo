@@ -59,14 +59,18 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
     height
     |> String.split(["(", " cm)"])
     |> Enum.at(1)
-    |> String.to_integer()
+    |> String.replace(",", ".")
+    |> Integer.parse()
+    |> elem(0)
   end
 
   defp convert_weight_to_integer(weight) do
     weight
     |> String.split(["(", " kg)"])
     |> Enum.at(1)
-    |> String.to_integer()
+    |> String.replace(",", ".")
+    |> Integer.parse()
+    |> elem(0)
   end
 
   defp get_names_and_aliases(alter_egos) do
