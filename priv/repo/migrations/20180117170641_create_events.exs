@@ -14,5 +14,7 @@ defmodule Wwelo.Repo.Migrations.CreateEvents do
     end
 
     create(unique_index(:events, [:name, :date, :location]))
+    create(index(:events, [:date]))
+    create(index(:events, ["date DESC"]))
   end
 end

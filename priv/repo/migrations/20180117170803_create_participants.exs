@@ -3,8 +3,8 @@ defmodule Wwelo.Repo.Migrations.CreateParticipants do
 
   def change do
     create table(:participants) do
-      add(:wrestler_id, :integer)
-      add(:match_id, :integer)
+      add(:wrestler_id, references("wrestlers"))
+      add(:match_id, references("matches"))
       add(:outcome, :string)
       add(:match_team, :integer)
 

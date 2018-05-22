@@ -3,7 +3,7 @@ defmodule Wwelo.Repo.Migrations.CreateMatches do
 
   def change do
     create table(:matches) do
-      add(:event_id, :integer)
+      add(:event_id, references("events"))
       add(:stipulation, :string)
       add(:card_position, :integer)
 

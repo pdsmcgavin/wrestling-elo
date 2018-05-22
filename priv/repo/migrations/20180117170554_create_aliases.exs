@@ -4,7 +4,7 @@ defmodule Wwelo.Repo.Migrations.CreateAliases do
   def change do
     create table(:aliases) do
       add(:name, :string)
-      add(:wrestler_id, :integer)
+      add(:wrestler_id, references("wrestlers"))
 
       timestamps()
     end

@@ -3,8 +3,8 @@ defmodule Wwelo.Repo.Migrations.CreateElos do
 
   def change do
     create table(:elos) do
-      add(:wrestler_id, :integer)
-      add(:match_id, :integer)
+      add(:wrestler_id, references("wrestlers"))
+      add(:match_id, references("matches"))
       add(:elo, :float)
 
       timestamps()
