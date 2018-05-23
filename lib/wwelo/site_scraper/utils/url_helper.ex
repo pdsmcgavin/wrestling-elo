@@ -1,5 +1,9 @@
 defmodule Wwelo.SiteScraper.Utils.UrlHelper do
   @moduledoc false
+  import Ecto.Query
+  alias Wwelo.Repo
+  alias Wwelo.SiteScraper.Utils.DateHelper
+  alias Wwelo.Stats.Event
 
   def get_page_html_body(%{url: url}) do
     response = HTTPoison.get!(url)
@@ -17,12 +21,7 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
       results_body |> Floki.find(".TableContents")
 
     event_rows
-    |> Enum.map(fn event ->
-      event
-      |> PhStTransform.transform(%{Tuple => fn x -> Tuple.to_list(x) end})
-      |> List.flatten()
-      |> Enum.find(fn x -> String.starts_with?(x, "?id=1") end)
-    end)
+    |> unsaved_event_urls
   end
 
   def wwe_event_url_paths_list(%{year: year}) do
@@ -39,6 +38,44 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
             wwe_event_url_paths_list(%{year: year, page_number: page_number})
         end)
     end
+  end
+
+  defp unsaved_event_urls(event_rows) do
+    Enum.reduce(event_rows, [], fn {_, _,
+                                    [
+                                      _,
+                                      date_column,
+                                      name_column,
+                                      location_column,
+                                      _,
+                                      _,
+                                      _,
+                                      _
+                                    ]},
+                                   acc ->
+      {_, _, [date]} = date_column
+      date = date |> DateHelper.format_date() |> elem(1)
+
+      {_, [{_, url}], [name]} = name_column |> elem(2) |> Enum.at(-1)
+
+      {_, _, [location]} = location_column
+
+      event_query =
+        from(
+          e in Event,
+          where:
+            e.name == ^name and e.date == ^date and e.location == ^location,
+          select: e
+        )
+
+      event_result = Repo.one(event_query)
+
+      if event_result |> is_nil() do
+        acc ++ [url]
+      else
+        acc
+      end
+    end)
   end
 
   defp total_results(%{year: year}) do
