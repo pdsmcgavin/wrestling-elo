@@ -266,4 +266,160 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
       }
     ])
   end
+
+  def singles_result_no_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=801&name=AJ+Styles"}], ["AJ Styles"]},
+        " defeats ",
+        {"a", [{"href", "?id=2&nr=12474&name=Baron+Corbin"}], ["Baron Corbin"]},
+        " (11:33)"
+      ]
+    }
+  end
+
+  def singles_outcome_no_profile do
+    MapSet.new([
+      %{
+        alias: "AJ Styles",
+        profile_url: "?id=2&nr=801&name=AJ+Styles",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Baron Corbin",
+        profile_url: "?id=2&nr=12474&name=Baron+Corbin",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
+
+  # Make sure match info is not made into a wrestler
+
+  [
+    {"a", [{"href", "?id=2&nr=1246&name=Argentina+Apollo"}],
+     ["Argentina Apollo"]},
+    " vs. ",
+    {"a", [{"href", "?id=2&nr=12030&name=The+Shadow++++"}], ["The Shadow"]},
+    " - Double DQ"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}],
+     ["Bruno Sammartino"]},
+    " (c) defeats ",
+    {"a", [{"href", "?id=2&nr=2149&name=Buddy+Austin"}], ["Buddy Austin"]}
+  ]
+
+  [
+    "Buddy Rosen vs. ",
+    {"a", [{"href", "?id=2&nr=5616&name=Pete+Sanchez"}], ["Pete Sanchez"]},
+    " - Draw"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=929&name=Pedro+Morales"}], ["Pedro Morales"]},
+    " defeats ",
+    {"a", [{"href", "?id=2&nr=11473&name=Pedro+Rodriguez"}],
+     ["Pedro Rodriguez"]},
+    " [2:0]"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}],
+     ["Bruno Sammartino"]},
+    " (c) vs. ",
+    {"a", [{"href", "?id=2&nr=10077&name=Jerry+Miller"}], ["Jerry Miller"]},
+    " - No Contest"
+  ]
+
+  # No Profiles
+
+  ["Gordo Chihuahua defeats Roger Dupree"]
+
+  ["Tony Manousos defeats Gordo Chihuahua [2:1]"]
+
+  [
+    {"a", [{"href", "?id=2&nr=2618&name=Dory+Dixon"}], ["Dory Dixon"]},
+    " defeats Gordo Chihuahua"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=647&name=Tim+Woods"}], ["Tim Woods"]},
+    " defeats ",
+    {"a", [{"href", "?id=2&nr=9108&name=Tony+Martinelli"}],
+     ["Tony Martinelli"]},
+    " [2:0]"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=8100&name=Bobby+Colt"}], ["Bobby Colt"]},
+    " & Jerry Colt defeat ",
+    {"a", [{"href", "?id=2&nr=2668&name=Miguel+Perez+"}], ["Miguel Perez"]},
+    " & ",
+    {"a", [{"href", "?id=2&nr=12849&name=Tommy+O'Toole"}], ["Tommy O'Toole"]},
+    " [2:0]"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}],
+     ["Bruno Sammartino"]},
+    " defeats Joe Quinones & ",
+    {"a", [{"href", "?id=2&nr=11473&name=Pedro+Rodriguez"}],
+     ["Pedro Rodriguez"]}
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=852&name=Bobo+Brazil"}], ["Bobo Brazil"]},
+    " & ",
+    {"a", [{"href", "?id=2&nr=18262&name=Lucas+Pestano"}], ["Lucas Pestano"]},
+    " defeat Gordo Chihuahua & Joe Quinones"
+  ]
+
+  [
+    "Tony Manousos defeats ",
+    {"a", [{"href", "?id=2&nr=1839&name=Frank+Martinez"}], ["Frank Martinez"]},
+    " [2:0]"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
+    " & Nicholas defeat ",
+    {"a", [{"href", "?id=28&nr=6985&name=The+Bar"}], ["The Bar"]},
+    " (",
+    {"a", [{"href", "?id=2&nr=257&name=Cesaro"}], ["Cesaro"]},
+    " & ",
+    {"a", [{"href", "?id=2&nr=2641&name=Sheamus"}], ["Sheamus"]},
+    ") (c) (4:00) - ",
+    {"span", [{"class", "MatchTitleChange"}], ["TITLE CHANGE !!!"]}
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
+    " defeats CC Bonin, Dusty Wallace, James Stock & Rob Kelly (3:00)"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
+    " defeats The Splash Brothers (",
+    {"a", [{"href", "?id=2&nr=14561&name=Clay+Splash"}], ["Clay Splash"]},
+    " & ",
+    {"a", [{"href", "?id=2&nr=18224&name=Steven+Splash"}], ["Steven Splash"]},
+    ") (1:00)"
+  ]
+
+  [
+    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
+    " defeats ",
+    {"a", [{"href", "?id=2&nr=3296&name=Heath+Slater"}], ["Heath Slater"]},
+    " and Hiroki Sumi and ",
+    {"a", [{"href", "?id=2&nr=3586&name=Hornswoggle"}], ["Hornswoggle"]},
+    " and ",
+    {"a", [{"href", "?id=2&nr=4955&name=Xavier+Woods"}], ["Xavier Woods"]},
+    " (77:22)"
+  ]
 end
