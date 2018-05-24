@@ -11,7 +11,7 @@ defmodule WweloWeb.Endpoint do
     Plug.Static,
     at: "/",
     from: :wwelo,
-    gzip: false,
+    gzip: true,
     only: ~w(css fonts images js robots.txt)
   )
 
@@ -60,7 +60,7 @@ defmodule WweloWeb.Endpoint do
         System.get_env("PORT") ||
           raise "expected the PORT environment variable to be set"
 
-      {:ok, Keyword.put(config, :http, [:inet6, port: port])}
+      {:ok, Keyword.put(config, :http, [:inet6, port: port, compress: true])}
     else
       {:ok, config}
     end
