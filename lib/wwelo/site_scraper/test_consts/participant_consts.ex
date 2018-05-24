@@ -267,19 +267,19 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
     ])
   end
 
-  def singles_result_no_profile do
+  def singles_result_extra_match_info do
     %{
       match_id: 1337,
       match_result: [
         {"a", [{"href", "?id=2&nr=801&name=AJ+Styles"}], ["AJ Styles"]},
         " defeats ",
         {"a", [{"href", "?id=2&nr=12474&name=Baron+Corbin"}], ["Baron Corbin"]},
-        " (11:33)"
+        " - Double DQ"
       ]
     }
   end
 
-  def singles_outcome_no_profile do
+  def singles_outcome_extra_match_info do
     MapSet.new([
       %{
         alias: "AJ Styles",
@@ -298,128 +298,356 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
     ])
   end
 
-  # Make sure match info is not made into a wrestler
+  def singles_result_no_profile do
+    %{
+      match_id: 1337,
+      match_result: ["Gordo Chihuahua defeats Roger Dupree"]
+    }
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=1246&name=Argentina+Apollo"}],
-     ["Argentina Apollo"]},
-    " vs. ",
-    {"a", [{"href", "?id=2&nr=12030&name=The+Shadow++++"}], ["The Shadow"]},
-    " - Double DQ"
-  ]
+  def singles_outcome_no_profile do
+    MapSet.new([
+      %{
+        alias: "Gordo Chihuahua",
+        profile_url: nil,
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Roger Dupree",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}],
-     ["Bruno Sammartino"]},
-    " (c) defeats ",
-    {"a", [{"href", "?id=2&nr=2149&name=Buddy+Austin"}], ["Buddy Austin"]}
-  ]
+  def singles_result_no_profile_2_3_falls do
+    %{
+      match_id: 1337,
+      match_result: ["Tony Manousos defeats Gordo Chihuahua [2:1]"]
+    }
+  end
 
-  [
-    "Buddy Rosen vs. ",
-    {"a", [{"href", "?id=2&nr=5616&name=Pete+Sanchez"}], ["Pete Sanchez"]},
-    " - Draw"
-  ]
+  def singles_outcome_no_profile_2_3_falls do
+    MapSet.new([
+      %{
+        alias: "Tony Manousos",
+        profile_url: nil,
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Gordo Chihuahua",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=929&name=Pedro+Morales"}], ["Pedro Morales"]},
-    " defeats ",
-    {"a", [{"href", "?id=2&nr=11473&name=Pedro+Rodriguez"}],
-     ["Pedro Rodriguez"]},
-    " [2:0]"
-  ]
+  def singles_result_no_loser_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=2618&name=Dory+Dixon"}], ["Dory Dixon"]},
+        " defeats Gordo Chihuahua"
+      ]
+    }
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}],
-     ["Bruno Sammartino"]},
-    " (c) vs. ",
-    {"a", [{"href", "?id=2&nr=10077&name=Jerry+Miller"}], ["Jerry Miller"]},
-    " - No Contest"
-  ]
+  def singles_outcome_no_loser_profile do
+    MapSet.new([
+      %{
+        alias: "Dory Dixon",
+        profile_url: "?id=2&nr=2618&name=Dory+Dixon",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Gordo Chihuahua",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  # No Profiles
+  def singles_result_no_winner_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        "Tony Manousos defeats ",
+        {"a", [{"href", "?id=2&nr=1839&name=Frank+Martinez"}],
+         ["Frank Martinez"]},
+        " [2:0]"
+      ]
+    }
+  end
 
-  ["Gordo Chihuahua defeats Roger Dupree"]
+  def singles_outcome_no_winner_profile do
+    MapSet.new([
+      %{
+        alias: "Tony Manousos",
+        profile_url: nil,
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Frank Martinez",
+        profile_url: "?id=2&nr=1839&name=Frank+Martinez",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  ["Tony Manousos defeats Gordo Chihuahua [2:1]"]
+  def tag_result_one_winner_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=8100&name=Bobby+Colt"}], ["Bobby Colt"]},
+        " & Jerry Colt defeat ",
+        {"a", [{"href", "?id=2&nr=2668&name=Miguel+Perez+"}], ["Miguel Perez"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=12849&name=Tommy+O'Toole"}],
+         ["Tommy O'Toole"]},
+        " [2:0]"
+      ]
+    }
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=2618&name=Dory+Dixon"}], ["Dory Dixon"]},
-    " defeats Gordo Chihuahua"
-  ]
+  def tag_outcome_one_winner_profile do
+    MapSet.new([
+      %{
+        alias: "Bobby Colt",
+        profile_url: "?id=2&nr=8100&name=Bobby+Colt",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Jerry Colt",
+        profile_url: nil,
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Miguel Perez",
+        profile_url: "?id=2&nr=2668&name=Miguel+Perez+",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Tommy O'Toole",
+        profile_url: "?id=2&nr=12849&name=Tommy+O'Toole",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=647&name=Tim+Woods"}], ["Tim Woods"]},
-    " defeats ",
-    {"a", [{"href", "?id=2&nr=9108&name=Tony+Martinelli"}],
-     ["Tony Martinelli"]},
-    " [2:0]"
-  ]
+  def tag_result_no_losers_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=852&name=Bobo+Brazil"}], ["Bobo Brazil"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=18262&name=Lucas+Pestano"}],
+         ["Lucas Pestano"]},
+        " defeat Gordo Chihuahua & Joe Quinones"
+      ]
+    }
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=8100&name=Bobby+Colt"}], ["Bobby Colt"]},
-    " & Jerry Colt defeat ",
-    {"a", [{"href", "?id=2&nr=2668&name=Miguel+Perez+"}], ["Miguel Perez"]},
-    " & ",
-    {"a", [{"href", "?id=2&nr=12849&name=Tommy+O'Toole"}], ["Tommy O'Toole"]},
-    " [2:0]"
-  ]
+  def tag_outcome_no_losers_profile do
+    MapSet.new([
+      %{
+        alias: "Bobo Brazil",
+        profile_url: "?id=2&nr=852&name=Bobo+Brazil",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Lucas Pestano",
+        profile_url: "?id=2&nr=18262&name=Lucas+Pestano",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Gordo Chihuahua",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Joe Quinones",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}],
-     ["Bruno Sammartino"]},
-    " defeats Joe Quinones & ",
-    {"a", [{"href", "?id=2&nr=11473&name=Pedro+Rodriguez"}],
-     ["Pedro Rodriguez"]}
-  ]
+  def handicap_result_no_losers_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}],
+         ["Braun Strowman"]},
+        " defeats CC Bonin, Dusty Wallace, James Stock & Rob Kelly (3:00)"
+      ]
+    }
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=852&name=Bobo+Brazil"}], ["Bobo Brazil"]},
-    " & ",
-    {"a", [{"href", "?id=2&nr=18262&name=Lucas+Pestano"}], ["Lucas Pestano"]},
-    " defeat Gordo Chihuahua & Joe Quinones"
-  ]
+  def handicap_outcome_no_losers_profile do
+    MapSet.new([
+      %{
+        alias: "Braun Strowman",
+        profile_url: "?id=2&nr=16167&name=Braun+Strowman",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "CC Bonin",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Dusty Wallace",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "James Stock",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Rob Kelly",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  [
-    "Tony Manousos defeats ",
-    {"a", [{"href", "?id=2&nr=1839&name=Frank+Martinez"}], ["Frank Martinez"]},
-    " [2:0]"
-  ]
+  def handicap_result_one_loser_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}],
+         ["Bruno Sammartino"]},
+        " defeats Joe Quinones & ",
+        {"a", [{"href", "?id=2&nr=11473&name=Pedro+Rodriguez"}],
+         ["Pedro Rodriguez"]}
+      ]
+    }
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
-    " & Nicholas defeat ",
-    {"a", [{"href", "?id=28&nr=6985&name=The+Bar"}], ["The Bar"]},
-    " (",
-    {"a", [{"href", "?id=2&nr=257&name=Cesaro"}], ["Cesaro"]},
-    " & ",
-    {"a", [{"href", "?id=2&nr=2641&name=Sheamus"}], ["Sheamus"]},
-    ") (c) (4:00) - ",
-    {"span", [{"class", "MatchTitleChange"}], ["TITLE CHANGE !!!"]}
-  ]
+  def handicap_outcome_one_loser_profile do
+    MapSet.new([
+      %{
+        alias: "Bruno Sammartino",
+        profile_url: "?id=2&nr=243&name=Bruno+Sammartino",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Joe Quinones",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Pedro Rodriguez",
+        profile_url: "?id=2&nr=11473&name=Pedro+Rodriguez",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
-    " defeats CC Bonin, Dusty Wallace, James Stock & Rob Kelly (3:00)"
-  ]
+  def multi_man_result_one_missing_loser_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}],
+         ["Braun Strowman"]},
+        " defeats ",
+        {"a", [{"href", "?id=2&nr=3296&name=Heath+Slater"}], ["Heath Slater"]},
+        " and Hiroki Sumi and ",
+        {"a", [{"href", "?id=2&nr=3586&name=Hornswoggle"}], ["Hornswoggle"]},
+        " and ",
+        {"a", [{"href", "?id=2&nr=4955&name=Xavier+Woods"}], ["Xavier Woods"]},
+        " (77:22)"
+      ]
+    }
+  end
 
-  [
-    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
-    " defeats The Splash Brothers (",
-    {"a", [{"href", "?id=2&nr=14561&name=Clay+Splash"}], ["Clay Splash"]},
-    " & ",
-    {"a", [{"href", "?id=2&nr=18224&name=Steven+Splash"}], ["Steven Splash"]},
-    ") (1:00)"
-  ]
-
-  [
-    {"a", [{"href", "?id=2&nr=16167&name=Braun+Strowman"}], ["Braun Strowman"]},
-    " defeats ",
-    {"a", [{"href", "?id=2&nr=3296&name=Heath+Slater"}], ["Heath Slater"]},
-    " and Hiroki Sumi and ",
-    {"a", [{"href", "?id=2&nr=3586&name=Hornswoggle"}], ["Hornswoggle"]},
-    " and ",
-    {"a", [{"href", "?id=2&nr=4955&name=Xavier+Woods"}], ["Xavier Woods"]},
-    " (77:22)"
-  ]
+  def multi_man_outcome_one_missing_loser_profile do
+    MapSet.new([
+      %{
+        alias: "Braun Strowman",
+        profile_url: "?id=2&nr=16167&name=Braun+Strowman",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Heath Slater",
+        profile_url: "?id=2&nr=3296&name=Heath+Slater",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Hiroki Sumi",
+        profile_url: nil,
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 2
+      },
+      %{
+        alias: "Hornswoggle",
+        profile_url: "?id=2&nr=3586&name=Hornswoggle",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 3
+      },
+      %{
+        alias: "Xavier Woods",
+        profile_url: "?id=2&nr=4955&name=Xavier+Woods",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 4
+      }
+    ])
+  end
 end
