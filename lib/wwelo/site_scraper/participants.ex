@@ -149,7 +149,7 @@ defmodule Wwelo.SiteScraper.Participants do
 
           %{jobbers: jobber_name} ->
             %{
-              alias: jobber_name,
+              alias: clean_jobber_name(jobber_name),
               profile_url: nil,
               outcome: outcome,
               match_team: match_team
@@ -160,6 +160,10 @@ defmodule Wwelo.SiteScraper.Participants do
         end
       end)
     end)
+  end
+
+  def clean_jobber_name(jobber_name) do
+    Regex.replace(~r/ \[.+\]/, jobber_name, "")
   end
 
   defp get_and_add_alias_id(participant_info) do
