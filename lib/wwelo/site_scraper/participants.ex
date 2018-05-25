@@ -80,14 +80,14 @@ defmodule Wwelo.SiteScraper.Participants do
       end)
 
     case split_results do
-      [winners, _, losers] ->
-        %{winners: winners, losers: losers}
+      [winners, jobbers, losers] ->
+        split_results_with_jobbers(winners, jobbers, losers)
 
       [winners, losers] ->
-        split_results_into_jobbers(winners, losers)
+        split_results_with_jobbers(winners, losers)
 
       [[jobbers]] ->
-        split_results_into_jobbers(jobbers)
+        split_results_with_jobbers(jobbers)
 
       [drawers] ->
         %{drawers: drawers}
@@ -97,7 +97,46 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
-  def split_results_into_jobbers(jobbers) do
+  def split_results_with_jobbers(winners, [jobbers], losers) do
+    [jobber_winners, _, jobber_losers] =
+      Regex.split(
+        ~r/ defeats? /,
+        jobbers,
+        include_captures: true,
+        parts: 3
+      )
+
+    winners =
+      if jobber_winners != "" do
+        winners ++ [%{jobbers: jobber_winners}]
+      else
+        winners
+      end
+
+    losers =
+      if jobber_losers != "" do
+        losers ++ [%{jobbers: jobber_losers}]
+      else
+        losers
+      end
+
+    %{winners: winners, losers: losers}
+  end
+
+  def split_results_with_jobbers([winners], losers)
+      when is_bitstring(winners) do
+    [winners, _] = winners |> String.split(" defeats ")
+
+    %{winners: [%{jobbers: winners}], losers: losers}
+  end
+
+  def split_results_with_jobbers(winners, [losers]) when is_bitstring(losers) do
+    [_, losers] = losers |> String.split(" defeats ")
+
+    %{winners: winners, losers: [%{jobbers: losers}]}
+  end
+
+  def split_results_with_jobbers(jobbers) do
     split_results = jobbers |> String.split(" defeats ")
 
     case split_results do
@@ -107,19 +146,6 @@ defmodule Wwelo.SiteScraper.Participants do
       _ ->
         nil
     end
-  end
-
-  def split_results_into_jobbers([winners], losers)
-      when is_bitstring(winners) do
-    [winners, _] = winners |> String.split(" defeats ")
-
-    %{winners: [%{jobbers: winners}], losers: losers}
-  end
-
-  def split_results_into_jobbers(winners, [losers]) when is_bitstring(losers) do
-    [_, losers] = losers |> String.split(" defeats ")
-
-    %{winners: winners, losers: [%{jobbers: losers}]}
   end
 
   defp split_participants_into_teams(
@@ -164,12 +190,14 @@ defmodule Wwelo.SiteScraper.Participants do
             }
 
           %{jobbers: jobber_name} ->
-            %{
-              alias: clean_jobber_name(jobber_name),
-              profile_url: nil,
-              outcome: outcome,
-              match_team: match_team
-            }
+            if !Regex.match?(~r/^[()]$/, jobber_name) do
+              %{
+                alias: clean_jobber_name(jobber_name),
+                profile_url: nil,
+                outcome: outcome,
+                match_team: match_team
+              }
+            end
 
           _ ->
             nil
@@ -179,7 +207,8 @@ defmodule Wwelo.SiteScraper.Participants do
   end
 
   def clean_jobber_name(jobber_name) do
-    Regex.replace(~r/ \[.+\]/, jobber_name, "")
+    jobber_name = Regex.replace(~r/ \[.+\]/, jobber_name, "")
+    Regex.replace(~r/ & /, jobber_name, "")
   end
 
   defp get_and_add_alias_id(participant_info) do
