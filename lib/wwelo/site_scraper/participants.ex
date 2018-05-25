@@ -125,15 +125,39 @@ defmodule Wwelo.SiteScraper.Participants do
 
   def split_results_with_jobbers([winners], losers)
       when is_bitstring(winners) do
-    [winners, _] = winners |> String.split(" defeats ")
+    [jobber_winners, _, _] =
+      Regex.split(
+        ~r/ defeats? /,
+        winners,
+        include_captures: true,
+        parts: 3
+      )
 
-    %{winners: [%{jobbers: winners}], losers: losers}
+    separate_jobbers = ~r/[,&]/
+      |> Regex.split(jobber_winners, trim: true)
+      |> Enum.map(fn jobber ->
+        %{jobbers: jobber |> String.trim_leading() |> String.trim_trailing()}
+      end)
+
+    %{winners: separate_jobbers, losers: losers}
   end
 
   def split_results_with_jobbers(winners, [losers]) when is_bitstring(losers) do
-    [_, losers] = losers |> String.split(" defeats ")
+    [_, _, jobber_losers] =
+      Regex.split(
+        ~r/ defeats? /,
+        losers,
+        include_captures: true,
+        parts: 3
+      )
 
-    %{winners: winners, losers: [%{jobbers: losers}]}
+    separate_jobbers = ~r/[,&]/
+      |> Regex.split(jobber_losers, trim: true)
+      |> Enum.map(fn jobber ->
+        %{jobbers: jobber |> String.trim_leading() |> String.trim_trailing()}
+      end)
+
+    %{winners: winners, losers: separate_jobbers}
   end
 
   def split_results_with_jobbers(jobbers) do

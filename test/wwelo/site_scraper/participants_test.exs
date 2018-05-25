@@ -190,5 +190,22 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert tag_outcome_one_winner_profile == map_set_output
     end
+
+    test "Tag match with wrestlers no losers profiles" do
+      tag_result_no_losers_profile =
+        ParticipantConsts.tag_result_no_losers_profile()
+
+      tag_outcome_no_losers_profile =
+        ParticipantConsts.tag_outcome_no_losers_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            tag_result_no_losers_profile
+          )
+        )
+
+      assert tag_outcome_no_losers_profile == map_set_output
+    end
   end
 end
