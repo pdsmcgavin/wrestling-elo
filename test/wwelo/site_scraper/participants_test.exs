@@ -87,8 +87,40 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert no_contest_outcome == map_set_output
     end
+
+    test "Singles match with wrestlers with extra match info" do
+      singles_result_extra_match_info =
+        ParticipantConsts.singles_result_extra_match_info()
+
+      singles_outcome_extra_match_info =
+        ParticipantConsts.singles_outcome_extra_match_info()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            singles_result_extra_match_info
+          )
+        )
+
+      assert singles_outcome_extra_match_info == map_set_output
+    end
   end
 
   describe "Match results split into winners and losers without all having profiles" do
+    test "Singles match with wrestlers neither with profiles" do
+      singles_result_no_profile = ParticipantConsts.singles_result_no_profile()
+
+      singles_outcome_no_profile =
+        ParticipantConsts.singles_outcome_no_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            singles_result_no_profile
+          )
+        )
+
+      assert singles_outcome_no_profile == map_set_output
+    end
   end
 end

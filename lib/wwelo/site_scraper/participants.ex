@@ -80,9 +80,29 @@ defmodule Wwelo.SiteScraper.Participants do
       end)
 
     case split_results do
-      [winners, _, losers] -> %{winners: winners, losers: losers}
-      [drawers] -> %{drawers: drawers}
-      _ -> nil
+      [winners, _, losers] ->
+        %{winners: winners, losers: losers}
+
+      [[jobbers]] ->
+        split_results_into_jobbers(jobbers)
+
+      [drawers] ->
+        %{drawers: drawers}
+
+      _ ->
+        nil
+    end
+  end
+
+  def split_results_into_jobbers(jobbers) do
+    split_results = jobbers |> String.split(" defeats ")
+
+    case split_results do
+      [winners, losers] ->
+        %{winners: [%{jobbers: winners}], losers: [%{jobbers: losers}]}
+
+      _ ->
+        nil
     end
   end
 
@@ -123,6 +143,14 @@ defmodule Wwelo.SiteScraper.Participants do
             %{
               alias: alias,
               profile_url: "?id=2&" <> url,
+              outcome: outcome,
+              match_team: match_team
+            }
+
+          %{jobbers: jobber_name} ->
+            %{
+              alias: jobber_name,
+              profile_url: nil,
               outcome: outcome,
               match_team: match_team
             }
