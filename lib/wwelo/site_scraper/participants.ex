@@ -83,6 +83,9 @@ defmodule Wwelo.SiteScraper.Participants do
       [winners, _, losers] ->
         %{winners: winners, losers: losers}
 
+      [winners, losers] ->
+        split_results_into_jobbers(winners, losers)
+
       [[jobbers]] ->
         split_results_into_jobbers(jobbers)
 
@@ -104,6 +107,19 @@ defmodule Wwelo.SiteScraper.Participants do
       _ ->
         nil
     end
+  end
+
+  def split_results_into_jobbers([winners], losers)
+      when is_bitstring(winners) do
+    [winners, _] = winners |> String.split(" defeats ")
+
+    %{winners: [%{jobbers: winners}], losers: losers}
+  end
+
+  def split_results_into_jobbers(winners, [losers]) when is_bitstring(losers) do
+    [_, losers] = losers |> String.split(" defeats ")
+
+    %{winners: winners, losers: [%{jobbers: losers}]}
   end
 
   defp split_participants_into_teams(

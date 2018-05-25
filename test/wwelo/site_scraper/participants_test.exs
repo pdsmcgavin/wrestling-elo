@@ -139,5 +139,39 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert singles_outcome_no_profile_2_3_falls == map_set_output
     end
+
+    test "Singles match with wrestlers no loser profiles" do
+      singles_result_no_loser_profile =
+        ParticipantConsts.singles_result_no_loser_profile()
+
+      singles_outcome_no_loser_profile =
+        ParticipantConsts.singles_outcome_no_loser_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            singles_result_no_loser_profile
+          )
+        )
+
+      assert singles_outcome_no_loser_profile == map_set_output
+    end
+
+    test "Singles match with wrestlers no winner profiles" do
+      singles_result_no_winner_profile =
+        ParticipantConsts.singles_result_no_winner_profile()
+
+      singles_outcome_no_winner_profile =
+        ParticipantConsts.singles_outcome_no_winner_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            singles_result_no_winner_profile
+          )
+        )
+
+      assert singles_outcome_no_winner_profile == map_set_output
+    end
   end
 end
