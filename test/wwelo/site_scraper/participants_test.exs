@@ -207,5 +207,22 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert tag_outcome_no_losers_profile == map_set_output
     end
+
+    test "Handicap match with wrestlers no losers profiles" do
+      handicap_result_no_losers_profile =
+        ParticipantConsts.handicap_result_no_losers_profile()
+
+      handicap_outcome_no_losers_profile =
+        ParticipantConsts.handicap_outcome_no_losers_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            handicap_result_no_losers_profile
+          )
+        )
+
+      assert handicap_outcome_no_losers_profile == map_set_output
+    end
   end
 end

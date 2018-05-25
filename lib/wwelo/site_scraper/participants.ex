@@ -232,7 +232,8 @@ defmodule Wwelo.SiteScraper.Participants do
 
   def clean_jobber_name(jobber_name) do
     jobber_name = Regex.replace(~r/ \[.+\]/, jobber_name, "")
-    Regex.replace(~r/ & /, jobber_name, "")
+    jobber_name = Regex.replace(~r/ & /, jobber_name, "")
+    Regex.replace(~r/ \(.+\)$/, jobber_name, "")
   end
 
   defp get_and_add_alias_id(participant_info) do
