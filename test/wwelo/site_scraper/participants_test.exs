@@ -224,5 +224,39 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert handicap_outcome_no_losers_profile == map_set_output
     end
+
+    test "Handicap match with wrestlers one loser profiles" do
+      handicap_result_one_loser_profile =
+        ParticipantConsts.handicap_result_one_loser_profile()
+
+      handicap_outcome_one_loser_profile =
+        ParticipantConsts.handicap_outcome_one_loser_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            handicap_result_one_loser_profile
+          )
+        )
+
+      assert handicap_outcome_one_loser_profile == map_set_output
+    end
+
+    test "Multi-man match with wrestlers one missing loser profiles" do
+      multi_man_result_one_missing_loser_profile =
+        ParticipantConsts.multi_man_result_one_missing_loser_profile()
+
+      multi_man_outcome_one_missing_loser_profile =
+        ParticipantConsts.multi_man_outcome_one_missing_loser_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            multi_man_result_one_missing_loser_profile
+          )
+        )
+
+      assert multi_man_outcome_one_missing_loser_profile == map_set_output
+    end
   end
 end

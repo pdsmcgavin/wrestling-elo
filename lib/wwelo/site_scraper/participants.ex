@@ -37,6 +37,31 @@ defmodule Wwelo.SiteScraper.Participants do
         match_id: match_id,
         match_result: match_result
       }) do
+    match_result =
+      match_result
+      |> Enum.reduce([], fn x, acc ->
+        acc ++
+          if is_bitstring(x) do
+            split_string =
+              String.split(x, ~r/ and /, include_captures: true, trim: true)
+
+            if length(split_string) > 1 do
+              split_string
+              |> Enum.map(fn x ->
+                if String.match?(x, ~r/ and /) do
+                  x
+                else
+                  %{jobbers: x}
+                end
+              end)
+            else
+              split_string
+            end
+          else
+            [x]
+          end
+      end)
+
     case split_result_into_winners_and_losers(%{match_result: match_result}) do
       %{winners: winners, losers: losers} ->
         winners =
@@ -133,7 +158,8 @@ defmodule Wwelo.SiteScraper.Participants do
         parts: 3
       )
 
-    separate_jobbers = ~r/[,&]/
+    separate_jobbers =
+      ~r/[,&]/
       |> Regex.split(jobber_winners, trim: true)
       |> Enum.map(fn jobber ->
         %{jobbers: jobber |> String.trim_leading() |> String.trim_trailing()}
@@ -151,7 +177,8 @@ defmodule Wwelo.SiteScraper.Participants do
         parts: 3
       )
 
-    separate_jobbers = ~r/[,&]/
+    separate_jobbers =
+      ~r/[,&]/
       |> Regex.split(jobber_losers, trim: true)
       |> Enum.map(fn jobber ->
         %{jobbers: jobber |> String.trim_leading() |> String.trim_trailing()}
@@ -214,7 +241,8 @@ defmodule Wwelo.SiteScraper.Participants do
             }
 
           %{jobbers: jobber_name} ->
-            if !Regex.match?(~r/^[()]$/, jobber_name) do
+            if !Regex.match?(~r/^[()]$/, jobber_name) &&
+                 clean_jobber_name(jobber_name) != "" do
               %{
                 alias: clean_jobber_name(jobber_name),
                 profile_url: nil,
