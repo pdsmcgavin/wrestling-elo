@@ -10,7 +10,10 @@ defmodule Wwelo.SiteScraper.Wrestlers do
   alias Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper
   alias Wwelo.SiteScraper.Utils.UrlHelper
 
-  def save_alter_egos_of_wrestler(%{wrestler_url_path: wrestler_url_path, alias: alias}) do
+  def save_alter_egos_of_wrestler(%{
+        wrestler_url_path: wrestler_url_path,
+        alias: alias
+      }) do
     wrestler_info =
       wrestler_url_path
       |> get_wrestler_info

@@ -49,6 +49,24 @@ defmodule Wwelo.Stats do
     |> Repo.insert()
   end
 
+  def list_wrestlers_elos(min_matches \\ 10) do
+    list_wrestlers_stats()
+    |> Enum.filter(fn wrestler -> wrestler.elos |> length >= min_matches end)
+    |> Enum.map(fn wrestler ->
+      {min_elo_info, max_elo_info} =
+        wrestler |> Map.get(:elos) |> Enum.min_max_by(&Map.get(&1, :elo))
+
+      current_elo_info = wrestler |> Map.get(:elos) |> Enum.at(-1)
+
+      %{
+        name: wrestler.name,
+        current_elo: current_elo_info.elo,
+        max_elo: max_elo_info.elo,
+        min_elo: min_elo_info.elo
+      }
+    end)
+  end
+
   def list_wrestlers_stats do
     query =
       from(

@@ -24,19 +24,6 @@ export default class wrestlerEloTable extends React.Component {
       }
     ];
 
-    var eloTableData = [];
-
-    for (var i = 0; i < this.props.data.length; i++) {
-      if (this.props.data[i].elos.length >= 50) {
-        eloTableData.push({
-          name: this.props.data[i].name,
-          current_elo: Math.round(_.last(this.props.data[i].elos).elo),
-          max_elo: Math.round(_.maxBy(this.props.data[i].elos, "elo").elo),
-          min_elo: Math.round(_.minBy(this.props.data[i].elos, "elo").elo)
-        });
-      }
-    }
-
-    return <ReactTable data={eloTableData} columns={columns} />;
+    return <ReactTable data={this.props.data} columns={columns} />;
   }
 }

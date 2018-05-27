@@ -5,7 +5,7 @@ defmodule WweloWeb.PageController do
 
   def index(conn, _params) do
     conn
-    |> assign(:wrestler_info_list, Stats.list_wrestlers_stats())
+    |> assign(:wrestler_info_list, Stats.list_wrestlers_elos())
     |> render("index.html")
   end
 end
