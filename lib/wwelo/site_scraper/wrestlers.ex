@@ -10,14 +10,14 @@ defmodule Wwelo.SiteScraper.Wrestlers do
   alias Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper
   alias Wwelo.SiteScraper.Utils.UrlHelper
 
-  def save_alter_egos_of_wrestler(%{wrestler_url_path: wrestler_url_path}) do
+  def save_alter_egos_of_wrestler(%{wrestler_url_path: wrestler_url_path, alias: alias}) do
     wrestler_info =
       wrestler_url_path
       |> get_wrestler_info
 
     wrestler_info =
       case wrestler_info do
-        [] -> empty_wrestler_profile_info(wrestler_url_path)
+        [] -> empty_wrestler_profile_info(alias)
         _ -> wrestler_info |> convert_wrestler_info
       end
 
@@ -36,6 +36,10 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     end)
   end
 
+  defp get_wrestler_info(nil) do
+    []
+  end
+
   defp get_wrestler_info(wrestler_url_path) do
     wrestler_url = "https://www.cagematch.net/" <> wrestler_url_path
 
@@ -50,14 +54,8 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     end)
   end
 
-  defp empty_wrestler_profile_info(wrestler_url_path) do
-    name =
-      wrestler_url_path
-      |> String.split("name=")
-      |> Enum.at(1)
-      |> String.replace("+", " ")
-
-    Map.put(%{}, :names, %{} |> Map.put(String.to_atom(name), [name]))
+  defp empty_wrestler_profile_info(alias) do
+    Map.put(%{}, :names, %{} |> Map.put(String.to_atom(alias), [alias]))
   end
 
   defp save_wrestler_to_database(wrestler_info) do

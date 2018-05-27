@@ -271,7 +271,7 @@ defmodule Wwelo.SiteScraper.Participants do
       case alias_id do
         nil ->
           Wrestlers.save_alter_egos_of_wrestler(%{
-            wrestler_url_path: participant_info.profile_url
+            wrestler_url_path: participant_info.profile_url, alias: participant_info.alias
           })
 
           new_alias_id = Aliases.get_alias_id(participant_info.alias)
