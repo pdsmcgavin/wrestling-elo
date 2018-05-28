@@ -32,7 +32,7 @@ defmodule Wwelo.SiteScraper.Scraper do
     years =
       case last_event do
         nil -> initial_year..DateTime.utc_now().year
-        _ -> Map.get(Date.add(last_event, -7), :year)..DateTime.utc_now().year
+        _ -> Map.get(Date.add(last_event, -30), :year)..DateTime.utc_now().year
       end
 
     years

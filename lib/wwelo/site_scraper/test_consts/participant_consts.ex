@@ -298,6 +298,59 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
     ])
   end
 
+  def tag_result_champions do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=28&nr=990&name=The+Valiant+Brothers"}],
+         ["The Valiant Brothers"]},
+        " (",
+        {"a", [{"href", "?id=2&nr=1150&name=Jimmy+Valiant"}],
+         ["Jimmy Valiant"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=868&name=Johnny+Valiant"}],
+         ["Johnny Valiant"]},
+        ") (c) defeat ",
+        {"a", [{"href", "?id=2&nr=2209&name=Dean+Ho"}], ["Dean Ho"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=2512&name=Tony+Garea"}], ["Tony Garea"]}
+      ]
+    }
+  end
+
+  def tag_outcome_champions do
+    MapSet.new([
+      %{
+        alias: "Jimmy Valiant",
+        profile_url: "?id=2&nr=1150&name=Jimmy+Valiant",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Johnny Valiant",
+        profile_url: "?id=2&nr=868&name=Johnny+Valiant",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Dean Ho",
+        profile_url: "?id=2&nr=2209&name=Dean+Ho",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Tony Garea",
+        profile_url: "?id=2&nr=2512&name=Tony+Garea",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
+
   def singles_result_no_profile do
     %{
       match_id: 1337,

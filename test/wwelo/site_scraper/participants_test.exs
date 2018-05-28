@@ -104,6 +104,19 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert singles_outcome_extra_match_info == map_set_output
     end
+
+    test "Tag match with champions" do
+      tag_result_champions = ParticipantConsts.tag_result_champions()
+
+      tag_outcome_champions = ParticipantConsts.tag_outcome_champions()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(tag_result_champions)
+        )
+
+      assert tag_outcome_champions == map_set_output
+    end
   end
 
   describe "Match results split into winners and losers without all having profiles" do

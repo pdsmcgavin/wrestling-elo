@@ -225,7 +225,7 @@ defmodule Wwelo.SiteScraper.Participants do
     {participants, match_team}
   end
 
-  # credo:disable-for-lines:20
+  # credo:disable-for-lines:32
   defp convert_participant_info({participants, outcome}) do
     participants
     |> Enum.map(fn {team, match_team} ->
@@ -241,10 +241,11 @@ defmodule Wwelo.SiteScraper.Participants do
             }
 
           %{jobbers: jobber_name} ->
-            if !Regex.match?(~r/^[()]$/, jobber_name) &&
-                 clean_jobber_name(jobber_name) != "" do
+            jobber_name = clean_jobber_name(jobber_name)
+
+            if jobber_name != "" && !Regex.match?(~r/^[(),.\[\]]$/, jobber_name) do
               %{
-                alias: clean_jobber_name(jobber_name),
+                alias: jobber_name,
                 profile_url: nil,
                 outcome: outcome,
                 match_team: match_team
@@ -259,9 +260,7 @@ defmodule Wwelo.SiteScraper.Participants do
   end
 
   def clean_jobber_name(jobber_name) do
-    jobber_name = Regex.replace(~r/ \[.+\]/, jobber_name, "")
-    jobber_name = Regex.replace(~r/ & /, jobber_name, "")
-    Regex.replace(~r/ \(.+\)$/, jobber_name, "")
+    Regex.replace(~r/( \[.+\]| & | \(.+\)$)/, jobber_name, "")
   end
 
   defp get_and_add_alias_id(participant_info) do
