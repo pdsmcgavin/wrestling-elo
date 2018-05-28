@@ -60,9 +60,9 @@ defmodule Wwelo.Stats do
 
       %{
         name: wrestler.name,
-        current_elo: current_elo_info.elo,
-        max_elo: max_elo_info.elo,
-        min_elo: min_elo_info.elo
+        current_elo: current_elo_info,
+        max_elo: max_elo_info,
+        min_elo: min_elo_info
       }
     end)
   end

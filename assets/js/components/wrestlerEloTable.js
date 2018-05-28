@@ -12,15 +12,45 @@ export default class wrestlerEloTable extends React.Component {
       },
       {
         Header: "Current Elo",
-        accessor: "current_elo"
+        columns: [
+          {
+            Header: "Value",
+            id: "current_elo_value",
+            accessor: d => d.current_elo.elo.toFixed(1)
+          },
+          {
+            Header: "Date",
+            accessor: "current_elo.date"
+          }
+        ]
       },
       {
-        Header: "Max Elo",
-        accessor: "max_elo"
+        Header: "Maximum Elo",
+        columns: [
+          {
+            Header: "Value",
+            id: "max_elo_value",
+            accessor: d => d.max_elo.elo.toFixed(1)
+          },
+          {
+            Header: "Date",
+            accessor: "max_elo.date"
+          }
+        ]
       },
       {
-        Header: "Min Elo",
-        accessor: "min_elo"
+        Header: "Minimum Elo",
+        columns: [
+          {
+            Header: "Value",
+            id: "min_elo_value",
+            accessor: d => d.min_elo.elo.toFixed(1)
+          },
+          {
+            Header: "Date",
+            accessor: "min_elo.date"
+          }
+        ]
       }
     ];
 
