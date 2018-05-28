@@ -61,6 +61,7 @@ pre_erlang_clean_compile() {
     set -e
 
     cd '$BUILD_AT'
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD ecto.reset $SILENCE
     APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD populate_database $SILENCE
   "
 }
