@@ -63,7 +63,8 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
       event_query =
         from(
           e in Event,
-          where: e.name == ^name and e.date == ^date and e.location == ^location,
+          where:
+            e.name == ^name and e.date == ^date and e.location == ^location,
           select: e
         )
 

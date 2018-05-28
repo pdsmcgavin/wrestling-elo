@@ -36,8 +36,6 @@ defmodule Wwelo.SiteScraper.Scraper do
       end
 
     years
-
-    1963..1970
     |> Enum.map(fn year ->
       event_match_list = Events.save_events_of_year(%{year: year})
 
