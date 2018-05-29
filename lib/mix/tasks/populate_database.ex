@@ -10,6 +10,6 @@ defmodule Mix.Tasks.PopulateDatabase do
     {:ok, _started} = Application.ensure_all_started(:wwelo)
 
     Scraper.scrape_site()
-    EloCalculator.calcualte_elos()
+    EloCalculator.calculate_elos()
   end
 end

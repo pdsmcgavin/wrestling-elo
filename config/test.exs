@@ -17,3 +17,5 @@ config :wwelo, Wwelo.Repo,
   database: "wwelo_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :wwelo, :children, [Wwelo.Repo, WweloWeb.Endpoint]

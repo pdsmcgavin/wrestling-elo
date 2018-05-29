@@ -26,11 +26,11 @@ defmodule Wwelo.EloCalculator.EloCalculator do
 
   ## Examples
 
-    iex> Wwelo.EloCalculator.EloCalculator.calcualte_elos
+    iex> Wwelo.EloCalculator.EloCalculator.calculate_elos
     [[1, 2], [3, 4, 5]]
 
   """
-  def calcualte_elos do
+  def calculate_elos do
     list_of_matches_with_no_elo_calculation()
     |> Enum.map(fn match_id ->
       match_id

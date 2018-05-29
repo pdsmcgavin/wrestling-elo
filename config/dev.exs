@@ -71,6 +71,8 @@ config :wwelo, Wwelo.Repo,
   hostname: "localhost",
   pool_size: 10
 
+config :wwelo, :children, [Wwelo.Repo, WweloWeb.Endpoint]
+
 # Pre-commit hooks
 config :pre_commit,
   commands: ["format", "coveralls", "credo"],
