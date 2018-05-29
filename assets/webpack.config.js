@@ -1,7 +1,6 @@
 const path = require("path");
 const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 const environment = process.env.NODE_ENV || "development";
 const isProduction = environment == "production";
@@ -38,8 +37,7 @@ module.exports = {
   plugins: isProduction
     ? [
         new CompressionPlugin(), //compresses react
-        new UglifyJsPlugin(), //minify everything
-        new LodashModuleReplacementPlugin()
+        new UglifyJsPlugin() //minify everything
       ]
     : [],
   mode: "production"
