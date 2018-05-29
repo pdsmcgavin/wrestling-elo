@@ -15,7 +15,6 @@
     "react-table": "^6.8.2"
   },
   "devDependencies": {
-    "babel-brunch": "6.1.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -24,8 +23,6 @@
     "babel-preset-minify": "^0.4.3",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-hmre": "^1.1.1",
-    "brunch": "2.10.9",
-    "clean-css-brunch": "2.10.0",
     "compression-webpack-plugin": "^1.1.11",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
@@ -42,7 +39,6 @@
     "style-loader": "^0.20.3",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "uglify-js-brunch": "2.10.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^4.8.3",

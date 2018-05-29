@@ -4,6 +4,7 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const environment = process.env.NODE_ENV || "development";
 const isProduction = environment == "production";
+
 module.exports = {
   entry: "./js/app.js",
   output: {
