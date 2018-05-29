@@ -3,6 +3,8 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
+const environment = process.env.NODE_ENV || "development";
+const isProduction = environment == "production";
 module.exports = {
   entry: "./js/app.js",
   output: {
@@ -33,10 +35,12 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CompressionPlugin(), //compresses react
-    new UglifyJsPlugin(), //minify everything
-    new LodashModuleReplacementPlugin()
-  ],
+  plugins: isProduction
+    ? [
+        new CompressionPlugin(), //compresses react
+        new UglifyJsPlugin(), //minify everything
+        new LodashModuleReplacementPlugin()
+      ]
+    : [],
   mode: "production"
 };
