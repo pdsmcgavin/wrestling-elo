@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
@@ -38,7 +39,8 @@ module.exports = {
   plugins: isProduction
     ? [
         new CompressionPlugin(), //compresses react
-        new UglifyJsPlugin() //minify everything
+        new UglifyJsPlugin(), //minify everything
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
       ]
     : [],
   mode: "production"

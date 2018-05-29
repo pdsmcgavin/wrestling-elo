@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import moment from "moment";
 
 export default class wrestlerEloTable extends React.Component {
   render() {
@@ -22,7 +23,9 @@ export default class wrestlerEloTable extends React.Component {
           },
           {
             Header: "Date",
-            accessor: "current_elo.date"
+            id: "current_elo_date",
+            accessor: d => moment(d.current_elo.date).format("Do MMM YYYY"),
+            sortMethod: dateStringSort
           }
         ]
       },
@@ -37,7 +40,9 @@ export default class wrestlerEloTable extends React.Component {
           },
           {
             Header: "Date",
-            accessor: "max_elo.date"
+            id: "max_elo_date",
+            accessor: d => moment(d.max_elo.date).format("Do MMM YYYY"),
+            sortMethod: dateStringSort
           }
         ]
       },
@@ -52,7 +57,9 @@ export default class wrestlerEloTable extends React.Component {
           },
           {
             Header: "Date",
-            accessor: "min_elo.date"
+            id: "min_elo_date",
+            accessor: d => moment(d.min_elo.date).format("Do MMM YYYY"),
+            sortMethod: dateStringSort
           }
         ]
       }
@@ -64,4 +71,10 @@ export default class wrestlerEloTable extends React.Component {
 
 const floatStringSort = (a, b) => {
   return parseFloat(a) > parseFloat(b) ? 1 : -1;
+};
+
+const dateStringSort = (a, b) => {
+  return moment(a, "Do MMM YYYY").format() > moment(b, "Do MMM YYYY").format()
+    ? 1
+    : -1;
 };
