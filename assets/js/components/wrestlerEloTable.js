@@ -4,6 +4,8 @@ import "react-table/react-table.css";
 
 export default class wrestlerEloTable extends React.Component {
   render() {
+    const eloPrecision = 1;
+
     const columns = [
       {
         Header: "Name",
@@ -15,7 +17,8 @@ export default class wrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "current_elo_value",
-            accessor: d => d.current_elo.elo.toFixed(1)
+            accessor: d => d.current_elo.elo.toFixed(eloPrecision),
+            sortMethod: floatStringSort
           },
           {
             Header: "Date",
@@ -29,7 +32,8 @@ export default class wrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "max_elo_value",
-            accessor: d => d.max_elo.elo.toFixed(1)
+            accessor: d => d.max_elo.elo.toFixed(eloPrecision),
+            sortMethod: floatStringSort
           },
           {
             Header: "Date",
@@ -43,7 +47,8 @@ export default class wrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "min_elo_value",
-            accessor: d => d.min_elo.elo.toFixed(1)
+            accessor: d => d.min_elo.elo.toFixed(eloPrecision),
+            sortMethod: floatStringSort
           },
           {
             Header: "Date",
@@ -56,3 +61,7 @@ export default class wrestlerEloTable extends React.Component {
     return <ReactTable data={this.props.data} columns={columns} />;
   }
 }
+
+const floatStringSort = (a, b) => {
+  return parseFloat(a) > parseFloat(b) ? 1 : -1;
+};
