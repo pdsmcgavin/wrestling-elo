@@ -2,6 +2,7 @@ import React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import moment from "moment";
+import { floatStringSort, dateStringSort } from "./utils/table-sort";
 
 export default class wrestlerEloTable extends React.Component {
   render() {
@@ -76,13 +77,3 @@ export default class wrestlerEloTable extends React.Component {
     );
   }
 }
-
-const floatStringSort = (a, b) => {
-  return parseFloat(a) > parseFloat(b) ? 1 : -1;
-};
-
-const dateStringSort = (a, b) => {
-  return moment(a, "Do MMM YYYY").format() > moment(b, "Do MMM YYYY").format()
-    ? 1
-    : -1;
-};
