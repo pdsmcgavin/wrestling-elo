@@ -44,7 +44,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
-  defp elo_change_for_match(list_of_participants) do
+  def elo_change_for_match(list_of_participants) do
     rlist =
       list_of_participants
       |> Enum.map(fn participants ->
