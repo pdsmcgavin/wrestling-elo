@@ -65,7 +65,15 @@ export default class wrestlerEloTable extends React.Component {
       }
     ];
 
-    return <ReactTable data={this.props.data} columns={columns} />;
+    const defaultSort = [{ id: "current_elo_value", desc: true }];
+
+    return (
+      <ReactTable
+        data={this.props.data}
+        columns={columns}
+        defaultSorted={defaultSort}
+      />
+    );
   }
 }
 
