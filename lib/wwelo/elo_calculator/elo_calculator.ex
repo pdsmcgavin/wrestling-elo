@@ -113,7 +113,8 @@ defmodule Wwelo.EloCalculator.EloCalculator do
 
         true ->
           IO.puts("Incorrect match result scenario")
-          participants
+          # credo:disable-for-next-line
+          IO.inspect(participants)
       end
 
     participants
