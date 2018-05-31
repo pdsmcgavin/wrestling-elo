@@ -37,7 +37,6 @@ defmodule Wwelo.EloCalculator.EloCalculator do
       |> participants_info_of_match
       |> group_participants_by_team
       |> elo_change_for_match
-      |> List.flatten()
       |> Enum.map(fn elo_info ->
         save_elo_to_database(elo_info)
       end)
@@ -58,44 +57,73 @@ defmodule Wwelo.EloCalculator.EloCalculator do
         end)
       end)
 
-    elist = rlist |> Enum.map(fn r -> r / Enum.sum(rlist) end)
-
-    slist =
+    participants =
       list_of_participants
-      |> Enum.map(fn participant ->
-        outcome = participant |> Enum.at(0) |> Map.get(:match_outcome)
-
-        case outcome do
-          "win" -> 1
-          "loss" -> 0
-          "draw" -> 0.5
-          _ -> nil
-        end
+      |> Enum.zip(rlist)
+      |> Enum.map(fn {participants, r_value} ->
+        participants
+        |> Enum.map(fn participant ->
+          Map.put(participant, :r_value, r_value)
+        end)
       end)
+      |> List.flatten()
 
-    slist =
-      if Enum.sum(slist) > 1 do
-        slist |> Enum.map(&(&1 / Enum.sum(slist)))
-      else
-        slist
-      end
+    r_total =
+      participants
+      |> Enum.reduce(0, fn particpant, acc -> acc + particpant.r_value end)
 
-    change =
-      elist
-      |> Enum.zip(slist)
-      |> Enum.map(fn {e, s} -> @match_weight * (s - e) end)
-
-    list_of_participants
-    |> Enum.zip(change)
-    |> Enum.map(fn {participants, change} ->
+    participants =
       participants
       |> Enum.map(fn participant ->
-        Map.put(
-          participant,
-          :elo,
-          participant.previous_elo + change / Enum.count(participants)
-        )
+        Map.put(participant, :e_value, participant.r_value / r_total)
       end)
+
+    participants =
+      participants
+      |> Enum.map(fn participant ->
+        s_value =
+          case participant.match_outcome do
+            "win" -> 1
+            "draw" -> 0.5
+            "loss" -> 0
+            _ -> nil
+          end
+
+        Map.put(participant, :s_value, s_value)
+      end)
+
+    s_total =
+      participants
+      |> Enum.reduce(0, fn particpant, acc -> acc + particpant.s_value end)
+
+    participants =
+      cond do
+        s_total == 1 ->
+          participants
+
+        s_total > 1 ->
+          participants
+          |> Enum.map(fn participant ->
+            Map.put(
+              participant,
+              :s_value,
+              participant.s_value / s_total
+            )
+          end)
+
+        true ->
+          IO.puts("Incorrect match result scenario")
+          participants
+      end
+
+    participants
+    |> Enum.map(fn participant ->
+      Map.put(
+        participant,
+        :elo,
+        participant.previous_elo +
+          @match_weight * (participant.s_value - participant.e_value)
+      )
     end)
   end
 
