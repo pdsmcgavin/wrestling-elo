@@ -55,12 +55,12 @@ pre_erlang_clean_compile() {
     APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phx.digest $SILENCE
   "
 
-  status "Populating database"
+  status "Other jobs"
   __sync_remote "
     [ -f ~/.profile ] && source ~/.profile
     set -e
 
     cd '$BUILD_AT'
-    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD populate_database $SILENCE
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD recalculate_all_elos $SILENCE
   "
 }

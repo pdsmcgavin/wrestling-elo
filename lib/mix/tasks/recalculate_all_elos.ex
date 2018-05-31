@@ -6,9 +6,9 @@ defmodule Mix.Tasks.RecalculateAllElos do
 
   @shortdoc "Scrapes site and calculates elo from all matches"
   def run(_) do
+    IO.puts("Recalculating Elos")
     Mix.Task.run("app.start")
     {:ok, _started} = Application.ensure_all_started(:wwelo)
-
     EloDeleter.delete_all_elos()
     EloCalculator.calculate_elos()
   end
