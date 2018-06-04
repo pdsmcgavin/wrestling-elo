@@ -19,11 +19,14 @@ defmodule Wwelo.SiteScraper.Participants do
         match_result: match_result
       })
 
-    case participants do
-      nil ->
+    cond do
+      is_nil(participants) ->
         nil
 
-      _ ->
+      Enum.any?(participants, fn participant -> participant.alias == "???" end) ->
+        nil
+
+      true ->
         participants
         |> Enum.map(fn participant ->
           participant
