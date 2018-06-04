@@ -271,5 +271,22 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert multi_man_outcome_one_missing_loser_profile == map_set_output
     end
+
+    test "Singles match with wrestlers one drawer profiles" do
+      singles_result_one_drawer_profile =
+        ParticipantConsts.singles_result_one_drawer_profile()
+
+      singles_outcome_one_drawer_profile =
+        ParticipantConsts.singles_outcome_one_drawer_profile()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            singles_result_one_drawer_profile
+          )
+        )
+
+      assert singles_outcome_one_drawer_profile == map_set_output
+    end
   end
 end

@@ -115,14 +115,14 @@ defmodule Wwelo.SiteScraper.Participants do
         split_results_with_jobbers(jobbers)
 
       [drawers] ->
-        %{drawers: drawers}
+        split_draws_with_jobbers(drawers)
 
       _ ->
         nil
     end
   end
 
-  def split_results_with_jobbers(winners, [jobbers], losers) do
+  defp split_results_with_jobbers(winners, [jobbers], losers) do
     [jobber_winners, _, jobber_losers] =
       Regex.split(
         ~r/ defeats? /,
@@ -148,8 +148,8 @@ defmodule Wwelo.SiteScraper.Participants do
     %{winners: winners, losers: losers}
   end
 
-  def split_results_with_jobbers([winners], losers)
-      when is_bitstring(winners) do
+  defp split_results_with_jobbers([winners], losers)
+       when is_bitstring(winners) do
     [jobber_winners, _, _] =
       Regex.split(
         ~r/ defeats? /,
@@ -168,7 +168,8 @@ defmodule Wwelo.SiteScraper.Participants do
     %{winners: separate_jobbers, losers: losers}
   end
 
-  def split_results_with_jobbers(winners, [losers]) when is_bitstring(losers) do
+  defp split_results_with_jobbers(winners, [losers])
+       when is_bitstring(losers) do
     [_, _, jobber_losers] =
       Regex.split(
         ~r/ defeats? /,
@@ -187,7 +188,7 @@ defmodule Wwelo.SiteScraper.Participants do
     %{winners: winners, losers: separate_jobbers}
   end
 
-  def split_results_with_jobbers(jobbers) do
+  defp split_results_with_jobbers(jobbers) do
     split_results = jobbers |> String.split(" defeats ")
 
     case split_results do
@@ -197,6 +198,29 @@ defmodule Wwelo.SiteScraper.Participants do
       _ ->
         nil
     end
+  end
+
+  defp split_draws_with_jobbers(drawers) do
+    drawers =
+      Enum.reduce(drawers, [], fn x, acc ->
+        if is_bitstring(x) do
+          acc ++
+            Enum.map(
+              String.split(x, ~r/ vs. /, trim: true, include_captures: true),
+              fn x ->
+                if x == " vs. " do
+                  x
+                else
+                  %{jobbers: x}
+                end
+              end
+            )
+        else
+          acc ++ [x]
+        end
+      end)
+
+    %{drawers: drawers}
   end
 
   defp split_participants_into_teams(
@@ -243,7 +267,8 @@ defmodule Wwelo.SiteScraper.Participants do
           %{jobbers: jobber_name} ->
             jobber_name = clean_jobber_name(jobber_name)
 
-            if jobber_name != "" && !Regex.match?(~r/^[(),.\[\]]$/, jobber_name) do
+            if jobber_name != "" &&
+                 !Regex.match?(~r/^ ?[(),.\[\]] ?$/, jobber_name) do
               %{
                 alias: jobber_name,
                 profile_url: nil,
@@ -260,7 +285,7 @@ defmodule Wwelo.SiteScraper.Participants do
   end
 
   def clean_jobber_name(jobber_name) do
-    Regex.replace(~r/( \[.+\]| & | \(.+\)$)/, jobber_name, "")
+    Regex.replace(~r/( \[.+\]| & | \(.+\)$|^\)? - .*$)/, jobber_name, "")
   end
 
   defp get_and_add_alias_id(participant_info) do

@@ -703,4 +703,34 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
       }
     ])
   end
+
+  def singles_result_one_drawer_profile do
+    %{
+      match_id: 1337,
+      match_result: [
+        "Buddy Rosen vs. ",
+        {"a", [{"href", "?id=2&nr=5616&name=Pete+Sanchez"}], ["Pete Sanchez"]},
+        " - Draw"
+      ]
+    }
+  end
+
+  def singles_outcome_one_drawer_profile do
+    MapSet.new([
+      %{
+        alias: "Buddy Rosen",
+        profile_url: nil,
+        outcome: "draw",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Pete Sanchez",
+        profile_url: "?id=2&nr=5616&name=Pete+Sanchez",
+        outcome: "draw",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 end
