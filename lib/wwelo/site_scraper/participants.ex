@@ -5,6 +5,7 @@ defmodule Wwelo.SiteScraper.Participants do
 
   alias Wwelo.Repo
   alias Wwelo.Stats
+  alias Wwelo.Stats.Match
   alias Wwelo.Stats.Participant
   alias Wwelo.SiteScraper.Aliases
   alias Wwelo.SiteScraper.Wrestlers
@@ -21,9 +22,11 @@ defmodule Wwelo.SiteScraper.Participants do
 
     cond do
       is_nil(participants) ->
+        Match |> Repo.get!(match_id) |> Repo.delete()
         nil
 
       Enum.any?(participants, fn participant -> participant.alias == "???" end) ->
+        Match |> Repo.get!(match_id) |> Repo.delete()
         nil
 
       true ->
