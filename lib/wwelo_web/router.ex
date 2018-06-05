@@ -14,14 +14,20 @@ defmodule WweloWeb.Router do
   end
 
   scope "/", WweloWeb do
-    # Use the default browser stack
     pipe_through(:browser)
 
     get("/", PageController, :index)
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", WweloWeb do
-  #   pipe_through :api
-  # end
+  scope "/api" do
+    pipe_through(:api)
+
+    forward(
+      "/graphiql",
+      Absinthe.Plug.GraphiQL,
+      schema: WweloWeb.Schema
+    )
+
+    forward("/", Absinthe.Plug, schema: WweloWeb.Schema)
+  end
 end

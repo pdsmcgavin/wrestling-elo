@@ -1,4 +1,4 @@
 <div>
   <h2>WWElo</h2>
-  <%= ReactPhoenix.ClientSide.react_component("Components.WrestlerEloTable", %{data: @wrestler_info_list}) %>
+  <%= ReactPhoenix.ClientSide.react_component("Components.App", %{data: @wrestler_info_list}) %>
 </div>

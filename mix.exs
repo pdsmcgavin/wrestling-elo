@@ -56,7 +56,10 @@ defmodule Wwelo.Mixfile do
       {:excoveralls, "~> 0.8", only: :test},
       {:pre_commit, "~> 0.2.4", only: :dev},
       {:edeliver, "~> 1.5.0"},
-      {:distillery, "~> 1.5", runtime: false}
+      {:distillery, "~> 1.5", runtime: false},
+      {:absinthe, "~> 1.4.0"},
+      {:absinthe_plug, "~> 1.4"},
+      {:poison, "~> 3.1"}
     ]
   end
 

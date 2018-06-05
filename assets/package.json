@@ -7,10 +7,14 @@
     "deploy": "NODE_ENV=production BABEL_ENV=production webpack -p"
   },
   "dependencies": {
+    "apollo-client-preset": "^1.0.8",
     "babel-preset-env": "^1.6.1",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
     "moment": "^2.22.1",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
+    "react-apollo": "^2.1.4",
     "react-phoenix": "file:../deps/react_phoenix",
     "react-table": "^6.8.2"
   },
