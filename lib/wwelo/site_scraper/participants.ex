@@ -248,11 +248,18 @@ defmodule Wwelo.SiteScraper.Participants do
     participants =
       participants
       |> Enum.chunk_by(fn x ->
-        is_bitstring(x) && String.contains?(x, "w/")
+        (is_bitstring(x) && String.contains?(x, "w/")) ||
+          (is_map(x) && String.contains?(Map.get(x, :jobbers), "w/"))
       end)
       |> Enum.at(0)
 
-    {participants, match_team}
+    if is_bitstring(Enum.at(participants, 0)) &&
+         String.contains?(Enum.at(participants, 0), "w/") do
+      {[%{jobbers: participants |> Enum.at(0) |> String.replace("w/", "")}],
+       match_team}
+    else
+      {participants, match_team}
+    end
   end
 
   # credo:disable-for-lines:32
@@ -291,7 +298,7 @@ defmodule Wwelo.SiteScraper.Participants do
   end
 
   def clean_jobber_name(jobber_name) do
-    Regex.replace(~r/( \[.+\]| & | \(.+\)$|^\)? - .*$)/, jobber_name, "")
+    Regex.replace(~r/( \[.+\]| & | \(.+\)$|^\)? - .*$| ?\($)/, jobber_name, "")
   end
 
   defp get_and_add_alias_id(participant_info) do
