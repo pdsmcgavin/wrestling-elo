@@ -91,7 +91,7 @@ WrestlerEloTable.propTypes = {
 
 const GET_WRESTLERS_ELOS = gql`
   query getWrestlersElos {
-    wrestlerElos(min_matches: 2) {
+    wrestlerElos(min_matches: 50) {
       wrestlerElo {
         name
         currentElo {
