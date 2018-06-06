@@ -86,13 +86,12 @@ class WrestlerEloTable extends React.Component {
 }
 
 WrestlerEloTable.propTypes = {
-  data: PropTypes.array, // Define better in future
-  getWrestlersElos: PropTypes.object
+  getWrestlersElos: PropTypes.object // Define better in future
 };
 
 const GET_WRESTLERS_ELOS = gql`
   query getWrestlersElos {
-    wrestlerElos(min_matches: 50) {
+    wrestlerElos(min_matches: 2) {
       wrestlerElo {
         name
         currentElo {
