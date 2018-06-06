@@ -1,6 +1,7 @@
 import React from "react";
 import "phoenix_html";
 import "react-phoenix";
+import PropTypes from "prop-types";
 import WrestlerEloTable from "./components/wrestlerEloTable";
 import "../stylus/app.styl";
 import { ApolloProvider } from "react-apollo";
@@ -25,4 +26,8 @@ class App extends React.Component {
 
 window.Components = {
   App
+};
+
+App.propTypes = {
+  data: PropTypes.array // Define better in future
 };

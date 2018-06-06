@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import moment from "moment";
@@ -77,3 +78,7 @@ export default class wrestlerEloTable extends React.Component {
     );
   }
 }
+
+wrestlerEloTable.propTypes = {
+  data: PropTypes.array // Define better in future
+};
