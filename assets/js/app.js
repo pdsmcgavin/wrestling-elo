@@ -17,9 +17,12 @@ const client = new ApolloClient({
 class App extends React.Component {
   render() {
     return (
-      <ApolloProvider client={client}>
-        <WrestlerEloTable data={this.props.data} />
-      </ApolloProvider>
+      <div>
+        <h2>WWElo</h2>
+        <ApolloProvider client={client}>
+          <WrestlerEloTable data={this.props.data} />
+        </ApolloProvider>
+      </div>
     );
   }
 }

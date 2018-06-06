@@ -22,13 +22,13 @@ class WrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "current_elo_value",
-            accessor: d => d.current_elo.elo.toFixed(eloPrecision),
+            accessor: d => d.currentElo.elo.toFixed(eloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "current_elo_date",
-            accessor: d => moment(d.current_elo.date).format("Do MMM YYYY"),
+            accessor: d => moment(d.currentElo.date).format("Do MMM YYYY"),
             sortMethod: dateStringSort
           }
         ]
@@ -39,13 +39,13 @@ class WrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "max_elo_value",
-            accessor: d => d.max_elo.elo.toFixed(eloPrecision),
+            accessor: d => d.maxElo.elo.toFixed(eloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "max_elo_date",
-            accessor: d => moment(d.max_elo.date).format("Do MMM YYYY"),
+            accessor: d => moment(d.maxElo.date).format("Do MMM YYYY"),
             sortMethod: dateStringSort
           }
         ]
@@ -56,13 +56,13 @@ class WrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "min_elo_value",
-            accessor: d => d.min_elo.elo.toFixed(eloPrecision),
+            accessor: d => d.minElo.elo.toFixed(eloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "min_elo_date",
-            accessor: d => moment(d.min_elo.date).format("Do MMM YYYY"),
+            accessor: d => moment(d.minElo.date).format("Do MMM YYYY"),
             sortMethod: dateStringSort
           }
         ]
@@ -73,7 +73,11 @@ class WrestlerEloTable extends React.Component {
 
     return (
       <ReactTable
-        data={this.props.data}
+        data={
+          this.props.getWrestlersElos.loading
+            ? []
+            : this.props.getWrestlersElos.wrestlerElos.wrestlerElo
+        }
         columns={columns}
         defaultSorted={defaultSort}
       />
@@ -83,16 +87,31 @@ class WrestlerEloTable extends React.Component {
 
 WrestlerEloTable.propTypes = {
   data: PropTypes.array, // Define better in future
-  getWrestler: PropTypes.object
+  getWrestlersElos: PropTypes.object
 };
 
-const GET_WRESTLER = gql`
-  query getWrestler {
-    wrestler(id: 23) {
-      id
-      name
+const GET_WRESTLERS_ELOS = gql`
+  query getWrestlersElos {
+    wrestlerElos(min_matches: 50) {
+      wrestlerElo {
+        name
+        currentElo {
+          elo
+          date
+        }
+        maxElo {
+          elo
+          date
+        }
+        minElo {
+          elo
+          date
+        }
+      }
     }
   }
 `;
 
-export default graphql(GET_WRESTLER, { name: "getWrestler" })(WrestlerEloTable);
+export default graphql(GET_WRESTLERS_ELOS, { name: "getWrestlersElos" })(
+  WrestlerEloTable
+);
