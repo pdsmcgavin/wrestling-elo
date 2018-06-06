@@ -1,11 +1,13 @@
 import React from "react";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
 
-export default class wrestlerEloTable extends React.Component {
+class WrestlerEloTable extends React.Component {
   render() {
     const eloPrecision = 1;
 
@@ -79,6 +81,18 @@ export default class wrestlerEloTable extends React.Component {
   }
 }
 
-wrestlerEloTable.propTypes = {
-  data: PropTypes.array // Define better in future
+WrestlerEloTable.propTypes = {
+  data: PropTypes.array, // Define better in future
+  getWrestler: PropTypes.object
 };
+
+const GET_WRESTLER = gql`
+  query getWrestler {
+    wrestler(id: 23) {
+      id
+      name
+    }
+  }
+`;
+
+export default graphql(GET_WRESTLER, { name: "getWrestler" })(WrestlerEloTable);
