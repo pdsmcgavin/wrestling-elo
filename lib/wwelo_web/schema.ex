@@ -12,8 +12,14 @@ defmodule WweloWeb.Schema do
   end
 
   object :wrestler_elos do
+    field(:wrestler_elo, list_of(:wrestler_elo))
+  end
+
+  object :wrestler_elo do
     field(:name, :string)
     field(:current_elo, :elo)
+    field(:max_elo, :elo)
+    field(:min_elo, :elo)
   end
 
   object :elo do
@@ -33,11 +39,10 @@ defmodule WweloWeb.Schema do
     end
 
     field :wrestler_elos, :wrestler_elos do
-      resolve(fn _, _ ->
-        %{name: wrestler_name, current_elo: current_elo} =
-          Stats.list_wrestlers_elos() |> Enum.at(0)
+      arg(:min_matches, :integer)
 
-        {:ok, %{name: wrestler_name, current_elo: current_elo}}
+      resolve(fn %{min_matches: min_matches}, _ ->
+        {:ok, %{wrestler_elo: Stats.list_wrestlers_elos(min_matches)}}
       end)
     end
   end
