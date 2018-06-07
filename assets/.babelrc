@@ -1,5 +1,5 @@
 {
-  "presets": [["es2015", { "modules": false }], "react"],
+  "presets": [["@babel/preset-env", { "modules": false }], "@babel/react"],
   "env": {
     "production": {
       "presets": ["minify"]

@@ -38,10 +38,10 @@ module.exports = {
   },
   plugins: isProduction
     ? [
-      new CompressionPlugin(), //compresses react
-      new UglifyJsPlugin(), //minify everything
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-    ]
+        new CompressionPlugin(), //compresses react
+        new UglifyJsPlugin(), //minify everything
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+      ]
     : [],
   mode: "production"
 };
