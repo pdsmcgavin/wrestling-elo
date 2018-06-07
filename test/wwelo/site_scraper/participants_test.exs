@@ -88,6 +88,23 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
       assert no_contest_outcome == map_set_output
     end
 
+    test "Singles match draw with a chmpion wrestler with manager" do
+      singles_result_draw_champion_with_manager =
+        ParticipantConsts.singles_result_draw_champion_with_manager()
+
+      singles_outcome_draw_champion_with_manager =
+        ParticipantConsts.singles_outcome_draw_champion_with_manager()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            singles_result_draw_champion_with_manager
+          )
+        )
+
+      assert singles_outcome_draw_champion_with_manager == map_set_output
+    end
+
     test "Singles match with wrestlers with extra match info" do
       singles_result_extra_match_info =
         ParticipantConsts.singles_result_extra_match_info()
@@ -103,6 +120,23 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
         )
 
       assert singles_outcome_extra_match_info == map_set_output
+    end
+
+    test "Tag match double DQ with managers" do
+      tag_result_double_dq_with_manager =
+        ParticipantConsts.tag_result_double_dq_with_manager()
+
+      tag_outcome_double_dq_with_manager =
+        ParticipantConsts.tag_outcome_double_dq_with_manager()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            tag_result_double_dq_with_manager
+          )
+        )
+
+      assert tag_outcome_double_dq_with_manager == map_set_output
     end
 
     test "Tag match with champions" do
@@ -185,6 +219,23 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
         )
 
       assert singles_outcome_no_winner_profile == map_set_output
+    end
+
+    test "Singles match with wrestlers no winner profiles with_manager" do
+      singles_result_no_winner_profile_with_manager =
+        ParticipantConsts.singles_result_no_winner_profile_with_manager()
+
+      singles_outcome_no_winner_profile_with_manager =
+        ParticipantConsts.singles_outcome_no_winner_profile_with_manager()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            singles_result_no_winner_profile_with_manager
+          )
+        )
+
+      assert singles_outcome_no_winner_profile_with_manager == map_set_output
     end
 
     test "Tag match with wrestlers one winner profiles" do

@@ -1,7 +1,7 @@
 defmodule WweloWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :wwelo
 
-  socket("/socket", WweloWeb.UserSocket)
+  # socket("/socket", WweloWeb.UserSocket)
 
   # Serve at "/" the static files from "priv/static" directory.
   #

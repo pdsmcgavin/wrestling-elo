@@ -41,8 +41,6 @@ defmodule WweloWeb do
       import WweloWeb.Router.Helpers
       import WweloWeb.ErrorHelpers
       import WweloWeb.Gettext
-
-      import ReactPhoenix.ClientSide
     end
   end
 
