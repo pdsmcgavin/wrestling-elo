@@ -448,62 +448,6 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
     ])
   end
 
-  def singles_result_champion_with_manager do
-    %{
-      match_id: 1337,
-      match_result: [
-        {"a", [{"href", "?id=2&nr=243&name=Bruno+Sammartino"}], ["Bruno Sammartino"]},
-        " (w/",
-        {"a", [{"href", "?id=2&nr=1137&name=Arnold+Skaaland"}], ["Arnold Skaaland"]},
-        ") (c) vs. ",
-        {"a", [{"href", "?id=2&nr=198&name=Killer+Kowalski"}], ["Killer Kowalski"]},
-        " - No Contest (24:15)"
-      ]
-    }
-  end
-
-  def tag_result_with_managers do
-    %{
-      match_id: 1337,
-      match_result: [
-        {"a", [{"href", "?id=2&nr=926&name=Andre+The+Giant"}],
-         ["Andre The Giant"]},
-        " & ",
-        {"a", [{"href", "?id=2&nr=1335&name=Hillbilly+Jim"}],
-         ["Hillbilly Jim"]},
-        " (w/",
-        {"a", [{"href", "?id=2&nr=1075&name=Captain+Lou+Albano"}],
-         ["Captain Lou Albano"]},
-        ") vs. ",
-        {"a", [{"href", "?id=29&nr=122&name=The+Heenan+Family"}],
-         ["The Heenan Family"]},
-        " (",
-        {"a", [{"href", "?id=2&nr=310&name=Big+John+Studd"}],
-         ["Big John Studd"]},
-        " & ",
-        {"a", [{"href", "?id=2&nr=596&name=King+Kong+Bundy"}],
-         ["King Kong Bundy"]},
-        ") (w/",
-        {"a", [{"href", "?id=2&nr=770&name=Bobby+Heenan"}], ["Bobby Heenan"]},
-        ") - Double DQ (14:08)"
-      ]
-    }
-  end
-
-  def single_result_with_no_winner_profile_with_manager do
-    %{
-      match_id: 1337,
-      match_result: [
-        "The Spider Lady (w/",
-        {"a", [{"href", "?id=2&nr=1053&name=The+Fabulous+Moolah"}],
-         ["The Fabulous Moolah"]},
-        ") defeats ",
-        {"a", [{"href", "?id=2&nr=11307&name=Susan+Starr"}], ["Susan Starr"]},
-        " (2:45)"
-      ]
-    }
-  end
-
   def singles_result_no_profile do
     %{
       match_id: 1337,
