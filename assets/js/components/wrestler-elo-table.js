@@ -69,7 +69,7 @@ class WrestlerEloTable extends React.Component {
       }
     ];
 
-    const defaultSort = [{ id: "current_elo_value", desc: true }];
+    const defaultSort = [{ id: "max_elo_value", desc: true }];
 
     return (
       <ReactTable
