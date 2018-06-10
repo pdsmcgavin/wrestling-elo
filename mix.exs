@@ -50,6 +50,7 @@ defmodule Wwelo.Mixfile do
       {:httpoison, "~> 1.0"},
       {:floki, "~> 0.18.0"},
       {:elixir_mbcs, github: "woxtu/elixir-mbcs", tag: "0.1.3"},
+      {:mbcs, github: "nekova/erlang-mbcs"},
       {:math, "~> 0.3.0"},
       {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.8", only: :test},
