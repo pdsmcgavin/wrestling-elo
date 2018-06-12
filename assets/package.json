@@ -13,6 +13,7 @@
     "moment": "^2.22.1",
     "phoenix": "file:../deps/phoenix",
     "react-apollo": "^2.1.4",
+    "react-easy-chart": "^1.0.0",
     "react-table": "^6.8.2",
     "react-tabs": "^2.2.2"
   },

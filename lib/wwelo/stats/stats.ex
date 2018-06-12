@@ -49,8 +49,13 @@ defmodule Wwelo.Stats do
     |> Repo.insert()
   end
 
-  def list_wrestlers_elos(min_matches \\ 10) do
-    list_wrestlers_stats()
+  def get_wrestler(id) do
+    Wrestler
+    |> Repo.get(id)
+  end
+
+  def list_wrestlers_stats(min_matches \\ 10) do
+    wrestler_elos_by_id()
     |> Enum.filter(fn wrestler -> wrestler.elos |> length >= min_matches end)
     |> Enum.map(fn wrestler ->
       {min_elo_info, max_elo_info} =
@@ -58,8 +63,11 @@ defmodule Wwelo.Stats do
 
       current_elo_info = wrestler |> Map.get(:elos) |> Enum.at(-1)
 
+      wrestler_info = get_wrestler(wrestler |> Map.get(:id))
+
       %{
-        name: wrestler.name,
+        name: wrestler_info.name,
+        height: wrestler_info.height,
         current_elo: current_elo_info,
         max_elo: max_elo_info,
         min_elo: min_elo_info
@@ -67,7 +75,7 @@ defmodule Wwelo.Stats do
     end)
   end
 
-  def list_wrestlers_stats do
+  def wrestler_elos_by_id do
     query =
       from(
         elos in Elo,
@@ -82,7 +90,7 @@ defmodule Wwelo.Stats do
     query =
       from(
         [elos, m, e, w] in query,
-        select: %{name: w.name, date: e.date, elo: elos.elo},
+        select: %{id: w.id, date: e.date, elo: elos.elo},
         order_by: [
           asc: w.id,
           asc: e.date,
@@ -93,38 +101,7 @@ defmodule Wwelo.Stats do
 
     query
     |> Repo.all()
-    |> Enum.group_by(&Map.get(&1, :name), &Map.delete(&1, :name))
-    |> Enum.map(fn {name, elos} -> %{name: name, elos: elos} end)
-  end
-
-  def list_wrestler_stats(id) do
-    query =
-      from(
-        elos in Elo,
-        join: m in Match,
-        on: m.id == elos.match_id,
-        join: e in Event,
-        on: e.id == m.event_id,
-        join: w in Wrestler,
-        on: w.id == elos.wrestler_id
-      )
-
-    query =
-      from(
-        [elos, m, e, w] in query,
-        select: %{name: w.name, date: e.date, elo: elos.elo},
-        order_by: [
-          asc: w.id,
-          asc: e.date,
-          asc: e.id,
-          asc: m.card_position
-        ],
-        where: w.id == ^id
-      )
-
-    query
-    |> Repo.all()
-    |> Enum.group_by(&Map.get(&1, :name), &Map.delete(&1, :name))
-    |> Enum.map(fn {name, elos} -> %{name: name, elos: elos} end)
+    |> Enum.group_by(&Map.get(&1, :id), &Map.delete(&1, :id))
+    |> Enum.map(fn {id, elos} -> %{id: id, elos: elos} end)
   end
 end

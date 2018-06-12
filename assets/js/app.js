@@ -1,13 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import WrestlerEloTable from "./components/wrestler-elo-table";
-import "../stylus/app.styl";
+import WrestlerEloByHeight from "./components/wrestler-elo-by-height";
+
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import "../stylus/app.styl";
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: "/api/graphql" }),
@@ -23,10 +25,14 @@ class App extends React.Component {
           <Tabs>
             <TabList>
               <Tab>Elos by Wrestler</Tab>
+              <Tab>Elos by Height</Tab>
             </TabList>
 
             <TabPanel>
               <WrestlerEloTable />
+            </TabPanel>
+            <TabPanel>
+              <WrestlerEloByHeight />
             </TabPanel>
           </Tabs>
         </ApolloProvider>

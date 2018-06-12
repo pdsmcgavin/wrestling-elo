@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 
 export const GET_WRESTLERS_ELOS = gql`
   query getWrestlersElos {
-    wrestlerElos(min_matches: 1) {
-      wrestlerElo {
+    wrestlerStats(min_matches: 50) {
+      wrestlerStat {
         name
         currentElo {
           elo
@@ -16,6 +16,25 @@ export const GET_WRESTLERS_ELOS = gql`
         minElo {
           elo
           date
+        }
+      }
+    }
+  }
+`;
+
+export const GET_WRESTLERS_ELOS_BY_HEIGHT = gql`
+  query getWrestlersElosByHeight {
+    wrestlerStats(min_matches: 50) {
+      wrestlerStat {
+        height
+        currentElo {
+          elo
+        }
+        maxElo {
+          elo
+        }
+        minElo {
+          elo
         }
       }
     }
