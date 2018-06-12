@@ -11,8 +11,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "../priv/static"),
     filename: "js/app.js",
-    publicPath: "http://localhost:8080/",
-    globalObject: "window"
+    publicPath: "http://localhost:8080/"
   },
   module: {
     rules: [
@@ -20,7 +19,16 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
+          options: {
+            presets: isProduction
+              ? [
+                  ["@babel/preset-env", { modules: false }],
+                  "@babel/react",
+                  "minify"
+                ]
+              : [["@babel/preset-env", { modules: false }], "@babel/react"]
+          }
         }
       },
 
@@ -43,5 +51,5 @@ module.exports = {
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
       ]
     : [],
-  mode: "production"
+  mode: isProduction ? "production" : "development"
 };

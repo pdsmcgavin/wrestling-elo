@@ -20,7 +20,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h2>WWElo</h2>
+        <h2>WWElo0000</h2>
         <ApolloProvider client={client}>
           <Tabs>
             <TabList>

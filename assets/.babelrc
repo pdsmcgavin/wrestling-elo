@@ -1,8 +1,0 @@
-{
-  "presets": [["@babel/preset-env", { "modules": false }], "@babel/react"],
-  "env": {
-    "production": {
-      "presets": ["minify"]
-    }
-  }
-}
