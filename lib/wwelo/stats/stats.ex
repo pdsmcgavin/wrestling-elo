@@ -11,6 +11,7 @@ defmodule Wwelo.Stats do
   alias Wwelo.Stats.Event
   alias Wwelo.Stats.Match
   alias Wwelo.Stats.Participant
+  alias Wwelo.Stats.Roster
   alias Wwelo.Stats.Wrestler
 
   def create_alias(attrs \\ %{}) do
@@ -40,6 +41,12 @@ defmodule Wwelo.Stats do
   def create_participant(attrs \\ %{}) do
     %Participant{}
     |> Participant.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_roster(attrs \\ %{}) do
+    %Roster{}
+    |> Roster.changeset(attrs)
     |> Repo.insert()
   end
 
