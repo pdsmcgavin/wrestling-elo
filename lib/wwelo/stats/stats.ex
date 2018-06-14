@@ -89,17 +89,15 @@ defmodule Wwelo.Stats do
         join: m in Match,
         on: m.id == elos.match_id,
         join: e in Event,
-        on: e.id == m.event_id,
-        join: w in Wrestler,
-        on: w.id == elos.wrestler_id
+        on: e.id == m.event_id
       )
 
     query =
       from(
-        [elos, m, e, w] in query,
-        select: %{id: w.id, date: e.date, elo: elos.elo},
+        [elos, m, e] in query,
+        select: %{id: elos.wrestler_id, date: e.date, elo: elos.elo},
         order_by: [
-          asc: w.id,
+          asc: elos.wrestler_id,
           asc: e.date,
           asc: e.id,
           asc: m.card_position
