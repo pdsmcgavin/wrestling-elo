@@ -82,6 +82,34 @@ defmodule Wwelo.Stats do
     end)
   end
 
+  def list_current_wrestlers_stats(min_matches \\ 10) do
+    Roster
+    |> Repo.all()
+    |> Enum.map(fn %{brand: brand, wrestler_id: wrestler_id} ->
+      %{brand: brand, wrestler: wrestler_elos_by_id(wrestler_id)}
+    end)
+    |> Enum.filter(fn %{brand: _, wrestler: wrestler} ->
+      wrestler.elos |> length >= min_matches
+    end)
+    |> Enum.map(fn %{brand: brand, wrestler: wrestler} ->
+      {min_elo_info, max_elo_info} =
+        wrestler |> Map.get(:elos) |> Enum.min_max_by(&Map.get(&1, :elo))
+
+      current_elo_info = wrestler |> Map.get(:elos) |> Enum.at(-1)
+
+      wrestler_info = get_wrestler(wrestler |> Map.get(:id))
+
+      %{
+        name: wrestler_info.name,
+        height: wrestler_info.height,
+        current_elo: current_elo_info,
+        max_elo: max_elo_info,
+        min_elo: min_elo_info,
+        brand: brand
+      }
+    end)
+  end
+
   def wrestler_elos_by_id do
     query =
       from(
@@ -108,5 +136,36 @@ defmodule Wwelo.Stats do
     |> Repo.all()
     |> Enum.group_by(&Map.get(&1, :id), &Map.delete(&1, :id))
     |> Enum.map(fn {id, elos} -> %{id: id, elos: elos} end)
+  end
+
+  def wrestler_elos_by_id(wrestler_id) do
+    query =
+      from(
+        elos in Elo,
+        join: m in Match,
+        on: m.id == elos.match_id,
+        join: e in Event,
+        on: e.id == m.event_id
+      )
+
+    query =
+      from(
+        [elos, m, e] in query,
+        select: %{date: e.date, elo: elos.elo},
+        order_by: [
+          asc: elos.wrestler_id,
+          asc: e.date,
+          asc: e.id,
+          asc: m.card_position
+        ],
+        where: elos.wrestler_id == ^wrestler_id
+      )
+
+    %{
+      id: wrestler_id,
+      elos:
+        query
+        |> Repo.all()
+    }
   end
 end
