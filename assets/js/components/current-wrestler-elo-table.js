@@ -96,16 +96,6 @@ class CurrentWrestlerEloTable extends React.Component {
   }
 }
 
-const brandColour = brand => {
-  switch (brand) {
-    case "RAW":
-      "#FF0000";
-      break;
-    default:
-      "#dadada";
-  }
-};
-
 CurrentWrestlerEloTable.propTypes = {
   getCurrentWrestlersElos: PropTypes.object // Define better in future
 };
