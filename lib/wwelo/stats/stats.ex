@@ -61,7 +61,7 @@ defmodule Wwelo.Stats do
     |> Repo.get(id)
   end
 
-  def list_wrestlers_stats(min_matches \\ 10) do
+  def list_wrestlers_stats(min_matches) do
     wrestler_elos_by_id()
     |> Enum.filter(fn wrestler -> wrestler.elos |> length >= min_matches end)
     |> Enum.map(fn wrestler ->
@@ -82,14 +82,18 @@ defmodule Wwelo.Stats do
     end)
   end
 
-  def list_current_wrestlers_stats(min_matches \\ 10) do
+  def list_current_wrestlers_stats(min_matches, last_match_within_days \\ 365) do
     Roster
     |> Repo.all()
     |> Enum.map(fn %{brand: brand, wrestler_id: wrestler_id} ->
       %{brand: brand, wrestler: wrestler_elos_by_id(wrestler_id)}
     end)
     |> Enum.filter(fn %{brand: _, wrestler: wrestler} ->
-      wrestler.elos |> length >= min_matches
+      elos = wrestler |> Map.get(:elos)
+
+      elos |> length >= min_matches &&
+        elos |> Enum.at(-1) |> Map.get(:date) |> Date.diff(Date.utc_today()) >
+          -last_match_within_days
     end)
     |> Enum.map(fn %{brand: brand, wrestler: wrestler} ->
       {min_elo_info, max_elo_info} =

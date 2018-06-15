@@ -4,6 +4,7 @@ defmodule Wwelo.Updater do
   """
   use GenServer
   alias Wwelo.EloCalculator.EloCalculator
+  alias Wwelo.SiteScraper.Rosters
   alias Wwelo.SiteScraper.Scraper
 
   def start_link(state) do
@@ -26,6 +27,7 @@ defmodule Wwelo.Updater do
   defp update_site do
     Scraper.scrape_site()
     EloCalculator.calculate_elos()
+    Rosters.save_current_roster_to_database()
   end
 
   defp schedule_work() do
