@@ -22,6 +22,29 @@ export const GET_WRESTLERS_ELOS = gql`
   }
 `;
 
+export const GET_CURRENT_WRESTLERS_ELOS = gql`
+  query getCurrentWrestlersElos {
+    currentWrestlerStats(min_matches: 10, last_match_within_days: 365) {
+      currentWrestlerStat {
+        name
+        currentElo {
+          elo
+          date
+        }
+        maxElo {
+          elo
+          date
+        }
+        minElo {
+          elo
+          date
+        }
+        brand
+      }
+    }
+  }
+`;
+
 export const GET_WRESTLERS_ELOS_BY_HEIGHT = gql`
   query getWrestlersElosByHeight {
     wrestlerStats(min_matches: 50) {

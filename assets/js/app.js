@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import CurrentWrestlerEloTable from "./components/current-wrestler-elo-table";
 import WrestlerEloTable from "./components/wrestler-elo-table";
 import WrestlerEloByHeight from "./components/wrestler-elo-by-height";
 
@@ -24,10 +25,14 @@ class App extends React.Component {
         <ApolloProvider client={client}>
           <Tabs>
             <TabList>
-              <Tab>Elos by Wrestler</Tab>
+              <Tab>Active Wrestlers Elos</Tab>
+              <Tab>All Wrestlers Elos</Tab>
               <Tab>Elos by Height</Tab>
             </TabList>
 
+            <TabPanel>
+              <CurrentWrestlerEloTable />
+            </TabPanel>
             <TabPanel>
               <WrestlerEloTable />
             </TabPanel>
