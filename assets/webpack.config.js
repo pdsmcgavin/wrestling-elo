@@ -39,7 +39,7 @@ module.exports = {
       },
 
       {
-        test: /(react-tabs|react-table).css$/,
+        test: /(react-tabs|react-table|react-select).css$/,
         use: ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
       }
     ]
