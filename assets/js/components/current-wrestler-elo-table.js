@@ -19,12 +19,19 @@ class CurrentWrestlerEloTable extends React.Component {
         { value: "NXT", label: "NXT" },
         { value: "Free Agent", label: "Free Agent" }
       ],
+      selectedGender: null,
       nameToMatch: ""
     };
 
     this.handleBrandChange = selectedBrand => {
       this.setState({
         selectedBrand
+      });
+    };
+
+    this.handleGenderChange = selectedGender => {
+      this.setState({
+        selectedGender
       });
     };
 
@@ -36,7 +43,7 @@ class CurrentWrestlerEloTable extends React.Component {
   }
 
   render() {
-    const { selectedBrand, nameToMatch } = this.state;
+    const { selectedBrand, selectedGender, nameToMatch } = this.state;
     const eloPrecision = 1;
     const dateFormat = "Do MMM YYYY";
 
@@ -49,7 +56,8 @@ class CurrentWrestlerEloTable extends React.Component {
       wrestler =>
         selectedBrand.length > 0 &&
         selectedBrand.some(o => o.value == wrestler.brand) &&
-        wrestler.name.toLowerCase().includes(nameToMatch.toLowerCase())
+        wrestler.name.toLowerCase().includes(nameToMatch.toLowerCase()) &&
+        (!selectedGender || wrestler.gender === selectedGender.value)
     );
 
     const columns = [
@@ -147,9 +155,28 @@ class CurrentWrestlerEloTable extends React.Component {
               justifyContent: "center"
             }}
           >
+            <span style={{ marginRight: "10px" }}>Gender: </span>
+            <Select
+              name="genderFilter"
+              value={selectedGender}
+              onChange={this.handleGenderChange}
+              options={[
+                { value: "male", label: "Male" },
+                { value: "female", label: "Female" }
+              ]}
+              style={{ minWidth: "150px" }}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
             <span style={{ marginRight: "10px" }}>Brand: </span>
             <Select
-              name="form-field-name"
+              name="brand-filter"
               value={selectedBrand}
               onChange={this.handleBrandChange}
               options={[

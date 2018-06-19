@@ -27,6 +27,7 @@ export const GET_CURRENT_WRESTLERS_ELOS = gql`
     currentWrestlerStats(min_matches: 10, last_match_within_days: 365) {
       currentWrestlerStat {
         name
+        gender
         currentElo {
           elo
           date
