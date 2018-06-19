@@ -64,3 +64,22 @@ export const GET_WRESTLERS_ELOS_BY_HEIGHT = gql`
     }
   }
 `;
+
+export const GET_WRESTLERS_ELOS_BY_WEIGHT = gql`
+  query getWrestlersElosByWeight {
+    wrestlerStats(min_matches: 1) {
+      wrestlerStat {
+        weight
+        currentElo {
+          elo
+        }
+        maxElo {
+          elo
+        }
+        minElo {
+          elo
+        }
+      }
+    }
+  }
+`;

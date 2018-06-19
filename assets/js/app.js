@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import CurrentWrestlerEloTable from "./components/current-wrestler-elo-table";
 import WrestlerEloTable from "./components/wrestler-elo-table";
 import WrestlerEloByHeight from "./components/wrestler-elo-by-height";
+import WrestlerEloByWeight from "./components/wrestler-elo-by-weight";
 
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
@@ -28,6 +29,7 @@ class App extends React.Component {
               <Tab>Active Wrestlers Elos</Tab>
               <Tab>All Wrestlers Elos</Tab>
               <Tab>Elos by Height</Tab>
+              <Tab>Elos by Weight</Tab>
             </TabList>
 
             <TabPanel>
@@ -38,6 +40,9 @@ class App extends React.Component {
             </TabPanel>
             <TabPanel>
               <WrestlerEloByHeight />
+            </TabPanel>
+            <TabPanel>
+              <WrestlerEloByWeight />
             </TabPanel>
           </Tabs>
         </ApolloProvider>
