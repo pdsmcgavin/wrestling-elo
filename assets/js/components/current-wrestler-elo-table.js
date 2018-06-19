@@ -49,7 +49,7 @@ class CurrentWrestlerEloTable extends React.Component {
       wrestler =>
         selectedBrand.length > 0 &&
         selectedBrand.some(o => o.value == wrestler.brand) &&
-        wrestler.name.includes(nameToMatch)
+        wrestler.name.toLowerCase().includes(nameToMatch.toLowerCase())
     );
 
     const columns = [
@@ -133,7 +133,7 @@ class CurrentWrestlerEloTable extends React.Component {
               justifyContent: "center"
             }}
           >
-            <span style={{ marginRight: "10px" }}>Name Filter: </span>
+            <span style={{ marginRight: "10px" }}>Name: </span>
             <input
               type="text"
               value={this.state.value}
@@ -147,7 +147,7 @@ class CurrentWrestlerEloTable extends React.Component {
               justifyContent: "center"
             }}
           >
-            <span style={{ marginRight: "10px" }}>Brand Filter: </span>
+            <span style={{ marginRight: "10px" }}>Brand: </span>
             <Select
               name="form-field-name"
               value={selectedBrand}
