@@ -56,6 +56,7 @@ class CurrentWrestlerEloTable extends React.Component {
       wrestler =>
         selectedBrand.length > 0 &&
         selectedBrand.some(o => o.value == wrestler.brand) &&
+        wrestler.name &&
         wrestler.name.toLowerCase().includes(nameToMatch.toLowerCase()) &&
         (!selectedGender || wrestler.gender === selectedGender.value)
     );
