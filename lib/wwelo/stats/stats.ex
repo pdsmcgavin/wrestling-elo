@@ -85,17 +85,17 @@ defmodule Wwelo.Stats do
   def list_current_wrestlers_stats(min_matches, last_match_within_days \\ 365) do
     Roster
     |> Repo.all()
-    |> Enum.map(fn %{brand: brand, wrestler_id: wrestler_id} ->
-      %{brand: brand, wrestler: wrestler_elos_by_id(wrestler_id)}
+    |> Enum.map(fn %{alias: alias, brand: brand, wrestler_id: wrestler_id} ->
+      %{alias: alias, brand: brand, wrestler: wrestler_elos_by_id(wrestler_id)}
     end)
-    |> Enum.filter(fn %{brand: _, wrestler: wrestler} ->
+    |> Enum.filter(fn %{alias: _, brand: _, wrestler: wrestler} ->
       elos = wrestler |> Map.get(:elos)
 
       elos |> length >= min_matches &&
         elos |> Enum.at(-1) |> Map.get(:date) |> Date.diff(Date.utc_today()) >
           -last_match_within_days
     end)
-    |> Enum.map(fn %{brand: brand, wrestler: wrestler} ->
+    |> Enum.map(fn %{alias: alias, brand: brand, wrestler: wrestler} ->
       {min_elo_info, max_elo_info} =
         wrestler |> Map.get(:elos) |> Enum.min_max_by(&Map.get(&1, :elo))
 
@@ -104,7 +104,7 @@ defmodule Wwelo.Stats do
       wrestler_info = get_wrestler(wrestler |> Map.get(:id))
 
       %{
-        name: wrestler_info.name,
+        name: alias,
         gender: wrestler_info.gender,
         height: wrestler_info.height,
         weight: wrestler_info.weight,

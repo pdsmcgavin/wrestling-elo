@@ -11,7 +11,7 @@ defmodule Wwelo.SiteScraper.Rosters do
   def save_current_roster_to_database do
     roster = get_active_roster_list()
     Repo.delete_all(Roster)
-    Enum.each(roster, fn member -> save_roster_memeber_to_database(member) end)
+    Enum.each(roster, fn member -> save_roster_member_to_database(member) end)
   end
 
   defp get_active_roster_list do
@@ -34,8 +34,11 @@ defmodule Wwelo.SiteScraper.Rosters do
       wrestler_id = get_active_wrestler_id(wrestler)
 
       case wrestler?(jobs, brand) && !is_nil(wrestler_id) do
-        true -> acc ++ [%{wrestler_id: wrestler_id, brand: brand}]
-        _ -> acc
+        true ->
+          acc ++ [%{wrestler_id: wrestler_id, brand: brand, alias: wrestler}]
+
+        _ ->
+          acc
       end
     end)
   end
@@ -73,17 +76,30 @@ defmodule Wwelo.SiteScraper.Rosters do
     |> is_nil
   end
 
-  defp save_roster_memeber_to_database(%{brand: [], wrestler_id: wrestler_id}) do
-    Stats.create_roster(%{brand: "Free Agent", wrestler_id: wrestler_id})
+  defp save_roster_member_to_database(%{
+         alias: alias,
+         brand: [],
+         wrestler_id: wrestler_id
+       }) do
+    Stats.create_roster(%{
+      alias: alias,
+      brand: "Free Agent",
+      wrestler_id: wrestler_id
+    })
   end
 
-  defp save_roster_memeber_to_database(%{
+  defp save_roster_member_to_database(%{
+         alias: alias,
          brand: brands,
          wrestler_id: wrestler_id
        }) do
     brands
     |> Enum.each(fn brand ->
-      Stats.create_roster(%{brand: brand, wrestler_id: wrestler_id})
+      Stats.create_roster(%{
+        alias: alias,
+        brand: brand,
+        wrestler_id: wrestler_id
+      })
     end)
   end
 end

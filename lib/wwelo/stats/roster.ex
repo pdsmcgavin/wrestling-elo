@@ -6,6 +6,7 @@ defmodule Wwelo.Stats.Roster do
   alias Wwelo.Stats.Roster
 
   schema "rosters" do
+    field(:alias, :string)
     field(:brand, :string)
     field(:wrestler_id, :integer)
 
@@ -15,7 +16,7 @@ defmodule Wwelo.Stats.Roster do
   @doc false
   def changeset(%Roster{} = roster, attrs) do
     roster
-    |> cast(attrs, [:wrestler_id, :brand])
-    |> validate_required([:wrestler_id, :brand])
+    |> cast(attrs, [:wrestler_id, :brand, :alias])
+    |> validate_required([:wrestler_id, :brand, :alias])
   end
 end
