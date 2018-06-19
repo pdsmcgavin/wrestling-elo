@@ -14,8 +14,10 @@ defmodule WweloWeb.Schema do
 
   object :wrestler_stat do
     field(:name, :string)
-    field(:current_elo, :elo)
+    field(:gender, :string)
     field(:height, :integer)
+    field(:weight, :integer)
+    field(:current_elo, :elo)
     field(:max_elo, :elo)
     field(:min_elo, :elo)
     field(:brand, :string)

@@ -105,7 +105,9 @@ defmodule Wwelo.Stats do
 
       %{
         name: wrestler_info.name,
+        gender: wrestler_info.gender,
         height: wrestler_info.height,
+        weight: wrestler_info.weight,
         current_elo: current_elo_info,
         max_elo: max_elo_info,
         min_elo: min_elo_info,
