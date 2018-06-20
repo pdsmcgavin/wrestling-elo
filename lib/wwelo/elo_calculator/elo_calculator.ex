@@ -31,6 +31,9 @@ defmodule Wwelo.EloCalculator.EloCalculator do
 
   """
   def calculate_elos do
+    date_of_earlist_match_with_no_elo_calculation()
+    |> delete_elo_calculations_after_non_calculated_match
+
     list_of_matches_with_no_elo_calculation()
     |> Enum.map(fn match_id ->
       match_id
@@ -128,7 +131,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
-  defp list_of_matches_with_no_elo_calculation do
+  def list_of_matches_with_no_elo_calculation do
     query =
       from(
         e in Event,
@@ -147,10 +150,53 @@ defmodule Wwelo.EloCalculator.EloCalculator do
           asc: e.id,
           asc: m.card_position
         ],
-        where: elos.id |> is_nil
+        where: elos.id |> is_nil and e.date < ^Date.utc_today()
       )
 
     Repo.all(query)
+  end
+
+  defp date_of_earlist_match_with_no_elo_calculation do
+    query =
+      from(
+        e in Event,
+        join: m in Match,
+        on: m.event_id == e.id,
+        left_join: elos in Elo,
+        on: m.id == elos.match_id
+      )
+
+    query =
+      from(
+        [e, m, elos] in query,
+        select: e.date,
+        order_by: [
+          asc: e.date
+        ],
+        where: elos.id |> is_nil
+      )
+
+    query |> Repo.all() |> Enum.at(0)
+  end
+
+  defp delete_elo_calculations_after_non_calculated_match(date) do
+    query =
+      from(
+        e in Event,
+        join: m in Match,
+        on: m.event_id == e.id,
+        left_join: elos in Elo,
+        on: m.id == elos.match_id
+      )
+
+    query =
+      from(
+        [e, m, elos] in query,
+        select: elos,
+        where: e.date >= ^date
+      )
+
+    query |> Repo.all() |> Enum.each(&Repo.delete(&1))
   end
 
   defp participants_info_of_match(match_id) do
