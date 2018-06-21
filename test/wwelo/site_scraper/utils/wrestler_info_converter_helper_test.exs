@@ -89,4 +89,46 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelperTest do
       assert converted_wrestler_info == %{}
     end
   end
+
+  describe "It should split up alter egos correctly" do
+    test "No alter egos" do
+      alter_ego_input = [
+        {"a", [{"href", "?id=2&nr=13747&page=4&gimmick=Trent+Seven"}],
+         ["Trent Seven"]}
+      ]
+
+      expected_alter_ego_output = %{"Trent Seven": ["Trent Seven"]}
+
+      assert WrestlerInfoConverterHelper.get_names_and_aliases(alter_ego_input) ==
+               expected_alter_ego_output
+    end
+
+    test "Multiple alter egos" do
+      alter_ego_input = [
+        {"a", [{"href", "?id=2&nr=16353&page=4&gimmick=Rick+Powers"}],
+         ["Rick Powers"]},
+        {"br", [], []},
+        {"a", [{"href", "?id=2&nr=16353&page=4&gimmick=Slugger+Clark"}],
+         ["Slugger Clark"]},
+        {"br", [], []},
+        "    ",
+        {"span", [{"class", "TextLowlight"}], ["a.k.a."]},
+        "  ",
+        {"a", [{"href", "?id=2&nr=16353&page=4&gimmick=Patrick+Clark"}],
+         ["Patrick Clark"]},
+        {"br", [], []},
+        {"a", [{"href", "?id=2&nr=16353&page=4&gimmick=Velveteen+Dream"}],
+         ["Velveteen Dream"]}
+      ]
+
+      expected_alter_ego_output = %{
+        "Rick Powers": ["Rick Powers"],
+        "Slugger Clark": ["Slugger Clark", "Patrick Clark"],
+        "Velveteen Dream": ["Velveteen Dream"]
+      }
+
+      assert WrestlerInfoConverterHelper.get_names_and_aliases(alter_ego_input) ==
+               expected_alter_ego_output
+    end
+  end
 end

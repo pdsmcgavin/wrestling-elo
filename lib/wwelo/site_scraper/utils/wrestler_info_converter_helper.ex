@@ -73,7 +73,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
     |> elem(0)
   end
 
-  defp get_names_and_aliases(alter_egos) do
+  def get_names_and_aliases(alter_egos) do
     alter_egos
     |> Enum.map(fn alter_ego ->
       if is_tuple(alter_ego) && tuple_size(alter_ego) == 3 do
