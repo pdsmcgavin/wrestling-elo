@@ -131,7 +131,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
-  def list_of_matches_with_no_elo_calculation do
+  defp list_of_matches_with_no_elo_calculation do
     query =
       from(
         e in Event,
@@ -179,13 +179,16 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     query |> Repo.all() |> Enum.at(0)
   end
 
+  defp delete_elo_calculations_after_non_calculated_match(nil) do
+  end
+
   defp delete_elo_calculations_after_non_calculated_match(date) do
     query =
       from(
         e in Event,
         join: m in Match,
         on: m.event_id == e.id,
-        left_join: elos in Elo,
+        join: elos in Elo,
         on: m.id == elos.match_id
       )
 
