@@ -29,7 +29,7 @@ defmodule WweloWeb.Schema do
   end
 
   object :max_min_elos_by_year do
-    field(:max_min_elos_by_year, list_of(:max_min_elos_of_year))
+    field(:max_min_elos_of_year, list_of(:max_min_elos_of_year))
   end
 
   object :max_min_elos_of_year do
@@ -74,7 +74,7 @@ defmodule WweloWeb.Schema do
 
     field :max_min_elos_by_year, :max_min_elos_by_year do
       resolve(fn _, _ ->
-        {:ok, %{max_min_elos_by_year: Stats.max_min_elos_by_year()}}
+        {:ok, %{max_min_elos_of_year: Stats.max_min_elos_by_year()}}
       end)
     end
   end

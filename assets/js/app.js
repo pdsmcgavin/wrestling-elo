@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import CurrentWrestlerEloTable from "./components/current-wrestler-elo-table";
 import WrestlerEloTable from "./components/wrestler-elo-table";
+import WrestlerEloByYearTable from "./components/wrestler-elo-by-year-table";
 import WrestlerEloByHeight from "./components/wrestler-elo-by-height";
 import WrestlerEloByWeight from "./components/wrestler-elo-by-weight";
 
@@ -28,6 +29,7 @@ class App extends React.Component {
             <TabList>
               <Tab>Active Wrestlers Elos</Tab>
               <Tab>All Wrestlers Elos</Tab>
+              <Tab>Best/Worst of the Year</Tab>
               <Tab>Elos by Height</Tab>
               <Tab>Elos by Weight</Tab>
             </TabList>
@@ -37,6 +39,9 @@ class App extends React.Component {
             </TabPanel>
             <TabPanel>
               <WrestlerEloTable />
+            </TabPanel>
+            <TabPanel>
+              <WrestlerEloByYearTable />
             </TabPanel>
             <TabPanel>
               <WrestlerEloByHeight />

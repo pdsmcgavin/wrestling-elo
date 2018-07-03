@@ -83,3 +83,21 @@ export const GET_WRESTLERS_ELOS_BY_WEIGHT = gql`
     }
   }
 `;
+
+export const GET_WRESTLERS_ELOS_BY_YEAR = gql`
+  query getWrestlersElosByYear {
+    maxMinElosByYear {
+      maxMinElosOfYear {
+        year
+        maxElo {
+          elo
+          name
+        }
+        minElo {
+          elo
+          name
+        }
+      }
+    }
+  }
+`;
