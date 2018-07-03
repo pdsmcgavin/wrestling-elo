@@ -32,3 +32,6 @@ npm-debug.log
 
 # Edeliver releases
 .deliver/releases/
+
+# SSH Keys
+deploy_rsa
