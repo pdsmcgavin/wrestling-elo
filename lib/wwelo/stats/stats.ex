@@ -176,4 +176,42 @@ defmodule Wwelo.Stats do
         |> Repo.all()
     }
   end
+
+  def max_min_elos_by_year do
+    query =
+      from(
+        elos in Elo,
+        join: m in Match,
+        on: m.id == elos.match_id,
+        join: e in Event,
+        on: e.id == m.event_id
+      )
+
+    query =
+      from(
+        [elos, m, e] in query,
+        select: %{id: elos.wrestler_id, date: e.date, elo: elos.elo}
+      )
+
+    query
+    |> Repo.all()
+    |> Enum.group_by(fn x ->
+      x |> Map.get(:date) |> Date.to_erl() |> elem(0)
+    end)
+    |> Enum.map(fn {year, x} ->
+      {min_elo_info, max_elo_info} = Enum.min_max_by(x, &Map.get(&1, :elo))
+
+      %{
+        year: year,
+        max_elo: %{
+          elo: max_elo_info.elo,
+          name: Map.get(get_wrestler(max_elo_info.id), :name)
+        },
+        min_elo: %{
+          elo: min_elo_info.elo,
+          name: Map.get(get_wrestler(min_elo_info.id), :name)
+        }
+      }
+    end)
+  end
 end
