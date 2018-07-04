@@ -14,4 +14,5 @@ before_install:
 - ssh-add /tmp/deploy_rsa
 
 script:
-- mix edeliver upgrade production --verbose
+- mix edeliver build upgrade --from=32d8723db6926e58bacfb9c7084abab8a10b9305 --verbose
+- mix edeliver deploy upgrade to production --verbose
