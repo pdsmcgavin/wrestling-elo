@@ -35,3 +35,4 @@ npm-debug.log
 
 # SSH Keys
 deploy_rsa
+deploy_rsa.pub
