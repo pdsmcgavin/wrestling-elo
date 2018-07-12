@@ -47,7 +47,7 @@ class WrestlerEloByYearTable extends React.Component {
       }
     ];
 
-    // const defaultSort = [{ id: "maxEloValue", desc: true }];
+    const defaultSort = [{ id: "year", asc: true }];
 
     return (
       <ReactTable
@@ -63,7 +63,7 @@ class WrestlerEloByYearTable extends React.Component {
             : "No data found"
         }
         columns={columns}
-        // defaultSorted={defaultSort}
+        defaultSorted={defaultSort}
       />
     );
   }
