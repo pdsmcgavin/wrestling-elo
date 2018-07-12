@@ -11,5 +11,5 @@ before_install:
 - chmod 600 deploy_rsa
 - ssh-add deploy_rsa
 script:
-- mix edeliver build upgrade --from=$(mix edeliver version production | grep response | sed 's/.\{0,99\}+//g') --verbose
+- mix edeliver build upgrade --from=$(mix edeliver version production | grep response | sed 's/.\{0,99\}+//g' | cut -c -7) --verbose
 - mix edeliver deploy upgrade to production --verbose
