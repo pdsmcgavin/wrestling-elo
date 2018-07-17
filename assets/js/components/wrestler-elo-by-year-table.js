@@ -44,6 +44,38 @@ class WrestlerEloByYearTable extends React.Component {
             accessor: "minElo.name"
           }
         ]
+      },
+      {
+        Header: "Maximum Elo Change",
+        columns: [
+          {
+            Header: "Value",
+            id: "maxEloDifferenceValue",
+            accessor: d =>
+              d.maxEloDifference.eloDifference.toFixed(eloPrecision),
+            sortMethod: floatStringSort
+          },
+          {
+            Header: "Name",
+            accessor: "maxEloDifference.name"
+          }
+        ]
+      },
+      {
+        Header: "Minimum Elo Change",
+        columns: [
+          {
+            Header: "Value",
+            id: "minEloDifferenceValue",
+            accessor: d =>
+              d.minEloDifference.eloDifference.toFixed(eloPrecision),
+            sortMethod: floatStringSort
+          },
+          {
+            Header: "Name",
+            accessor: "minEloDifference.name"
+          }
+        ]
       }
     ];
 
@@ -54,8 +86,7 @@ class WrestlerEloByYearTable extends React.Component {
         data={
           this.props.getWrestlersElosByYear.loading
             ? []
-            : this.props.getWrestlersElosByYear.maxMinElosByYear
-                .maxMinElosOfYear
+            : this.props.getWrestlersElosByYear.eloStatsByYear.eloStatsOfYear
         }
         noDataText={
           this.props.getWrestlersElosByYear.loading

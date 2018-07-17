@@ -177,7 +177,97 @@ defmodule Wwelo.Stats do
     }
   end
 
-  def max_min_elos_by_year do
+  def replace_dates_with_years(elo_info) do
+    elo_info
+    |> Enum.map(fn elo ->
+      elo
+      |> Map.put(:year, elo |> Map.get(:date) |> Date.to_erl() |> elem(0))
+      |> Map.delete(:date)
+    end)
+  end
+
+  def max_min_elo_differences_by_year(elo_info) do
+    elo_info
+    |> Enum.group_by(fn x ->
+      x |> Map.get(:id)
+    end)
+    |> Enum.map(fn {id, elos} ->
+      %{
+        id: id,
+        elos:
+          elos
+          |> Enum.group_by(fn x ->
+            x |> Map.get(:date) |> Date.to_erl() |> elem(0)
+          end)
+          |> Enum.map(fn {year, elos} ->
+            %{
+              year: year,
+              elo:
+                elos
+                |> Enum.max_by(fn elo ->
+                  elo |> Map.get(:date) |> Date.to_iso8601()
+                end)
+                |> Map.get(:elo)
+            }
+          end)
+      }
+    end)
+    |> Enum.map(fn %{elos: elos, id: id} ->
+      [%{elo: 1200, year: 0} | elos]
+      |> Enum.zip(elos)
+      |> Enum.map(fn {elo_before, elo_after} ->
+        %{
+          year: elo_after |> Map.get(:year),
+          elo_difference: Map.get(elo_after, :elo) - Map.get(elo_before, :elo),
+          id: id
+        }
+      end)
+    end)
+    |> List.flatten()
+  end
+
+  def get_elo_stats_by_year do
+    elo_info = get_all_elos_and_dates()
+
+    max_min_elos = replace_dates_with_years(elo_info)
+    max_min_elo_differences = max_min_elo_differences_by_year(elo_info)
+
+    (max_min_elos ++ max_min_elo_differences)
+    |> Enum.group_by(&Map.get(&1, :year))
+    |> Enum.map(fn {year, elos} ->
+      {min_elo_info, max_elo_info} =
+        elos
+        |> Enum.filter(&Map.has_key?(&1, :elo))
+        |> Enum.min_max_by(&Map.get(&1, :elo))
+
+      {min_elo_difference_info, max_elo_difference_info} =
+        elos
+        |> Enum.filter(&Map.has_key?(&1, :elo_difference))
+        |> Enum.min_max_by(&Map.get(&1, :elo_difference))
+
+      %{
+        year: year,
+        max_elo: %{
+          elo: max_elo_info.elo,
+          name: Map.get(get_wrestler(max_elo_info.id), :name)
+        },
+        min_elo: %{
+          elo: min_elo_info.elo,
+          name: Map.get(get_wrestler(min_elo_info.id), :name)
+        },
+        max_elo_difference: %{
+          elo_difference: max_elo_difference_info.elo_difference,
+          name: Map.get(get_wrestler(max_elo_difference_info.id), :name)
+        },
+        min_elo_difference: %{
+          elo_difference: min_elo_difference_info.elo_difference,
+          name: Map.get(get_wrestler(min_elo_difference_info.id), :name)
+        }
+      }
+    end)
+  end
+
+  def get_all_elos_and_dates do
     query =
       from(
         elos in Elo,
@@ -190,28 +280,14 @@ defmodule Wwelo.Stats do
     query =
       from(
         [elos, m, e] in query,
-        select: %{id: elos.wrestler_id, date: e.date, elo: elos.elo}
+        select: %{
+          id: elos.wrestler_id,
+          date: e.date,
+          elo: elos.elo
+        }
       )
 
     query
     |> Repo.all()
-    |> Enum.group_by(fn x ->
-      x |> Map.get(:date) |> Date.to_erl() |> elem(0)
-    end)
-    |> Enum.map(fn {year, x} ->
-      {min_elo_info, max_elo_info} = Enum.min_max_by(x, &Map.get(&1, :elo))
-
-      %{
-        year: year,
-        max_elo: %{
-          elo: max_elo_info.elo,
-          name: Map.get(get_wrestler(max_elo_info.id), :name)
-        },
-        min_elo: %{
-          elo: min_elo_info.elo,
-          name: Map.get(get_wrestler(min_elo_info.id), :name)
-        }
-      }
-    end)
   end
 end

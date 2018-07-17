@@ -86,8 +86,8 @@ export const GET_WRESTLERS_ELOS_BY_WEIGHT = gql`
 
 export const GET_WRESTLERS_ELOS_BY_YEAR = gql`
   query getWrestlersElosByYear {
-    maxMinElosByYear {
-      maxMinElosOfYear {
+    eloStatsByYear {
+      eloStatsOfYear {
         year
         maxElo {
           elo
@@ -95,6 +95,14 @@ export const GET_WRESTLERS_ELOS_BY_YEAR = gql`
         }
         minElo {
           elo
+          name
+        }
+        maxEloDifference {
+          eloDifference
+          name
+        }
+        minEloDifference {
+          eloDifference
           name
         }
       }
