@@ -63,6 +63,12 @@ class CurrentWrestlerEloTable extends React.Component {
 
     const columns = [
       {
+        Header: "Filtered Rank",
+        Cell: ({ page, pageSize, viewIndex }) => (
+          <span>{page * pageSize + viewIndex + 1}</span>
+        )
+      },
+      {
         Header: "Name",
         accessor: "name"
       },
