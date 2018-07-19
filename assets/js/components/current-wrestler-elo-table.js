@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, compose } from "react-apollo";
 import { GET_CURRENT_WRESTLERS_ELOS } from "./queries/queries";
 import PropTypes from "prop-types";
 import ReactTable from "react-table";
@@ -8,7 +8,8 @@ import Select from "react-select";
 import "react-select/dist/react-select.css";
 import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
-import { todaysDateISO } from "./utils/iso-dates";
+import { todaysDateISO, previousDateISO } from "./utils/iso-dates";
+import rankChanges from "./utils/rank-changes";
 
 class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {
@@ -49,10 +50,17 @@ class CurrentWrestlerEloTable extends React.Component {
     const eloPrecision = 1;
     const dateFormat = "Do MMM YYYY";
 
-    const data = this.props.getCurrentWrestlersElos.loading
+    let data = this.props.getCurrentWrestlersElos.loading
       ? []
       : this.props.getCurrentWrestlersElos.currentWrestlerStats
           .currentWrestlerStat;
+
+    const previousData = this.props.getPreviousCurrentWrestlersElos.loading
+      ? []
+      : this.props.getPreviousCurrentWrestlersElos.currentWrestlerStats
+          .currentWrestlerStat;
+
+    data = rankChanges(data, previousData);
 
     const filteredData = data.filter(
       wrestler =>
@@ -65,10 +73,8 @@ class CurrentWrestlerEloTable extends React.Component {
 
     const columns = [
       {
-        Header: "Filtered Rank",
-        Cell: ({ page, pageSize, viewIndex }) => (
-          <span>{page * pageSize + viewIndex + 1}</span>
-        )
+        Header: "Rank Change",
+        accessor: "rankChange"
       },
       {
         Header: "Name",
@@ -218,16 +224,29 @@ class CurrentWrestlerEloTable extends React.Component {
 }
 
 CurrentWrestlerEloTable.propTypes = {
-  getCurrentWrestlersElos: PropTypes.object // Define better in future
+  getCurrentWrestlersElos: PropTypes.object, // Define better in future
+  getPreviousCurrentWrestlersElos: PropTypes.object // Define better in future
 };
 
-export default graphql(GET_CURRENT_WRESTLERS_ELOS, {
-  name: "getCurrentWrestlersElos",
-  options: {
-    variables: {
-      minMatches: 1,
-      lastMatchWithinDays: 365,
-      date: todaysDateISO()
+export default compose(
+  graphql(GET_CURRENT_WRESTLERS_ELOS, {
+    name: "getCurrentWrestlersElos",
+    options: {
+      variables: {
+        minMatches: 10,
+        lastMatchWithinDays: 365,
+        date: todaysDateISO()
+      }
     }
-  }
-})(CurrentWrestlerEloTable);
+  }),
+  graphql(GET_CURRENT_WRESTLERS_ELOS, {
+    name: "getPreviousCurrentWrestlersElos",
+    options: {
+      variables: {
+        minMatches: 10,
+        lastMatchWithinDays: 365,
+        date: previousDateISO(7)
+      }
+    }
+  })
+)(CurrentWrestlerEloTable);
