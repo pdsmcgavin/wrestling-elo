@@ -8,7 +8,7 @@ import Select from "react-select";
 import "react-select/dist/react-select.css";
 import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
-
+import { todaysDateISO } from "./utils/iso-dates";
 class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {
     super(props);
@@ -219,5 +219,12 @@ CurrentWrestlerEloTable.propTypes = {
 };
 
 export default graphql(GET_CURRENT_WRESTLERS_ELOS, {
-  name: "getCurrentWrestlersElos"
+  name: "getCurrentWrestlersElos",
+  options: {
+    variables: {
+      minMatches: 1,
+      lastMatchWithinDays: 365,
+      date: todaysDateISO()
+    }
+  }
 })(CurrentWrestlerEloTable);

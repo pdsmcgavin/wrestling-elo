@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const GET_WRESTLERS_ELOS = gql`
   query getWrestlersElos {
-    wrestlerStats(min_matches: 50) {
+    wrestlerStats(minMatches: 50) {
       wrestlerStat {
         name
         currentElo {
@@ -23,8 +23,16 @@ export const GET_WRESTLERS_ELOS = gql`
 `;
 
 export const GET_CURRENT_WRESTLERS_ELOS = gql`
-  query getCurrentWrestlersElos {
-    currentWrestlerStats(min_matches: 10, last_match_within_days: 365) {
+  query getCurrentWrestlersElos(
+    $minMatches: Int!
+    $lastMatchWithinDays: Int!
+    $date: String!
+  ) {
+    currentWrestlerStats(
+      minMatches: $minMatches
+      lastMatchWithinDays: $lastMatchWithinDays
+      date: $date
+    ) {
       currentWrestlerStat {
         name
         gender
@@ -48,7 +56,7 @@ export const GET_CURRENT_WRESTLERS_ELOS = gql`
 
 export const GET_WRESTLERS_ELOS_BY_HEIGHT = gql`
   query getWrestlersElosByHeight {
-    wrestlerStats(min_matches: 50) {
+    wrestlerStats(minMatches: 50) {
       wrestlerStat {
         height
         currentElo {
@@ -67,7 +75,7 @@ export const GET_WRESTLERS_ELOS_BY_HEIGHT = gql`
 
 export const GET_WRESTLERS_ELOS_BY_WEIGHT = gql`
   query getWrestlersElosByWeight {
-    wrestlerStats(min_matches: 50) {
+    wrestlerStats(minMatches: 50) {
       wrestlerStat {
         weight
         currentElo {

@@ -40,10 +40,12 @@ defmodule WweloWeb.Schema.WrestlerStats do
     field :current_wrestler_stats, :current_wrestler_stats do
       arg(:min_matches, :integer)
       arg(:last_match_within_days, :integer)
+      arg(:date, :date)
 
       resolve(fn %{
                    min_matches: min_matches,
-                   last_match_within_days: last_match_within_days
+                   last_match_within_days: last_match_within_days,
+                   date: date
                  },
                  _ ->
         {:ok,
@@ -51,7 +53,8 @@ defmodule WweloWeb.Schema.WrestlerStats do
            current_wrestler_stat:
              Stats.list_current_wrestlers_stats(
                min_matches,
-               last_match_within_days
+               last_match_within_days,
+               date
              )
          }}
       end)

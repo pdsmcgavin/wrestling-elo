@@ -84,11 +84,19 @@ defmodule Wwelo.Stats do
     end)
   end
 
-  def list_current_wrestlers_stats(min_matches, last_match_within_days \\ 365) do
+  def list_current_wrestlers_stats(
+        min_matches,
+        last_match_within_days,
+        date
+      ) do
     Roster
     |> Repo.all()
     |> Enum.map(fn %{alias: alias, brand: brand, wrestler_id: wrestler_id} ->
-      %{alias: alias, brand: brand, wrestler: wrestler_elos_by_id(wrestler_id)}
+      %{
+        alias: alias,
+        brand: brand,
+        wrestler: wrestler_elos_by_id(wrestler_id, date)
+      }
     end)
     |> Enum.filter(fn %{alias: _, brand: _, wrestler: wrestler} ->
       elos = wrestler |> Map.get(:elos)
@@ -167,6 +175,37 @@ defmodule Wwelo.Stats do
           asc: m.card_position
         ],
         where: elos.wrestler_id == ^wrestler_id
+      )
+
+    %{
+      id: wrestler_id,
+      elos:
+        query
+        |> Repo.all()
+    }
+  end
+
+  def wrestler_elos_by_id(wrestler_id, date) do
+    query =
+      from(
+        elos in Elo,
+        join: m in Match,
+        on: m.id == elos.match_id,
+        join: e in Event,
+        on: e.id == m.event_id
+      )
+
+    query =
+      from(
+        [elos, m, e] in query,
+        select: %{date: e.date, elo: elos.elo},
+        order_by: [
+          asc: elos.wrestler_id,
+          asc: e.date,
+          asc: e.id,
+          asc: m.card_position
+        ],
+        where: elos.wrestler_id == ^wrestler_id and e.date <= ^date
       )
 
     %{

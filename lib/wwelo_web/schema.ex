@@ -4,6 +4,7 @@ defmodule WweloWeb.Schema do
 
   import_types(WweloWeb.Schema.EloStatsByYear)
   import_types(WweloWeb.Schema.WrestlerStats)
+  import_types(Absinthe.Type.Custom)
 
   query do
     import_fields(:wrestler_stat_queries)
