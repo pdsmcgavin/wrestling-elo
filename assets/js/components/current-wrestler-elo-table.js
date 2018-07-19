@@ -9,6 +9,7 @@ import "react-select/dist/react-select.css";
 import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
 import { todaysDateISO } from "./utils/iso-dates";
+
 class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +18,7 @@ class CurrentWrestlerEloTable extends React.Component {
         { value: "RAW", label: "RAW" },
         { value: "SmackDown", label: "SmackDown" },
         { value: "NXT", label: "NXT" },
+        { value: "205 Live", label: "205 Live" },
         { value: "Free Agent", label: "Free Agent" }
       ],
       selectedGender: null,
@@ -190,6 +192,7 @@ class CurrentWrestlerEloTable extends React.Component {
                 { value: "RAW", label: "RAW" },
                 { value: "SmackDown", label: "SmackDown" },
                 { value: "NXT", label: "NXT" },
+                { value: "205 Live", label: "205 Live" },
                 { value: "Free Agent", label: "Free Agent" }
               ]}
               multi
