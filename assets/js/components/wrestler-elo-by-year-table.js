@@ -5,11 +5,10 @@ import PropTypes from "prop-types";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { floatStringSort } from "./utils/table-sort";
+import { eloPrecision } from "./consts/elo-table";
 
 class WrestlerEloByYearTable extends React.Component {
   render() {
-    const eloPrecision = 1;
-
     const columns = [
       {
         Header: "Year",
@@ -79,7 +78,7 @@ class WrestlerEloByYearTable extends React.Component {
       }
     ];
 
-    const defaultSort = [{ id: "year", asc: true }];
+    const defaultSort = [{ id: "year", desc: true }];
 
     return (
       <ReactTable

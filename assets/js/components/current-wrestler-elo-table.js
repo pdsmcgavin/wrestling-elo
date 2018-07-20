@@ -10,18 +10,14 @@ import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
 import { todaysDateISO, previousDateISO } from "./utils/iso-dates";
 import rankChanges from "./utils/rank-changes";
+import { brands } from "./consts/brands";
+import { eloPrecision, dateFormat } from "./consts/elo-table";
 
 class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedBrand: [
-        { value: "RAW", label: "RAW" },
-        { value: "SmackDown", label: "SmackDown" },
-        { value: "NXT", label: "NXT" },
-        { value: "205 Live", label: "205 Live" },
-        { value: "Free Agent", label: "Free Agent" }
-      ],
+      selectedBrand: brands,
       selectedGender: null,
       nameToMatch: ""
     };
@@ -47,8 +43,6 @@ class CurrentWrestlerEloTable extends React.Component {
 
   render() {
     const { selectedBrand, selectedGender, nameToMatch } = this.state;
-    const eloPrecision = 1;
-    const dateFormat = "Do MMM YYYY";
 
     let data = this.props.getCurrentWrestlersElos.loading
       ? []
@@ -194,13 +188,7 @@ class CurrentWrestlerEloTable extends React.Component {
               name="brand-filter"
               value={selectedBrand}
               onChange={this.handleBrandChange}
-              options={[
-                { value: "RAW", label: "RAW" },
-                { value: "SmackDown", label: "SmackDown" },
-                { value: "NXT", label: "NXT" },
-                { value: "205 Live", label: "205 Live" },
-                { value: "Free Agent", label: "Free Agent" }
-              ]}
+              options={brands}
               multi
               removeSelected={false}
               style={{ minWidth: "400px" }}

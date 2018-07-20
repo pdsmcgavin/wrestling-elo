@@ -6,12 +6,10 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
+import { eloPrecision, dateFormat } from "./consts/elo-table";
 
 class WrestlerEloTable extends React.Component {
   render() {
-    const eloPrecision = 1;
-    const dateFormat = "Do MMM YYYY";
-
     const columns = [
       {
         Header: "Name",
