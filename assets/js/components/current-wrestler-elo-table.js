@@ -56,13 +56,8 @@ class CurrentWrestlerEloTable extends React.Component {
 
     data = rankChanges(data, previousData);
 
-    const filteredData = data.filter(
-      wrestler =>
-        selectedBrand.length > 0 &&
-        selectedBrand.some(o => o.value == wrestler.brand) &&
-        wrestler.name &&
-        wrestler.name.toLowerCase().includes(nameToMatch.toLowerCase()) &&
-        (!selectedGender || wrestler.gender === selectedGender.value)
+    const filteredData = data.filter(wrestler =>
+      displayWrestler(wrestler, selectedBrand, selectedGender, nameToMatch)
     );
 
     const columns = [
@@ -214,6 +209,21 @@ class CurrentWrestlerEloTable extends React.Component {
 CurrentWrestlerEloTable.propTypes = {
   getCurrentWrestlersElos: PropTypes.object, // Define better in future
   getPreviousCurrentWrestlersElos: PropTypes.object // Define better in future
+};
+
+const displayWrestler = (
+  wrestler,
+  selectedBrand,
+  selectedGender,
+  nameToMatch
+) => {
+  return (
+    selectedBrand.length > 0 &&
+    selectedBrand.some(o => o.value == wrestler.brand) &&
+    wrestler.name &&
+    wrestler.name.toLowerCase().includes(nameToMatch.toLowerCase()) &&
+    (!selectedGender || wrestler.gender === selectedGender.value)
+  );
 };
 
 export default compose(
