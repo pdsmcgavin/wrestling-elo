@@ -44,9 +44,7 @@ defmodule Wwelo.SiteScraper.Rosters do
   end
 
   defp roster_html_body do
-    UrlHelper.get_page_html_body(%{
-      url: "https://www.cagematch.net/?id=8&nr=1&page=15"
-    })
+    UrlHelper.get_page_html_body("https://www.cagematch.net/?id=8&nr=1&page=15")
   end
 
   defp wrestler?(jobs, brand) do

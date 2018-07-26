@@ -12,7 +12,8 @@ defmodule Wwelo.Mixfile do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test]
+      preferred_cli_env: [coveralls: :test],
+      dialyzer: [plt_add_apps: [:mix]]
     ]
   end
 
@@ -59,7 +60,8 @@ defmodule Wwelo.Mixfile do
       {:distillery, "~> 1.5", runtime: false},
       {:absinthe, "~> 1.4.0"},
       {:absinthe_plug, "~> 1.4"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 

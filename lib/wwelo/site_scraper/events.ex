@@ -13,7 +13,7 @@ defmodule Wwelo.SiteScraper.Events do
     # credo:disable-for-next-line
     IO.inspect(year)
 
-    list_of_event_urls = UrlHelper.wwe_event_url_paths_list(%{year: year})
+    list_of_event_urls = UrlHelper.wwe_event_url_paths_list(year)
 
     list_of_event_urls
     |> Enum.map(fn url_path ->
@@ -31,7 +31,7 @@ defmodule Wwelo.SiteScraper.Events do
 
   defp get_event_info(%{event_url_path: event_url_path}) do
     event_url = "https://www.cagematch.net/" <> event_url_path
-    event_html_body = UrlHelper.get_page_html_body(%{url: event_url})
+    event_html_body = UrlHelper.get_page_html_body(event_url)
 
     [{_, _, event_info}] =
       event_html_body

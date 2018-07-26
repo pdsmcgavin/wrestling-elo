@@ -1,6 +1,7 @@
 defmodule Wwelo.SiteScraper.Utils.DateHelper do
   @moduledoc false
 
+  @spec format_date(date :: String.t()) :: {:ok, Date.t()} | :error
   def format_date(date) do
     [day, month, year] =
       case String.split(date, ".") do

@@ -75,5 +75,5 @@ config :wwelo, :children, [Wwelo.Repo, WweloWeb.Endpoint]
 
 # Pre-commit hooks
 config :pre_commit,
-  commands: ["format", "coveralls", "credo", "js_pre_commits"],
+  commands: ["format", "coveralls", "credo", "dialyzer", "js_pre_commits"],
   verbose: true

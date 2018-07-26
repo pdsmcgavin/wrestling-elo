@@ -46,7 +46,7 @@ defmodule Wwelo.SiteScraper.Wrestlers do
   defp get_wrestler_info(wrestler_url_path) do
     wrestler_url = "https://www.cagematch.net/" <> wrestler_url_path
 
-    %{url: wrestler_url}
+    wrestler_url
     |> UrlHelper.get_page_html_body()
     |> Floki.find(".InformationBoxRow")
   end
