@@ -37,7 +37,7 @@ defmodule Wwelo.SiteScraper.Scraper do
 
     years
     |> Enum.map(fn year ->
-      event_match_list = Events.save_events_of_year(%{year: year})
+      event_match_list = Events.save_events_of_year(year)
 
       Enum.map(event_match_list, fn event ->
         match_result_list = Matches.save_matches_of_event(event)

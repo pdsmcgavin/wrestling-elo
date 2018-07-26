@@ -3,6 +3,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
 
   alias Wwelo.SiteScraper.Utils.DateHelper
 
+  @spec convert_event_info(event_info :: {}, acc :: map) :: map
   def convert_event_info(
         {_, _, [{_, _, ["Name of the event:"]}, {_, _, [event_name]}]},
         acc

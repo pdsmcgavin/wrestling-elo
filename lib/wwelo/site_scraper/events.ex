@@ -9,16 +9,17 @@ defmodule Wwelo.SiteScraper.Events do
   alias Wwelo.SiteScraper.Utils.EventInfoConverterHelper
   alias Wwelo.SiteScraper.Utils.UrlHelper
 
-  def save_events_of_year(%{year: year}) do
+  @spec save_events_of_year(year :: integer) :: [map]
+  def save_events_of_year(year) do
     # credo:disable-for-next-line
     IO.inspect(year)
 
     list_of_event_urls = UrlHelper.wwe_event_url_paths_list(year)
 
     list_of_event_urls
-    |> Enum.map(fn url_path ->
+    |> Enum.map(fn event_url_path ->
       %{event_info: event_info, event_matches: event_matches} =
-        get_event_info(%{event_url_path: url_path})
+        get_event_info(event_url_path)
 
       event_id =
         event_info
@@ -29,7 +30,8 @@ defmodule Wwelo.SiteScraper.Events do
     end)
   end
 
-  defp get_event_info(%{event_url_path: event_url_path}) do
+  @spec get_event_info(event_url_path :: String.t()) :: map
+  defp get_event_info(event_url_path) do
     event_url = "https://www.cagematch.net/" <> event_url_path
     event_html_body = UrlHelper.get_page_html_body(event_url)
 
@@ -46,12 +48,14 @@ defmodule Wwelo.SiteScraper.Events do
     %{event_info: event_info, event_matches: event_matches}
   end
 
+  @spec convert_event_info(event_info :: [{}]) :: map
   defp convert_event_info(event_info) do
     Enum.reduce(event_info, %{}, fn x, acc ->
       EventInfoConverterHelper.convert_event_info(x, acc)
     end)
   end
 
+  @spec save_event_to_database(event_info :: map) :: integer
   defp save_event_to_database(event_info) do
     event_query =
       from(
