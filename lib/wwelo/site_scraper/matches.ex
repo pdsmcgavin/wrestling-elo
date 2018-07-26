@@ -7,6 +7,7 @@ defmodule Wwelo.SiteScraper.Matches do
   alias Wwelo.Stats
   alias Wwelo.Stats.Match
 
+  @spec save_matches_of_event(map) :: [map]
   def save_matches_of_event(%{event_id: event_id, event_matches: matches}) do
     matches
     |> filter_out_non_televised_matches
@@ -22,11 +23,17 @@ defmodule Wwelo.SiteScraper.Matches do
     end)
   end
 
+  @spec convert_match_info(
+          event_id :: integer,
+          match :: String.t(),
+          card_position :: integer
+        ) :: map
   defp convert_match_info(event_id, match, card_position) do
     %{event_id: event_id, card_position: card_position}
     |> Map.put(:stipulation, get_match_stipulation(match))
   end
 
+  @spec save_match_to_database(match_info :: map) :: integer
   defp save_match_to_database(match_info) do
     match_query =
       from(
@@ -48,6 +55,7 @@ defmodule Wwelo.SiteScraper.Matches do
     match_result |> Map.get(:id)
   end
 
+  @spec filter_out_non_televised_matches(matches :: []) :: []
   defp filter_out_non_televised_matches(matches) do
     Enum.filter(matches, fn match ->
       case match do
@@ -67,6 +75,7 @@ defmodule Wwelo.SiteScraper.Matches do
     end)
   end
 
+  @spec get_match_stipulation(match :: String.t()) :: String.t()
   defp get_match_stipulation(match) do
     match_type = match |> Floki.find(".MatchType")
 
@@ -83,6 +92,7 @@ defmodule Wwelo.SiteScraper.Matches do
     end
   end
 
+  @spec combine_stipulation_info(stipulation :: []) :: String.t()
   defp combine_stipulation_info(stipulation) do
     stipulation
     |> Enum.reduce("", fn x, acc ->

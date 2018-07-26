@@ -3,6 +3,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
 
   alias Wwelo.SiteScraper.Utils.DateHelper
 
+  @spec convert_wrestler_info(wrestler_info :: {}, acc :: map) :: map
   def convert_wrestler_info(
         {_, _, [{_, _, ["Gender:"]}, {_, _, [gender]}]},
         acc
@@ -55,6 +56,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
     acc
   end
 
+  @spec convert_height_to_integer(height :: String.t()) :: integer
   defp convert_height_to_integer(height) do
     height
     |> String.split(["(", " cm)"])
@@ -64,6 +66,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
     |> elem(0)
   end
 
+  @spec convert_weight_to_integer(weight :: String.t()) :: integer
   defp convert_weight_to_integer(weight) do
     weight
     |> String.split(["(", " kg)"])
@@ -73,6 +76,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
     |> elem(0)
   end
 
+  @spec get_names_and_aliases(alter_egos :: []) :: map
   def get_names_and_aliases(alter_egos) do
     alter_egos
     |> Enum.map(fn alter_ego ->

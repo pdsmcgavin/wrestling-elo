@@ -194,6 +194,7 @@ defmodule Wwelo.SiteScraper.Participants do
     %{winners: winners, losers: separate_jobbers}
   end
 
+  @spec split_results_with_jobbers(jobbers :: String.t()) :: map | nil
   defp split_results_with_jobbers(jobbers) do
     split_results = jobbers |> String.split(" defeats ")
 
@@ -206,6 +207,7 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
+  @spec split_draws_with_jobbers(drawers :: []) :: map
   defp split_draws_with_jobbers(drawers) do
     drawers =
       Enum.reduce(drawers, [], fn x, acc ->
@@ -229,6 +231,11 @@ defmodule Wwelo.SiteScraper.Participants do
     %{drawers: drawers}
   end
 
+  @spec split_participants_into_teams(
+          participants :: [],
+          split_by :: String.t(),
+          offset :: integer
+        ) :: []
   defp split_participants_into_teams(
          participants,
          split_by,
@@ -297,10 +304,12 @@ defmodule Wwelo.SiteScraper.Participants do
     end)
   end
 
+  @spec clean_jobber_name(jobber_name :: String.t()) :: String.t()
   def clean_jobber_name(jobber_name) do
     Regex.replace(~r/( \[.+\]| & | \(.+\)$|^\)? - .*$| ?\($)/, jobber_name, "")
   end
 
+  @spec get_and_add_alias_id(participant_info :: map) :: map
   defp get_and_add_alias_id(participant_info) do
     alias_id = Aliases.get_alias_id(participant_info.alias)
 
@@ -337,6 +346,7 @@ defmodule Wwelo.SiteScraper.Participants do
     )
   end
 
+  @spec save_participant_to_database(participant_info :: map) :: integer
   defp save_participant_to_database(participant_info) do
     participant_query =
       from(

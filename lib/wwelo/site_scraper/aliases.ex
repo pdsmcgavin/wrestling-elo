@@ -7,6 +7,7 @@ defmodule Wwelo.SiteScraper.Aliases do
   alias Wwelo.Stats
   alias Wwelo.Stats.Alias
 
+  @spec get_alias_id(name :: String.t()) :: integer | nil
   def get_alias_id(name) do
     alias_query =
       from(
@@ -23,6 +24,7 @@ defmodule Wwelo.SiteScraper.Aliases do
     end
   end
 
+  @spec save_aliases_to_database(aliases_info :: map) :: [integer]
   def save_aliases_to_database(aliases_info) do
     aliases_info
     |> Map.get(:aliases)
@@ -33,6 +35,7 @@ defmodule Wwelo.SiteScraper.Aliases do
     end)
   end
 
+  @spec save_alias_to_database(alias_info :: map) :: integer
   defp save_alias_to_database(alias_info) do
     alias_query =
       from(
