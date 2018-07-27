@@ -30,6 +30,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     [[1, 2], [3, 4, 5]]
 
   """
+  @spec calculate_elos :: [[integer]]
   def calculate_elos do
     date_of_earlist_match_with_no_elo_calculation()
     |> delete_elo_calculations_after_non_calculated_match
@@ -46,6 +47,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
+  @spec elo_change_for_match(list_of_participants :: [[map]]) :: [[map]]
   def elo_change_for_match(list_of_participants) do
     rlist =
       list_of_participants
@@ -131,6 +133,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
+  @spec list_of_matches_with_no_elo_calculation :: []
   defp list_of_matches_with_no_elo_calculation do
     query =
       from(
@@ -156,6 +159,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     Repo.all(query)
   end
 
+  @spec date_of_earlist_match_with_no_elo_calculation :: Date.t() | nil
   defp date_of_earlist_match_with_no_elo_calculation do
     query =
       from(
@@ -179,6 +183,9 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     query |> Repo.all() |> Enum.at(0)
   end
 
+  @spec delete_elo_calculations_after_non_calculated_match(
+          date :: Date.t() | nil
+        ) :: :ok | nil
   defp delete_elo_calculations_after_non_calculated_match(nil) do
   end
 
@@ -202,6 +209,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     query |> Repo.all() |> Enum.each(&Repo.delete(&1))
   end
 
+  @spec participants_info_of_match(match_id :: integer) :: [map]
   defp participants_info_of_match(match_id) do
     query =
       from(
@@ -238,6 +246,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
+  @spec get_most_recent_elo(wrestler_id :: integer) :: float
   defp get_most_recent_elo(wrestler_id) do
     query =
       from(
@@ -269,12 +278,14 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end
   end
 
+  @spec group_participants_by_team([]) :: []
   defp group_participants_by_team(participants) do
     participants
     |> Enum.group_by(&Map.get(&1, :match_team))
     |> Map.values()
   end
 
+  @spec save_elo_to_database(elo_info :: map) :: integer
   defp save_elo_to_database(elo_info) do
     elo_query =
       from(
