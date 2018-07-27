@@ -8,12 +8,14 @@ defmodule Wwelo.SiteScraper.Rosters do
   alias Wwelo.Stats.Roster
   alias Wwelo.Stats.Wrestler
 
+  @spec save_current_roster_to_database :: :ok
   def save_current_roster_to_database do
     roster = get_active_roster_list()
     Repo.delete_all(Roster)
     Enum.each(roster, fn member -> save_roster_member_to_database(member) end)
   end
 
+  @spec get_active_roster_list :: [map]
   defp get_active_roster_list do
     [{_, _, [{_, _, [_ | entire_roster]}]}] =
       roster_html_body()
@@ -43,16 +45,19 @@ defmodule Wwelo.SiteScraper.Rosters do
     end)
   end
 
+  @spec roster_html_body :: String.t()
   defp roster_html_body do
     UrlHelper.get_page_html_body("https://www.cagematch.net/?id=8&nr=1&page=15")
   end
 
+  @spec wrestler?(brand :: [String.t()], jobs :: [String.t()]) :: boolean
   defp wrestler?(jobs, brand) do
     !Enum.any?(brand, fn x -> x == "Legend" end) &&
       Enum.any?(jobs, fn x -> String.contains?(x, "Wrestler") end) &&
       Enum.any?(jobs, fn x -> !String.contains?(x, "Road Agent") end)
   end
 
+  @spec get_active_wrestler_id(name :: String.t()) :: integer | nil
   defp get_active_wrestler_id(name) do
     wrestler_alias = Alias |> Repo.get_by(name: name)
 
@@ -63,6 +68,7 @@ defmodule Wwelo.SiteScraper.Rosters do
     end
   end
 
+  @spec is_wrestler_active?(wrestler_alias :: map | nil) :: boolean
   defp is_wrestler_active?(nil) do
     false
   end
@@ -74,6 +80,7 @@ defmodule Wwelo.SiteScraper.Rosters do
     |> is_nil
   end
 
+  @spec save_roster_member_to_database(map) :: :ok
   defp save_roster_member_to_database(%{
          alias: alias,
          brand: [],

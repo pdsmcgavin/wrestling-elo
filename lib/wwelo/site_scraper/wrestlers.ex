@@ -10,6 +10,7 @@ defmodule Wwelo.SiteScraper.Wrestlers do
   alias Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper
   alias Wwelo.SiteScraper.Utils.UrlHelper
 
+  @spec save_alter_egos_of_wrestler(map) :: [integer]
   def save_alter_egos_of_wrestler(%{
         wrestler_url_path: wrestler_url_path,
         alias: alias
@@ -39,6 +40,7 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     end)
   end
 
+  @spec get_wrestler_info(wrestler_url_path :: String.t() | nil) :: [] | [{}]
   defp get_wrestler_info(nil) do
     []
   end
@@ -51,16 +53,19 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     |> Floki.find(".InformationBoxRow")
   end
 
+  @spec convert_wrestler_info(wrestler_info :: [{}]) :: map
   defp convert_wrestler_info(wrestler_info) do
     Enum.reduce(wrestler_info, %{}, fn x, acc ->
       WrestlerInfoConverterHelper.convert_wrestler_info(x, acc)
     end)
   end
 
+  @spec empty_wrestler_profile_info(alias :: String.t()) :: map
   defp empty_wrestler_profile_info(alias) do
     Map.put(%{}, :names, %{} |> Map.put(String.to_atom(alias), [alias]))
   end
 
+  @spec save_wrestler_to_database(wrestler_info :: map) :: integer
   defp save_wrestler_to_database(wrestler_info) do
     wrestler_query =
       from(

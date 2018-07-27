@@ -21,6 +21,7 @@ defmodule Wwelo.SiteScraper.Scraper do
     [[[1, 2], [3, 4, 5]], [[1, 3], [2, 4]]]
 
   """
+  @spec scrape_site :: [[[]]]
   def scrape_site do
     initial_year = 1963
 

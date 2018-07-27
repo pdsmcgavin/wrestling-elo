@@ -10,6 +10,7 @@ defmodule Wwelo.SiteScraper.Participants do
   alias Wwelo.SiteScraper.Aliases
   alias Wwelo.SiteScraper.Wrestlers
 
+  @spec save_participants_of_match(map) :: [integer] | nil
   def save_participants_of_match(%{
         match_id: match_id,
         match_result: match_result
@@ -21,7 +22,7 @@ defmodule Wwelo.SiteScraper.Participants do
       })
 
     cond do
-      is_nil(participants) ->
+      participants == [] ->
         Match |> Repo.get!(match_id) |> Repo.delete()
         nil
 
@@ -39,6 +40,7 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
+  @spec convert_result_to_participant_info(map) :: []
   def convert_result_to_participant_info(%{
         match_id: match_id,
         match_result: match_result
@@ -103,6 +105,7 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
+  @spec split_result_into_winners_and_losers(map) :: map | nil
   defp split_result_into_winners_and_losers(%{match_result: match_result}) do
     split_results =
       match_result
@@ -128,6 +131,11 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
+  @spec split_results_with_jobbers(
+          winners :: [],
+          jobbers :: [String.t()],
+          losers :: []
+        ) :: map
   defp split_results_with_jobbers(winners, [jobbers], losers) do
     [jobber_winners, _, jobber_losers] =
       Regex.split(
@@ -154,6 +162,10 @@ defmodule Wwelo.SiteScraper.Participants do
     %{winners: winners, losers: losers}
   end
 
+  @spec split_results_with_jobbers(
+          winners :: [],
+          losers :: []
+        ) :: map
   defp split_results_with_jobbers([winners], losers)
        when is_bitstring(winners) do
     [jobber_winners, _, _] =
@@ -251,6 +263,8 @@ defmodule Wwelo.SiteScraper.Participants do
     |> Enum.with_index(offset)
   end
 
+  @spec remove_managers({participants :: [], match_team :: integer}) ::
+          {participants :: [], match_team :: integer}
   defp remove_managers({participants, match_team}) do
     participants =
       participants
@@ -270,6 +284,8 @@ defmodule Wwelo.SiteScraper.Participants do
   end
 
   # credo:disable-for-lines:32
+  @spec convert_participant_info({participants :: [], outcome :: String.t()}) ::
+          [[]]
   defp convert_participant_info({participants, outcome}) do
     participants
     |> Enum.map(fn {team, match_team} ->
