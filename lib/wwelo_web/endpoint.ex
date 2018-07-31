@@ -12,7 +12,8 @@ defmodule WweloWeb.Endpoint do
     at: "/",
     from: :wwelo,
     gzip: true,
-    only: ~w(css fonts images js robots.txt)
+    only: ~w(css fonts images js robots.txt),
+    cache_control_for_etags: "no-cache, max-age=3600"
   )
 
   # Code reloading can be explicitly enabled under the
