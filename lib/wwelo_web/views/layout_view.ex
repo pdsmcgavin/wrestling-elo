@@ -8,12 +8,4 @@ defmodule WweloWeb.LayoutView do
       ~s(<script src="http://localhost:8080/js/app.js"></script>)
     end
   end
-
-  def css_link_tag do
-    if Application.get_env(:wwelo, :environment) == :prod do
-      ~s(<link rel="stylesheet" type="text/css" href="/css/app.css" media="screen,projection" />)
-    else
-      ""
-    end
-  end
 end

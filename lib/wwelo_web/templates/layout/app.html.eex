@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Elo Rankings for Wrestlers of WWE">
+    <meta name="author" content="Philip McGavin">
+    <meta name="keywords" content="WWE, Wrestler, Wrestling, Elo, Ranking">
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120826433-1"></script>
     <script>
@@ -15,7 +17,6 @@
 
       gtag('config', 'UA-120826433-1');
     </script>
-
 
     <title>WWElo</title>
   </head>
