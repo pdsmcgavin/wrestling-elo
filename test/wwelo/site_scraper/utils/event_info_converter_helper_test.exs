@@ -77,7 +77,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
         )
 
       assert converted_event_info == %{
-               date: Ecto.Date.cast!("2000-11-21")
+               date: ~D[2000-11-21]
              }
     end
 
@@ -92,7 +92,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
         )
 
       assert converted_event_info == %{
-               date: Ecto.Date.cast!("2000-11-21")
+               date: ~D[2000-11-21]
              }
     end
 
@@ -115,7 +115,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
         )
 
       assert converted_event_info == %{
-               date: Ecto.Date.cast!("2000-11-21")
+               date: ~D[2000-11-21]
              }
     end
 
@@ -139,7 +139,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
         )
 
       assert converted_event_info == %{
-               date: Ecto.Date.cast!("2001-11-15")
+               date: ~D[2001-11-15]
              }
     end
 

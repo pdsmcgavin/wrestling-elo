@@ -54,7 +54,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelperTest do
         )
 
       assert converted_wrestler_info == %{
-               career_start_date: Ecto.Date.cast!("2000-12-25")
+               career_start_date: ~D[2000-12-25]
              }
     end
 
@@ -73,7 +73,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelperTest do
         )
 
       assert converted_wrestler_info == %{
-               career_end_date: Ecto.Date.cast!("2000-12-25")
+               career_end_date: ~D[2000-12-25]
              }
     end
 
