@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const environment = process.env.NODE_ENV || "development";
 const isProduction = environment == "production";
@@ -48,7 +49,13 @@ module.exports = {
     ? [
         new CompressionPlugin(), //compresses react
         new UglifyJsPlugin(), //minify everything
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new CopyWebpackPlugin([
+          {
+            from: "./static",
+            to: path.resolve(__dirname, "../priv/static")
+          }
+        ])
       ]
     : [],
   mode: isProduction ? "production" : "development"

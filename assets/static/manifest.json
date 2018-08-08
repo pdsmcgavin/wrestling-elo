@@ -1,0 +1,10 @@
+{
+  "name": "WWElo",
+  "short_name": "WWElo",
+  "theme_color": "#aaaaaa",
+  "background_color": "#ffffff",
+  "display": "browser",
+  "orientation": "landscape",
+  "scope": "/",
+  "start_url": "/"
+}
