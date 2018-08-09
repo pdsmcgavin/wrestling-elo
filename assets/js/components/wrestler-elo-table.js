@@ -7,6 +7,7 @@ import "react-table/react-table.css";
 import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
 import { eloPrecision, dateFormat } from "./consts/elo-table";
+import joinable from "joinable";
 
 class WrestlerEloTable extends React.Component {
   render() {
@@ -14,6 +15,11 @@ class WrestlerEloTable extends React.Component {
       {
         Header: "Name",
         accessor: "name"
+      },
+      {
+        Header: "Aliases",
+        id: "aliases",
+        accessor: d => joinable(...d.aliases, { separator: ", " })
       },
       {
         Header: "Current Elo",
@@ -91,6 +97,11 @@ WrestlerEloTable.propTypes = {
   getWrestlersElos: PropTypes.object // Define better in future
 };
 
-export default graphql(GET_WRESTLERS_ELOS, { name: "getWrestlersElos" })(
-  WrestlerEloTable
-);
+export default graphql(GET_WRESTLERS_ELOS, {
+  name: "getWrestlersElos",
+  options: {
+    variables: {
+      minMatches: 50
+    }
+  }
+})(WrestlerEloTable);

@@ -14,6 +14,7 @@ defmodule WweloWeb.Schema.WrestlerStats do
 
   object :wrestler_stat do
     field(:name, :string)
+    field(:aliases, list_of(:string))
     field(:gender, :string)
     field(:height, :integer)
     field(:weight, :integer)

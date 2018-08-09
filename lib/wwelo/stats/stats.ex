@@ -61,6 +61,12 @@ defmodule Wwelo.Stats do
     |> Repo.get(id)
   end
 
+  def get_wrestler_aliases(wrestler_id) do
+    Repo.all(
+      from(a in Alias, where: a.wrestler_id == ^wrestler_id, select: a.name)
+    )
+  end
+
   def list_wrestlers_stats(min_matches) do
     wrestler_elos_by_id()
     |> Enum.filter(fn wrestler -> wrestler.elos |> length >= min_matches end)
@@ -72,8 +78,15 @@ defmodule Wwelo.Stats do
 
       wrestler_info = get_wrestler(wrestler |> Map.get(:id))
 
+      aliases =
+        wrestler
+        |> Map.get(:id)
+        |> get_wrestler_aliases()
+        |> List.delete(wrestler_info.name)
+
       %{
         name: wrestler_info.name,
+        aliases: aliases,
         gender: wrestler_info.gender,
         height: wrestler_info.height,
         weight: wrestler_info.weight,

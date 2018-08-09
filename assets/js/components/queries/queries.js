@@ -1,10 +1,11 @@
 import gql from "graphql-tag";
 
 export const GET_WRESTLERS_ELOS = gql`
-  query getWrestlersElos {
-    wrestlerStats(minMatches: 50) {
+  query getWrestlersElos($minMatches: Int!) {
+    wrestlerStats(minMatches: $minMatches) {
       wrestlerStat {
         name
+        aliases
         currentElo {
           elo
           date
