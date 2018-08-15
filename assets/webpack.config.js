@@ -20,16 +20,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: isProduction
-              ? [
-                  ["@babel/preset-env", { modules: false }],
-                  "@babel/react",
-                  "minify"
-                ]
-              : [["@babel/preset-env", { modules: false }], "@babel/react"]
-          }
+          loader: "babel-loader"
         }
       },
 
