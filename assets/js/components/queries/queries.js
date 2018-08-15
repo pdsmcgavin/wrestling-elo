@@ -1,5 +1,21 @@
 import gql from "graphql-tag";
 
+export const GET_WRESTLERS_ELOS_FOR_MATCH_UP = gql`
+  query getWrestlersElos($minMatches: Int!) {
+    wrestlerStats(minMatches: $minMatches) {
+      wrestlerStat {
+        name
+        currentElo {
+          elo
+        }
+        maxElo {
+          elo
+        }
+      }
+    }
+  }
+`;
+
 export const GET_WRESTLERS_ELOS = gql`
   query getWrestlersElos($minMatches: Int!) {
     wrestlerStats(minMatches: $minMatches) {
