@@ -5,6 +5,7 @@ import { GET_WRESTLERS_ELOS_FOR_MATCH_UP } from "./queries/queries";
 import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import oddsCalculator from "./utils/odds-calculator";
+import { todaysDateISO } from "./utils/iso-dates";
 
 class MatchUpCalculator extends React.Component {
   constructor(props) {
@@ -30,17 +31,17 @@ class MatchUpCalculator extends React.Component {
   render() {
     const { selectedWrestler1, selectedWrestler2 } = this.state;
 
-    const wrestlers = this.props.getWrestlersElos.loading
+    const wrestlers = this.props.getCurrentWrestlersElos.loading
       ? []
-      : this.props.getWrestlersElos.wrestlerStats.wrestlerStat;
+      : this.props.getCurrentWrestlersElos.currentWrestlerStats
+          .currentWrestlerStat;
 
     const wrestlerDisplayList = wrestlers
       .map(wrestler => {
         return {
           value: wrestler.name,
           label: wrestler.name,
-          currentElo: wrestler.currentElo.elo,
-          maxElo: wrestler.maxElo.elo
+          currentElo: wrestler.currentElo.elo
         };
       })
       .sort((a, b) => a.value.localeCompare(b.value));
@@ -95,14 +96,16 @@ const matchUpDisplay = (wrestler1, wrestler2) => {
 };
 
 MatchUpCalculator.propTypes = {
-  getWrestlersElos: PropTypes.object // Define better in future
+  getCurrentWrestlersElos: PropTypes.object // Define better in future
 };
 
 export default graphql(GET_WRESTLERS_ELOS_FOR_MATCH_UP, {
-  name: "getWrestlersElos",
+  name: "getCurrentWrestlersElos",
   options: {
     variables: {
-      minMatches: 1
+      minMatches: 1,
+      lastMatchWithinDays: 365,
+      date: todaysDateISO()
     }
   }
 })(MatchUpCalculator);
