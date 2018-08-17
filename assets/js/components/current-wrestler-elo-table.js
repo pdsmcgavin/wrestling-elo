@@ -185,7 +185,7 @@ class CurrentWrestlerEloTable extends React.Component {
               onChange={this.handleBrandChange}
               options={brands}
               multi
-              removeSelected={false}
+              removeSelected={true}
               style={{ minWidth: "400px" }}
             />
           </div>

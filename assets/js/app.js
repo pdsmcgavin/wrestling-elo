@@ -13,6 +13,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "../stylus/app.styl";
+import MatchUpCalculator from "./components/match-up-calculator";
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: "/api/graphql" }),
@@ -32,6 +33,7 @@ class App extends React.Component {
               <Tab>Best/Worst of the Year</Tab>
               <Tab>Elos by Height</Tab>
               <Tab>Elos by Weight</Tab>
+              <Tab>Match Up Calculator</Tab>
             </TabList>
 
             <TabPanel>
@@ -48,6 +50,9 @@ class App extends React.Component {
             </TabPanel>
             <TabPanel>
               <WrestlerEloByWeight />
+            </TabPanel>
+            <TabPanel>
+              <MatchUpCalculator />
             </TabPanel>
           </Tabs>
         </ApolloProvider>
