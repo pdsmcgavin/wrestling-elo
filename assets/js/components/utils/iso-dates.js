@@ -8,6 +8,6 @@ export const todaysDateISO = () => {
 
 export const previousDateISO = daysPrevious => {
   return moment()
-    .subtract("days", daysPrevious)
+    .subtract(daysPrevious, "days")
     .format(ISODateFormat);
 };
