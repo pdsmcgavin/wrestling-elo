@@ -83,8 +83,8 @@ const matchUpDisplay = (wrestler1, wrestler2) => {
   if (!wrestler1 || !wrestler2) return null;
 
   const expectedOdds = oddsCalculator([
-    wrestler1.currentElo,
-    wrestler2.currentElo
+    [wrestler1.currentElo],
+    [wrestler2.currentElo]
   ]);
 
   return (
