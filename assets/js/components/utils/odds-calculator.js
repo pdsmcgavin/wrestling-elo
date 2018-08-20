@@ -1,8 +1,17 @@
-const oddsCalculator = elos => {
-  const expectedScore1 = 1 / (1 + Math.pow(10, (elos[1] - elos[0]) / 400));
-  const expectedScore2 = 1 / (1 + Math.pow(10, (elos[0] - elos[1]) / 400));
+const oddsCalculator = teamsElos => {
+  const rlist = teamsElos.map(
+    teamElos =>
+      teamElos.reduce((acc, elo) => {
+        return acc + Math.pow(10, elo / 400);
+      }, 0) * teamElos.length
+  );
+  const rtotal = rlist.reduce((a, b) => {
+    return a + b;
+  });
 
-  return [expectedScore1, expectedScore2];
+  const elist = rlist.map(r => r / rtotal);
+
+  return elist;
 };
 
 export default oddsCalculator;
