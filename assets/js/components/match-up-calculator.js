@@ -11,32 +11,38 @@ class MatchUpCalculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedWrestler1: null,
-      selectedWrestler2: null
+      wrestlers: [[]],
+      expectedOdds: []
     };
 
-    this.handleWrestler1Change = selectedWrestler => {
-      this.setState({
-        selectedWrestler1: selectedWrestler
-      });
-    };
+    this.handleWrestlerChange = (selectedWrestler, team) => {
+      const updatedWrestlers = this.state.wrestlers;
+      updatedWrestlers[team] = selectedWrestler;
 
-    this.handleWrestler2Change = selectedWrestler => {
+      const wrestlerElos = updatedWrestlers.map(team =>
+        team.map(wrestler => wrestler.currentElo)
+      );
+
+      const expectedOdds = oddsCalculator(wrestlerElos).map(
+        odd => `${(odd * 100).toFixed(1)}%`
+      );
+
       this.setState({
-        selectedWrestler2: selectedWrestler
+        wrestlers: updatedWrestlers,
+        expectedOdds: expectedOdds
       });
     };
   }
 
   render() {
-    const { selectedWrestler1, selectedWrestler2 } = this.state;
+    const { wrestlers, expectedOdds } = this.state;
 
-    const wrestlers = this.props.getCurrentWrestlersElos.loading
+    const wrestlerList = this.props.getCurrentWrestlersElos.loading
       ? []
       : this.props.getCurrentWrestlersElos.currentWrestlerStats
           .currentWrestlerStat;
 
-    const wrestlerDisplayList = wrestlers
+    const wrestlerDisplayList = wrestlerList
       .map(wrestler => {
         return {
           value: wrestler.name,
@@ -51,52 +57,84 @@ class MatchUpCalculator extends React.Component {
         <div
           style={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "baseline",
             flexWrap: "wrap",
             justifyContent: "center",
             padding: "25px"
           }}
         >
-          <Select
-            name="wrestlerDisplayList"
-            value={selectedWrestler1}
-            onChange={this.handleWrestler1Change}
-            options={wrestlerDisplayList}
-            style={{ minWidth: "250px" }}
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={0}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
           />
           <div style={{ paddingLeft: "10px", paddingRight: "10px" }}> vs. </div>
-          <Select
-            name="wrestlerDisplayList"
-            value={selectedWrestler2}
-            onChange={this.handleWrestler2Change}
-            options={wrestlerDisplayList}
-            style={{ minWidth: "250px" }}
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={1}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
+          />
+          <div style={{ paddingLeft: "10px", paddingRight: "10px" }}> vs. </div>
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={2}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
+          />
+          <div style={{ paddingLeft: "10px", paddingRight: "10px" }}> vs. </div>
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={3}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
           />
         </div>
-        <div>{matchUpDisplay(selectedWrestler1, selectedWrestler2)}</div>
       </div>
     );
   }
 }
 
-const matchUpDisplay = (wrestler1, wrestler2) => {
-  if (!wrestler1 || !wrestler2) return null;
-
-  const expectedOdds = oddsCalculator([
-    [wrestler1.currentElo],
-    [wrestler2.currentElo]
-  ]);
-
+const SelectionAndOdds = ({
+  wrestlers,
+  wrestlerDisplayList,
+  team,
+  expectedOdds,
+  handleWrestlerChange
+}) => {
   return (
-    <div style={{ textAlign: "center" }}>
-      {wrestler1.label} has a {(expectedOdds[0] * 100).toFixed(1)}% chance of
-      beating {wrestler2.label}
+    <div>
+      <Select
+        name="wrestlerDisplayList"
+        value={wrestlers[team]}
+        onChange={wrestlers => handleWrestlerChange(wrestlers, team)}
+        options={wrestlerDisplayList}
+        style={{ width: "250px" }}
+        multi
+        removeSelected={true}
+      />
+      <div style={{ textAlign: "center" }}>
+        {wrestlers[team] && wrestlers[team].length > 0 && expectedOdds[team]}
+      </div>
     </div>
   );
 };
 
 MatchUpCalculator.propTypes = {
   getCurrentWrestlersElos: PropTypes.object // Define better in future
+};
+
+SelectionAndOdds.propTypes = {
+  wrestlers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)),
+  wrestlerDisplayList: PropTypes.arrayOf(PropTypes.object),
+  team: PropTypes.number.isRequired,
+  expectedOdds: PropTypes.arrayOf(PropTypes.number),
+  handleWrestlerChange: PropTypes.func
 };
 
 export default graphql(GET_WRESTLERS_ELOS_FOR_MATCH_UP, {
