@@ -85,6 +85,7 @@ defmodule Wwelo.Stats do
         |> List.delete(wrestler_info.name)
 
       %{
+        id: wrestler_info.id,
         name: wrestler_info.name,
         aliases: aliases,
         gender: wrestler_info.gender,
@@ -127,6 +128,7 @@ defmodule Wwelo.Stats do
       wrestler_info = get_wrestler(wrestler |> Map.get(:id))
 
       %{
+        id: wrestler_info.id,
         name: alias,
         gender: wrestler_info.gender,
         height: wrestler_info.height,

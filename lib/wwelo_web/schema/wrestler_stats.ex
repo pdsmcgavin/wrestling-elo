@@ -13,6 +13,7 @@ defmodule WweloWeb.Schema.WrestlerStats do
   end
 
   object :wrestler_stat do
+    field(:id, :integer)
     field(:name, :string)
     field(:aliases, list_of(:string))
     field(:gender, :string)
@@ -22,6 +23,15 @@ defmodule WweloWeb.Schema.WrestlerStats do
     field(:max_elo, :elo)
     field(:min_elo, :elo)
     field(:brand, :string)
+  end
+
+  object :wrestler_elo_histories do
+    field(:wrestler_elo_history, list_of(:wrestler_elo_history))
+  end
+
+  object :wrestler_elo_history do
+    field(:id, :integer)
+    field(:elos, list_of(:elo))
   end
 
   object :elo do
@@ -57,6 +67,20 @@ defmodule WweloWeb.Schema.WrestlerStats do
                last_match_within_days,
                date
              )
+         }}
+      end)
+    end
+
+    field :wrestler_elo_histories, :wrestler_elo_histories do
+      arg(:ids, list_of(:integer))
+
+      resolve(fn %{ids: ids}, _ ->
+        {:ok,
+         %{
+           wrestler_elo_history:
+             Enum.map(ids, fn id ->
+               Stats.wrestler_elos_by_id(id)
+             end)
          }}
       end)
     end

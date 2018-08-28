@@ -5,6 +5,8 @@ import WrestlerEloTable from "./components/wrestler-elo-table";
 import WrestlerEloByYearTable from "./components/wrestler-elo-by-year-table";
 import WrestlerEloByHeight from "./components/wrestler-elo-by-height";
 import WrestlerEloByWeight from "./components/wrestler-elo-by-weight";
+import MatchUpCalculator from "./components/match-up-calculator";
+import WrestlerEloHistory from "./components/wrestler-elo-history";
 
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
@@ -13,7 +15,6 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "../stylus/app.styl";
-import MatchUpCalculator from "./components/match-up-calculator";
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: "/api/graphql" }),
@@ -34,6 +35,7 @@ class App extends React.Component {
               <Tab>Elos by Height</Tab>
               <Tab>Elos by Weight</Tab>
               <Tab>Match Up Calculator</Tab>
+              <Tab>Wrestler Elo History</Tab>
             </TabList>
 
             <TabPanel>
@@ -53,6 +55,9 @@ class App extends React.Component {
             </TabPanel>
             <TabPanel>
               <MatchUpCalculator />
+            </TabPanel>
+            <TabPanel>
+              <WrestlerEloHistory />
             </TabPanel>
           </Tabs>
         </ApolloProvider>
