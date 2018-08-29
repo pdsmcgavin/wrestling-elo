@@ -122,6 +122,23 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
       assert singles_outcome_extra_match_info == map_set_output
     end
 
+    test "Champ v champ match with wrestlers" do
+      champ_v_champ_result_match_info =
+        ParticipantConsts.champ_v_champ_result_match_info()
+
+      champ_v_champ_outcome_match_info =
+        ParticipantConsts.champ_v_champ_outcome_match_info()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            champ_v_champ_result_match_info
+          )
+        )
+
+      assert champ_v_champ_outcome_match_info == map_set_output
+    end
+
     test "Tag match double DQ with managers" do
       tag_result_double_dq_with_manager =
         ParticipantConsts.tag_result_double_dq_with_manager()

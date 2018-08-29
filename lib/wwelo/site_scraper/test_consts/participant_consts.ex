@@ -298,6 +298,40 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
     ])
   end
 
+  def champ_v_champ_result_match_info do
+    %{
+      match_id: 1337,
+      match_result: [
+        {"a", [{"href", "?id=2&nr=422&name=D-Lo+Brown"}], ["D-Lo Brown"]},
+        " (c) [European] defeats ",
+        {"a", [{"href", "?id=2&nr=564&name=Jeff+Jarrett"}], ["Jeff Jarrett"]},
+        " (w/",
+        {"a", [{"href", "?id=2&nr=1320&name=Debra"}], ["Debra"]},
+        ") (c) [Intercontinental] (6:13) - ",
+        {"span", [{"class", "MatchTitleChange"}], ["TITLE CHANGE !!!"]}
+      ]
+    }
+  end
+
+  def champ_v_champ_outcome_match_info do
+    MapSet.new([
+      %{
+        alias: "D-Lo Brown",
+        profile_url: "?id=2&nr=422&name=D-Lo+Brown",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Jeff Jarrett",
+        profile_url: "?id=2&nr=564&name=Jeff+Jarrett",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
+
   def singles_result_draw_champion_with_manager do
     %{
       match_id: 1337,

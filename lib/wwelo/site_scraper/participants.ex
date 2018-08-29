@@ -301,7 +301,7 @@ defmodule Wwelo.SiteScraper.Participants do
             }
 
           %{jobbers: jobber_name} ->
-            jobber_name = clean_jobber_name(jobber_name)
+            jobber_name = jobber_name |> clean_jobber_name |> clean_jobber_name
 
             if jobber_name != "" &&
                  !Regex.match?(~r/^ ?[(),.\[\]] ?$/, jobber_name) do
