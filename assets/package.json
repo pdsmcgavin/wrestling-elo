@@ -36,7 +36,7 @@
     "eslint-plugin-jest": "^21.21.0",
     "eslint-plugin-react": "^7.8.2",
     "file-loader": "^1.1.11",
-    "image-webpack-loader": "^4.3.0",
+    "image-webpack-loader": "^4.3.1",
     "jest": "^23.5.0",
     "postcss": "^6.0.21",
     "postcss-loader": "^2.1.3",
