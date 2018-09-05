@@ -22,6 +22,16 @@ class WrestlerEloHistory extends React.Component {
         });
       }
     };
+
+    this.colours = ["#C70039", "#2ECC71", "#21559C", "#F5B041", "#8E44AD"];
+
+    this.wrestlerLegend = (selectedWrestler, index) => {
+      return (
+        <div style={{ color: this.colours[index] }}>
+          {selectedWrestler.label}
+        </div>
+      );
+    };
   }
 
   render() {
@@ -45,9 +55,9 @@ class WrestlerEloHistory extends React.Component {
         <Select
           name="wrestlerDisplayList"
           value={wrestlers}
+          valueRenderer={this.wrestlerLegend}
           onChange={this.handleWrestlerChange}
           options={wrestlerDisplayList}
-          style={{ width: "250px" }}
           multi
           removeSelected={true}
         />
@@ -82,6 +92,7 @@ class WrestlerEloHistory extends React.Component {
             return (
               <WrestlerEloHistoryChart
                 wrestlerEloHistories={wrestlerEloHistories}
+                colours={this.colours}
               />
             );
           }}
@@ -99,7 +110,7 @@ export default graphql(GET_WRESTLER_LIST, {
   name: "getWrestlerList",
   options: {
     variables: {
-      minMatches: 10
+      minMatches: 50
     }
   }
 })(WrestlerEloHistory);
