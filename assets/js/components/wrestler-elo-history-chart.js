@@ -1,5 +1,4 @@
 import React from "react";
-import "react-select/dist/react-select.css";
 import PropTypes from "prop-types";
 import {
   VictoryChart,

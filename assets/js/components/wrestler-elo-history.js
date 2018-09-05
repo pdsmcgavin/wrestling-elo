@@ -1,6 +1,5 @@
 import React from "react";
-import Select from "react-select";
-import "react-select/dist/react-select.css";
+import Select from "react-virtualized-select";
 import {
   GET_WRESTLER_LIST,
   GET_WRESTLERS_ELO_HISTORIES
@@ -100,7 +99,7 @@ export default graphql(GET_WRESTLER_LIST, {
   name: "getWrestlerList",
   options: {
     variables: {
-      minMatches: 50
+      minMatches: 10
     }
   }
 })(WrestlerEloHistory);

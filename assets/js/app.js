@@ -14,6 +14,8 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import "react-select/dist/react-select.css";
+import "react-virtualized-select/styles.css";
 import "../stylus/app.styl";
 
 const client = new ApolloClient({

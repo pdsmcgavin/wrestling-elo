@@ -1,6 +1,5 @@
 import React from "react";
-import Select from "react-select";
-import "react-select/dist/react-select.css";
+import Select from "react-virtualized-select";
 import { GET_WRESTLERS_ELOS_FOR_MATCH_UP } from "./queries/queries";
 import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
