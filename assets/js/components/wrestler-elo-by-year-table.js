@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { floatStringSort } from "./utils/table-sort";
-import { eloPrecision } from "./consts/elo-table";
+import { EloPrecision } from "./consts/elo-table";
 
 class WrestlerEloByYearTable extends React.Component {
   render() {
@@ -20,7 +20,7 @@ class WrestlerEloByYearTable extends React.Component {
           {
             Header: "Value",
             id: "maxEloValue",
-            accessor: d => d.maxElo.elo.toFixed(eloPrecision),
+            accessor: d => d.maxElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
@@ -35,7 +35,7 @@ class WrestlerEloByYearTable extends React.Component {
           {
             Header: "Value",
             id: "minEloValue",
-            accessor: d => d.minElo.elo.toFixed(eloPrecision),
+            accessor: d => d.minElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
@@ -51,7 +51,7 @@ class WrestlerEloByYearTable extends React.Component {
             Header: "Value",
             id: "maxEloDifferenceValue",
             accessor: d =>
-              d.maxEloDifference.eloDifference.toFixed(eloPrecision),
+              d.maxEloDifference.eloDifference.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
@@ -67,7 +67,7 @@ class WrestlerEloByYearTable extends React.Component {
             Header: "Value",
             id: "minEloDifferenceValue",
             accessor: d =>
-              d.minEloDifference.eloDifference.toFixed(eloPrecision),
+              d.minEloDifference.eloDifference.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {

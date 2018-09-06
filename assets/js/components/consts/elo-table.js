@@ -1,2 +1,2 @@
-export const eloPrecision = 1;
-export const dateFormat = "Do MMM YYYY";
+export const EloPrecision = 1;
+export const DateFormat = "Do MMM YYYY";

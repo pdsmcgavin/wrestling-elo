@@ -7,6 +7,7 @@ import {
 import { graphql, Query } from "react-apollo";
 import PropTypes from "prop-types";
 import WrestlerEloHistoryChart from "./wrestler-elo-history-chart";
+import { LineChartColours } from "./consts/colours";
 
 class WrestlerEloHistory extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class WrestlerEloHistory extends React.Component {
       }
     };
 
-    this.colours = ["#C70039", "#2ECC71", "#21559C", "#F5B041", "#8E44AD"];
+    this.colours = LineChartColours;
 
     this.wrestlerLegend = (selectedWrestler, index) => {
       return (

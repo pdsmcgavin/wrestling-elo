@@ -6,7 +6,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
-import { eloPrecision, dateFormat } from "./consts/elo-table";
+import { EloPrecision, DateFormat } from "./consts/elo-table";
 import joinable from "joinable";
 
 class WrestlerEloTable extends React.Component {
@@ -27,13 +27,13 @@ class WrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "currentEloValue",
-            accessor: d => d.currentElo.elo.toFixed(eloPrecision),
+            accessor: d => d.currentElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "currentEloDate",
-            accessor: d => moment(d.currentElo.date).format(dateFormat),
+            accessor: d => moment(d.currentElo.date).format(DateFormat),
             sortMethod: dateStringSort
           }
         ]
@@ -44,13 +44,13 @@ class WrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "maxEloValue",
-            accessor: d => d.maxElo.elo.toFixed(eloPrecision),
+            accessor: d => d.maxElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "maxEloDate",
-            accessor: d => moment(d.maxElo.date).format(dateFormat),
+            accessor: d => moment(d.maxElo.date).format(DateFormat),
             sortMethod: dateStringSort
           }
         ]
@@ -61,13 +61,13 @@ class WrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "minEloValue",
-            accessor: d => d.minElo.elo.toFixed(eloPrecision),
+            accessor: d => d.minElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "minEloDate",
-            accessor: d => moment(d.minElo.date).format(dateFormat),
+            accessor: d => moment(d.minElo.date).format(DateFormat),
             sortMethod: dateStringSort
           }
         ]

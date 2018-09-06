@@ -9,14 +9,14 @@ import moment from "moment";
 import { floatStringSort, dateStringSort } from "./utils/table-sort";
 import { todaysDateISO, previousDateISO } from "./utils/iso-dates";
 import rankChanges from "./utils/rank-changes";
-import { brands } from "./consts/brands";
-import { eloPrecision, dateFormat } from "./consts/elo-table";
+import { Brands } from "./consts/brands";
+import { EloPrecision, DateFormat } from "./consts/elo-table";
 
 class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedBrand: brands,
+      selectedBrand: Brands,
       selectedGender: null,
       nameToMatch: ""
     };
@@ -78,13 +78,13 @@ class CurrentWrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "currentEloValue",
-            accessor: d => d.currentElo.elo.toFixed(eloPrecision),
+            accessor: d => d.currentElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "currentEloDate",
-            accessor: d => moment(d.currentElo.date).format(dateFormat),
+            accessor: d => moment(d.currentElo.date).format(DateFormat),
             sortMethod: dateStringSort
           }
         ]
@@ -95,13 +95,13 @@ class CurrentWrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "maxEloValue",
-            accessor: d => d.maxElo.elo.toFixed(eloPrecision),
+            accessor: d => d.maxElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "maxEloDate",
-            accessor: d => moment(d.maxElo.date).format(dateFormat),
+            accessor: d => moment(d.maxElo.date).format(DateFormat),
             sortMethod: dateStringSort
           }
         ]
@@ -112,13 +112,13 @@ class CurrentWrestlerEloTable extends React.Component {
           {
             Header: "Value",
             id: "minEloValue",
-            accessor: d => d.minElo.elo.toFixed(eloPrecision),
+            accessor: d => d.minElo.elo.toFixed(EloPrecision),
             sortMethod: floatStringSort
           },
           {
             Header: "Date",
             id: "minEloDate",
-            accessor: d => moment(d.minElo.date).format(dateFormat),
+            accessor: d => moment(d.minElo.date).format(DateFormat),
             sortMethod: dateStringSort
           }
         ]
@@ -182,7 +182,7 @@ class CurrentWrestlerEloTable extends React.Component {
               name="brand-filter"
               value={selectedBrand}
               onChange={this.handleBrandChange}
-              options={brands}
+              options={Brands}
               multi
               removeSelected={true}
               style={{ minWidth: "400px" }}

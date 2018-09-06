@@ -1,4 +1,4 @@
-export const brands = [
+export const Brands = [
   { value: "RAW", label: "RAW" },
   { value: "SmackDown", label: "SmackDown" },
   { value: "NXT", label: "NXT" },
