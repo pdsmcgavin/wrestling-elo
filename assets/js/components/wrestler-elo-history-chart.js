@@ -34,20 +34,37 @@ class WrestlerEloHistoryChart extends React.Component {
 
     const dataExtrema = this.getDomainsFromHistory(wrestlerEloHistories);
 
+    const domain = {
+      x: [
+        new Date(
+          dataExtrema.minDate.getFullYear(),
+          dataExtrema.minDate.getMonth(),
+          1
+        ),
+        new Date(
+          dataExtrema.maxDate.getFullYear(),
+          dataExtrema.maxDate.getMonth() + 1,
+          1
+        )
+      ],
+      y: [
+        Math.floor(dataExtrema.minElo / 50) * 50,
+        Math.ceil(dataExtrema.maxElo / 50) * 50
+      ]
+    };
+
     return (
       <VictoryChart
         scale={{ x: "time" }}
         height={450}
         width={1500}
         theme={VictoryTheme.material}
+        domain={domain}
       >
         <VictoryAxis label={"Date"} />
         <VictoryAxis dependentAxis label={"Elo"} />
         <VictoryLine
-          data={[
-            { x: dataExtrema.minDate, y: 1200 },
-            { x: dataExtrema.maxDate, y: 1200 }
-          ]}
+          data={[{ x: domain.x[0], y: 1200 }, { x: domain.x[1], y: 1200 }]}
           style={{ data: { stroke: "grey", strokeWidth: 1 } }}
         />
         {wrestlerEloHistories.map((wrestlerEloHistory, index) => (
