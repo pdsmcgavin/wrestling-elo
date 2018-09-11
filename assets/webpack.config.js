@@ -8,11 +8,16 @@ const environment = process.env.NODE_ENV || "development";
 const isProduction = environment == "production";
 
 module.exports = {
-  entry: "./js/app.js",
+  entry: "./js/main.js",
   output: {
     path: path.resolve(__dirname, "../priv/static"),
-    filename: "js/app.js",
+    filename: "js/main.js",
     publicPath: "http://localhost:8080/"
+  },
+  devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    }
   },
   module: {
     rules: [

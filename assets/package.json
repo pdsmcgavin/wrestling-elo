@@ -2,8 +2,6 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "start": "npm run watch",
-    "watch": "NODE_ENV=dev BABEL_ENV=dev MIX_ENV=dev webpack-dev-server --inline --hot --stdin --colors --public localhost:8080",
     "deploy": "NODE_ENV=production BABEL_ENV=production webpack -p",
     "test": "NODE_ENV=dev BABEL_ENV=dev jest"
   },

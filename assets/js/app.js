@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import CurrentWrestlerEloTable from "./components/current-wrestler-elo-table";
 import WrestlerEloTable from "./components/wrestler-elo-table";
 import WrestlerEloByYearTable from "./components/wrestler-elo-by-year-table";
@@ -8,6 +7,7 @@ import WrestlerEloByWeight from "./components/wrestler-elo-by-weight";
 import MatchUpCalculator from "./components/match-up-calculator";
 import WrestlerEloHistory from "./components/wrestler-elo-history";
 
+import { hot } from "react-hot-loader";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
@@ -68,4 +68,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+export default hot(module)(App);
