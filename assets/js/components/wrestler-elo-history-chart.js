@@ -7,7 +7,8 @@ import {
   VictoryLine,
   VictoryScatter,
   VictoryTheme,
-  VictoryTooltip
+  VictoryTooltip,
+  VictoryZoomContainer
 } from "victory";
 
 class WrestlerEloHistoryChart extends React.Component {
@@ -60,9 +61,19 @@ class WrestlerEloHistoryChart extends React.Component {
         width={1500}
         theme={VictoryTheme.material}
         domain={domain}
+        containerComponent={<VictoryZoomContainer />}
+        padding={75}
       >
-        <VictoryAxis label={"Date"} />
-        <VictoryAxis dependentAxis label={"Elo"} />
+        <VictoryAxis
+          label={"Date"}
+          fixLabelOverlap={true}
+          style={{ axisLabel: { padding: "30" } }}
+        />
+        <VictoryAxis
+          dependentAxis
+          label={"Elo"}
+          style={{ axisLabel: { padding: "50" } }}
+        />
         <VictoryLine
           data={[{ x: domain.x[0], y: 1200 }, { x: domain.x[1], y: 1200 }]}
           style={{ data: { stroke: "grey", strokeWidth: 1 } }}

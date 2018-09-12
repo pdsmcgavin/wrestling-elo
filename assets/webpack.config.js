@@ -12,9 +12,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "../priv/static"),
     filename: "js/main.js",
-    publicPath: "http://localhost:8080/"
+    publicPath: "https://local.wwelo.com:8080/"
   },
   devServer: {
+    https: true,
     headers: {
       "Access-Control-Allow-Origin": "*"
     }

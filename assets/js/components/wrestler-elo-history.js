@@ -111,7 +111,7 @@ export default graphql(GET_WRESTLER_LIST, {
   name: "getWrestlerList",
   options: {
     variables: {
-      minMatches: 10
+      minMatches: 50
     }
   }
 })(WrestlerEloHistory);
