@@ -33,12 +33,12 @@ module.exports = {
       {
         test: /\.(css|styl)$/,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
+        use: ["style-loader", "css-loader", "stylus-loader"]
       },
 
       {
         test: /(react-tabs|react-table|react-select|react-virtualized-select\/styles).css$/,
-        use: ["style-loader", "css-loader", "postcss-loader", "stylus-loader"]
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
