@@ -21,7 +21,7 @@ defmodule WweloWeb do
     quote do
       use Phoenix.Controller, namespace: WweloWeb
       import Plug.Conn
-      import WweloWeb.Router.Helpers
+      alias WweloWeb.Router.Helpers, as: Routes
       import WweloWeb.Gettext
     end
   end
@@ -38,7 +38,7 @@ defmodule WweloWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import WweloWeb.Router.Helpers
+      alias WweloWeb.Router.Helpers, as: Routes
       import WweloWeb.ErrorHelpers
       import WweloWeb.Gettext
     end

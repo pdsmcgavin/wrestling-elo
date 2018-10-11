@@ -40,14 +40,15 @@ defmodule Wwelo.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
+      {:phoenix, "~> 1.4.0-rc", override: true},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
+      {:cowboy, "~> 2.3"},
+      {:plug, "~> 1.6"},
       {:httpoison, "~> 1.0"},
       {:floki, "~> 0.18.0"},
       {:elixir_mbcs, github: "woxtu/elixir-mbcs", tag: "0.1.3"},
@@ -58,7 +59,7 @@ defmodule Wwelo.Mixfile do
       {:pre_commit, "~> 0.2.4", only: :dev},
       {:edeliver, "~> 1.5.0"},
       {:distillery, "~> 1.5", runtime: false},
-      {:absinthe, "~> 1.4.0"},
+      {:absinthe, "~> 1.4.13"},
       {:absinthe_plug, "~> 1.4"},
       {:poison, "~> 3.1"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false}

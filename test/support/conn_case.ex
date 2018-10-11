@@ -22,7 +22,7 @@ defmodule WweloWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use ConnTest
-      import WweloWeb.Router.Helpers
+      alias WweloWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
       @endpoint WweloWeb.Endpoint
