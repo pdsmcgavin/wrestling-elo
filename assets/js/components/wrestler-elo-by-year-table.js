@@ -94,6 +94,7 @@ class WrestlerEloByYearTable extends React.Component {
         }
         columns={columns}
         defaultSorted={defaultSort}
+        style={{ height: "800px" }}
       />
     );
   }
