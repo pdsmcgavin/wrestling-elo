@@ -144,8 +144,12 @@ class CurrentWrestlerEloTable extends React.Component {
               justifyContent: "center"
             }}
           >
-            <span style={{ marginRight: "10px" }}>Name: </span>
+            <label htmlFor="name" style={{ marginRight: "10px" }}>
+              Name:{" "}
+            </label>
             <input
+              id="name"
+              name="name"
               type="text"
               value={this.state.value}
               onChange={this.handleNameChange}
@@ -158,9 +162,12 @@ class CurrentWrestlerEloTable extends React.Component {
               justifyContent: "center"
             }}
           >
-            <span style={{ marginRight: "10px" }}>Gender: </span>
+            <label htmlFor="gender-filter" style={{ marginRight: "10px" }}>
+              Gender:{" "}
+            </label>
             <Select
-              name="genderFilter"
+              id="gender-filter"
+              name="gender-filter"
               value={selectedGender}
               onChange={this.handleGenderChange}
               options={[
@@ -177,8 +184,11 @@ class CurrentWrestlerEloTable extends React.Component {
               justifyContent: "center"
             }}
           >
-            <span style={{ marginRight: "10px" }}>Brand: </span>
+            <label htmlFor="brand-filter" style={{ marginRight: "10px" }}>
+              Brand:{" "}
+            </label>
             <Select
+              id="brand-filter"
               name="brand-filter"
               value={selectedBrand}
               onChange={this.handleBrandChange}
