@@ -13,11 +13,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
   alias Wwelo.Stats.Match
   alias Wwelo.Stats.Participant
   alias Wwelo.Stats.Wrestler
-
-  @default_elo 1200
-  @match_weight 32
-  @elo_base 10
-  @distribution_factor 400
+  alias Wwelo.Utils.GetEloConsts
 
   @doc """
   Calculates the Elo for match participants for all matches with no elo information and adds these to the elo database.
@@ -36,19 +32,21 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     |> delete_elo_calculations_after_non_calculated_match
 
     list_of_matches_with_no_elo_calculation()
-    |> Enum.map(fn match_id ->
-      match_id
-      |> participants_info_of_match
-      |> group_participants_by_team
-      |> elo_change_for_match
-      |> Enum.map(fn elo_info ->
-        save_elo_to_database(elo_info)
-      end)
-    end)
+    |> Enum.map(&calculate_and_save_elo_for_match(&1))
+  end
+
+  def calculate_and_save_elo_for_match(match_id) do
+    match_id
+    |> participants_info_of_match
+    |> group_participants_by_team
+    |> elo_change_for_match
+    |> Enum.map(&save_elo_to_database(&1))
   end
 
   @spec elo_change_for_match(list_of_participants :: [[map]]) :: [[map]]
   def elo_change_for_match(list_of_participants) do
+    elo_consts = GetEloConsts.get_elo_consts()
+
     rlist =
       list_of_participants
       |> Enum.map(fn participants ->
@@ -56,8 +54,8 @@ defmodule Wwelo.EloCalculator.EloCalculator do
         |> Enum.reduce(0, fn x, acc ->
           acc +
             Math.pow(
-              @elo_base,
-              x.previous_elo / @distribution_factor
+              elo_consts.elo_base,
+              x.previous_elo / elo_consts.distribution_factor
             )
         end)
       end)
@@ -128,7 +126,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
         participant,
         :elo,
         participant.previous_elo +
-          @match_weight * (participant.s_value - participant.e_value)
+          elo_consts.match_weight * (participant.s_value - participant.e_value)
       )
     end)
   end
@@ -211,7 +209,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
 
   @spec participants_info_of_match(match_id :: integer) :: [map]
   defp participants_info_of_match(match_id) do
-    query =
+    match_wrestlers =
       from(
         m in Match,
         join: p in Participant,
@@ -222,9 +220,9 @@ defmodule Wwelo.EloCalculator.EloCalculator do
         on: w.id == a.wrestler_id
       )
 
-    query =
+    match_result_info =
       from(
-        [m, p, a, w] in query,
+        [m, p, a, w] in match_wrestlers,
         select: %{
           match_id: m.id,
           name: w.name,
@@ -235,7 +233,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
         where: m.id == ^match_id
       )
 
-    query
+    match_result_info
     |> Repo.all()
     |> Enum.map(fn wrestler ->
       Map.put(
@@ -248,6 +246,8 @@ defmodule Wwelo.EloCalculator.EloCalculator do
 
   @spec get_most_recent_elo(wrestler_id :: integer) :: float
   defp get_most_recent_elo(wrestler_id) do
+    elo_consts = GetEloConsts.get_elo_consts()
+
     query =
       from(
         e in Event,
@@ -274,7 +274,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     if matches |> length > 0 do
       matches |> Enum.at(0) |> Map.get(:elo)
     else
-      @default_elo
+      elo_consts.default_elo
     end
   end
 

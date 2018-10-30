@@ -10,6 +10,7 @@ import {
   VictoryTooltip,
   VictoryZoomContainer
 } from "victory";
+import eloConsts from "../../static/elo-consts.json";
 
 class WrestlerEloHistoryChart extends React.Component {
   constructor(props) {
@@ -75,7 +76,10 @@ class WrestlerEloHistoryChart extends React.Component {
           style={{ axisLabel: { padding: "50" } }}
         />
         <VictoryLine
-          data={[{ x: domain.x[0], y: 1200 }, { x: domain.x[1], y: 1200 }]}
+          data={[
+            { x: domain.x[0], y: eloConsts.default_elo },
+            { x: domain.x[1], y: eloConsts.default_elo }
+          ]}
           style={{ data: { stroke: "grey", strokeWidth: 1 } }}
         />
         {wrestlerEloHistories.map((wrestlerEloHistory, index) => (

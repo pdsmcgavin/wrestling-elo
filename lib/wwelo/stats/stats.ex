@@ -13,6 +13,7 @@ defmodule Wwelo.Stats do
   alias Wwelo.Stats.Participant
   alias Wwelo.Stats.Roster
   alias Wwelo.Stats.Wrestler
+  alias Wwelo.Utils.GetEloConsts
 
   def create_alias(attrs \\ %{}) do
     %Alias{}
@@ -267,7 +268,10 @@ defmodule Wwelo.Stats do
       }
     end)
     |> Enum.map(fn %{elos: elos, id: id} ->
-      [%{elo: 1200, year: 0} | elos]
+      [
+        %{elo: GetEloConsts.get_elo_consts() |> Map.get(:default_elo), year: 0}
+        | elos
+      ]
       |> Enum.zip(elos)
       |> Enum.map(fn {elo_before, elo_after} ->
         %{
