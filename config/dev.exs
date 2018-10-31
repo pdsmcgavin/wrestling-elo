@@ -7,10 +7,8 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :wwelo, WweloWeb.Endpoint,
-  https: [
-    port: 4000,
-    keyfile: "priv/server.key",
-    certfile: "priv/server.pem"
+  http: [
+    port: 4000
   ],
   debug_errors: true,
   code_reloader: true,
@@ -18,11 +16,6 @@ config :wwelo, WweloWeb.Endpoint,
   watchers: [
     node: [
       "node_modules/.bin/webpack-dev-server",
-      "--https",
-      "--key",
-      "../priv/server.key",
-      "--cert",
-      "../priv/server.pem",
       "--inline",
       "--colors",
       "--hot",
