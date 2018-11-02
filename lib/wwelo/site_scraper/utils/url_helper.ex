@@ -1,9 +1,6 @@
 defmodule Wwelo.SiteScraper.Utils.UrlHelper do
   @moduledoc false
-  import Ecto.Query
-  alias Wwelo.Repo
   alias Wwelo.SiteScraper.EventSearchResults
-  alias Wwelo.Stats.Event
 
   @spec get_page_html_body(url :: String.t()) :: String.t()
   def get_page_html_body(url) do
@@ -20,10 +17,12 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
     results_body = get_page_html_body(wwe_events_results_url(year, page_number))
 
     [{_, _, [{_, _, [_ | event_rows]}]}] =
-      results_body |> Floki.find(".TableContents")
+      results_body
+      |> Floki.find(".TableContents")
 
     event_rows
-    |> unsaved_event_urls
+    |> EventSearchResults.from_cagematch_search_results()
+    |> Enum.map(&Map.get(&1, :url))
   end
 
   @spec wwe_event_url_paths_list(year :: integer) :: [String.t()]
@@ -40,25 +39,6 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
           acc ++ wwe_event_url_paths_list(year, page_number)
         end)
     end
-  end
-
-  @spec unsaved_event_urls(event_rows :: []) :: [String.t()]
-  defp unsaved_event_urls(event_rows) do
-    event_rows
-    |> EventSearchResults.from_cagematch_search_results()
-    |> Enum.filter(fn event_result ->
-      event_query =
-        from(
-          e in Event,
-          where:
-            e.name == ^event_result.name and e.date == ^event_result.date and
-              e.location == ^event_result.location,
-          select: e
-        )
-
-      event_query |> Repo.one() |> is_nil()
-    end)
-    |> Enum.map(&Map.get(&1, :url))
   end
 
   @spec total_results(year :: integer) :: map
@@ -104,7 +84,7 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
 
   @spec wwe_events_results_url(year :: integer, page_number :: integer) ::
           String.t()
-  defp wwe_events_results_url(year, page_number) do
+  def wwe_events_results_url(year, page_number) do
     results_number = (page_number - 1) * 100
 
     "https://www.cagematch.net/?id=1&view=search&sPromotion=1&sDateFromDay=01&sDateFromMonth=01&sDateFromYear=#{

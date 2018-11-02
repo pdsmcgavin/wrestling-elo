@@ -6,8 +6,8 @@ config :wwelo, WweloWeb.Endpoint,
   http: [port: 4001],
   server: false
 
-# Print only warnings and errors during test
-config :logger, level: :warn
+# config :logger, level: :warn
+config :logger, :console, format: "[$level] $message\n", level: :info
 
 # Configure your database
 config :wwelo, Wwelo.Repo,

@@ -62,7 +62,8 @@ defmodule Wwelo.Mixfile do
       {:absinthe, "~> 1.4.13"},
       {:absinthe_plug, "~> 1.4"},
       {:poison, "~> 3.1"},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:mock, "~> 0.3.2", only: [:test]}
     ]
   end
 

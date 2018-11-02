@@ -47,9 +47,10 @@ defmodule Wwelo.SiteScraper.Matches do
     match_result = Repo.one(match_query)
 
     match_result =
-      case match_result do
-        nil -> match_info |> Stats.create_match() |> elem(1)
-        _ -> match_result
+      if is_nil(match_result) do
+        match_info |> Stats.create_match() |> elem(1)
+      else
+        match_result
       end
 
     match_result |> Map.get(:id)

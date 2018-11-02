@@ -69,9 +69,10 @@ defmodule Wwelo.SiteScraper.Events do
     event_result = Repo.one(event_query)
 
     event_result =
-      case event_result do
-        nil -> event_info |> Stats.create_event() |> elem(1)
-        _ -> event_result
+      if is_nil(event_result) do
+        event_info |> Stats.create_event() |> elem(1)
+      else
+        event_result
       end
 
     event_result |> Map.get(:id)
