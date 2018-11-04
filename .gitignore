@@ -40,5 +40,6 @@ deploy_rsa.pub
 # https certs and keys
 priv/server*
 
-# coveralls
+# test coverage reports
 cover
+assets/coverage
