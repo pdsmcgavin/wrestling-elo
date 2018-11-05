@@ -8,7 +8,11 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
         {_, _, [{_, _, ["Gender:"]}, {_, _, [gender]}]},
         acc
       ) do
-    Map.put(acc, :gender, gender)
+    case gender |> String.downcase() do
+      "female" -> Map.put(acc, :gender, :female)
+      "male" -> Map.put(acc, :gender, :male)
+      _ -> Map.put(acc, :gender, :unknown)
+    end
   end
 
   def convert_wrestler_info(

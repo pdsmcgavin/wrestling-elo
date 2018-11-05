@@ -8,7 +8,7 @@ defmodule Wwelo.Stats.Wrestler do
   schema "wrestlers" do
     field(:career_end_date, :date)
     field(:career_start_date, :date)
-    field(:gender, :string)
+    field(:gender, GenderEnum)
     field(:height, :integer)
     field(:name, :string)
     field(:weight, :integer)

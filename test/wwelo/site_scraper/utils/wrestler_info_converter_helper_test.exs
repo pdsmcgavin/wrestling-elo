@@ -4,8 +4,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelperTest do
 
   describe "It should correctly take information from desired fields" do
     test "Gender of the wrestler will map to gender" do
-      wrestler_info =
-        {"", "", [{"", "", ["Gender:"]}, {"", "", ["wrestler_gender"]}]}
+      wrestler_info = {"", "", [{"", "", ["Gender:"]}, {"", "", ["UNKNOWN"]}]}
 
       converted_wrestler_info =
         WrestlerInfoConverterHelper.convert_wrestler_info(
@@ -13,7 +12,7 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelperTest do
           %{}
         )
 
-      assert converted_wrestler_info == %{gender: "wrestler_gender"}
+      assert converted_wrestler_info == %{gender: :unknown}
     end
 
     test "Height of the wrestler will map to height" do
