@@ -8,7 +8,7 @@ defmodule Wwelo.Stats.Event do
   schema "events" do
     field(:arena, :string)
     field(:date, :date)
-    field(:event_type, :string)
+    field(:event_type, EventTypeEnum)
     field(:location, :string)
     field(:name, :string)
     field(:promotion, :string)

@@ -22,7 +22,11 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
         {_, _, [{_, _, ["Type:"]}, {_, _, [event_type]}]},
         acc
       ) do
-    Map.put(acc, :event_type, event_type)
+    case event_type do
+      "TV-Show" -> Map.put(acc, :event_type, :tv_show)
+      "Pay Per View" -> Map.put(acc, :event_type, :ppv)
+      _ -> acc
+    end
   end
 
   def convert_event_info(

@@ -31,7 +31,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
     end
 
     test "Type will map to type" do
-      event_info = {"", "", [{"", "", ["Type:"]}, {"", "", ["event_type"]}]}
+      event_info = {"", "", [{"", "", ["Type:"]}, {"", "", ["Pay Per View"]}]}
 
       converted_event_info =
         EventInfoConverterHelper.convert_event_info(
@@ -39,7 +39,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
           %{}
         )
 
-      assert converted_event_info == %{event_type: "event_type"}
+      assert converted_event_info == %{event_type: :ppv}
     end
 
     test "Location will map to location" do

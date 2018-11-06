@@ -66,7 +66,7 @@ defmodule ScraperTest do
          {"div", [],
           [
             {"div", [], ["Type:"]},
-            {"div", [], ["EVENT_TYPE"]}
+            {"div", [], ["Pay Per View"]}
           ]},
          {"div", [],
           [
