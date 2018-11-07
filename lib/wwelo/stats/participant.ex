@@ -8,7 +8,7 @@ defmodule Wwelo.Stats.Participant do
   schema "participants" do
     field(:match_id, :integer)
     field(:match_team, :integer)
-    field(:outcome, :string)
+    field(:outcome, MatchOutcomeEnum)
     field(:alias_id, :integer)
 
     timestamps()

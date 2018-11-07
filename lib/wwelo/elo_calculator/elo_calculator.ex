@@ -86,9 +86,9 @@ defmodule Wwelo.EloCalculator.EloCalculator do
       |> Enum.map(fn participant ->
         s_value =
           case participant.match_outcome do
-            "win" -> 1
-            "draw" -> 0.5
-            "loss" -> 0
+            :win -> 1
+            :draw -> 0.5
+            :loss -> 0
             _ -> nil
           end
 

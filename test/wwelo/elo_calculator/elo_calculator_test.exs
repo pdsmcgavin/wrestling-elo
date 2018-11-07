@@ -6,7 +6,7 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
     singles_participants = [
       [
         %{
-          match_outcome: "win",
+          match_outcome: :win,
           match_team: 0,
           name: "Braun Strowman",
           previous_elo: 1200
@@ -14,7 +14,7 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
       ],
       [
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 1,
           name: "Roman Reigns",
           previous_elo: 1200
@@ -31,7 +31,7 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
     triple_threat_participants = [
       [
         %{
-          match_outcome: "win",
+          match_outcome: :win,
           match_team: 0,
           name: "Braun Strowman",
           previous_elo: 1200
@@ -39,7 +39,7 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
       ],
       [
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 1,
           name: "Roman Reigns",
           previous_elo: 1200
@@ -47,7 +47,7 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
       ],
       [
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 2,
           name: "John Cena",
           previous_elo: 1200
@@ -64,13 +64,13 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
     tag_participants = [
       [
         %{
-          match_outcome: "win",
+          match_outcome: :win,
           match_team: 0,
           name: "Braun Strowman",
           previous_elo: 1200
         },
         %{
-          match_outcome: "win",
+          match_outcome: :win,
           match_team: 0,
           name: "Baron Corbin",
           previous_elo: 1200
@@ -78,13 +78,13 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
       ],
       [
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 1,
           name: "Roman Reigns",
           previous_elo: 1200
         },
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 1,
           name: "John Cena",
           previous_elo: 1200
@@ -101,7 +101,7 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
     handicap_1v2_participants = [
       [
         %{
-          match_outcome: "win",
+          match_outcome: :win,
           match_team: 0,
           name: "Braun Strowman",
           previous_elo: 1200
@@ -109,13 +109,13 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
       ],
       [
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 1,
           name: "Roman Reigns",
           previous_elo: 1200
         },
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 1,
           name: "John Cena",
           previous_elo: 1200
@@ -132,13 +132,13 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
     handicap_2v1_participants = [
       [
         %{
-          match_outcome: "win",
+          match_outcome: :win,
           match_team: 0,
           name: "Braun Strowman",
           previous_elo: 1200
         },
         %{
-          match_outcome: "win",
+          match_outcome: :win,
           match_team: 0,
           name: "Baron Corbin",
           previous_elo: 1200
@@ -146,7 +146,7 @@ defmodule Wwelo.SiteScraper.EloCalculatorTest do
       ],
       [
         %{
-          match_outcome: "loss",
+          match_outcome: :loss,
           match_team: 1,
           name: "Roman Reigns",
           previous_elo: 1200
