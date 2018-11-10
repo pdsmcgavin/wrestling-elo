@@ -12,7 +12,11 @@ defmodule Wwelo.Mixfile do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.html": :test
+      ],
       dialyzer: [plt_add_apps: [:mix]]
     ]
   end
