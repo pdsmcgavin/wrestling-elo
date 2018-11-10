@@ -12,8 +12,10 @@ import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { NavTab } from "react-router-tabs";
+
+import "react-router-tabs/styles/react-router-tabs.css";
 import "react-select/dist/react-select.css";
 import "react-virtualized-select/styles.css";
 import "../stylus/app.styl";
@@ -29,39 +31,42 @@ class App extends React.Component {
       <div>
         <h2>WWElo</h2>
         <ApolloProvider client={client}>
-          <Tabs>
-            <TabList>
-              <Tab>Active Wrestlers Elos</Tab>
-              <Tab>All Wrestlers Elos</Tab>
-              <Tab>Best/Worst of the Year</Tab>
-              <Tab>Elos by Height</Tab>
-              <Tab>Elos by Weight</Tab>
-              <Tab>Match Up Calculator</Tab>
-              <Tab>Wrestler Elo History</Tab>
-            </TabList>
-
-            <TabPanel>
-              <CurrentWrestlerEloTable />
-            </TabPanel>
-            <TabPanel>
-              <WrestlerEloTable />
-            </TabPanel>
-            <TabPanel>
-              <WrestlerEloByYearTable />
-            </TabPanel>
-            <TabPanel>
-              <WrestlerEloByHeight />
-            </TabPanel>
-            <TabPanel>
-              <WrestlerEloByWeight />
-            </TabPanel>
-            <TabPanel>
-              <MatchUpCalculator />
-            </TabPanel>
-            <TabPanel>
-              <WrestlerEloHistory />
-            </TabPanel>
-          </Tabs>
+          <NavTab to="/current-wrestlers-elos">Current Wrestlers Elos</NavTab>
+          <NavTab to="/all-time-wrestlers-elos">All Time Wrestlers Elos</NavTab>
+          <NavTab to="/elo-extremes-by-year">Elo Extremes By Year</NavTab>
+          <NavTab to="/wrestler-elo-history">Wrestler Elo History</NavTab>
+          <NavTab to="/match-up-calculator">Match Up Calculator</NavTab>
+          <NavTab to="/elos-by-height">Elos By Height</NavTab>
+          <NavTab to="/elos-by-weight">Elos By Weight</NavTab>
+          <Switch>
+            <Route
+              exact
+              path={"/"}
+              render={() => <Redirect replace to={"/current-wrestlers-elos"} />}
+            />
+            <Route
+              path={"/current-wrestlers-elos"}
+              component={CurrentWrestlerEloTable}
+            />
+            <Route
+              path={"/all-time-wrestlers-elos"}
+              component={WrestlerEloTable}
+            />
+            <Route
+              path={"/elo-extremes-by-year"}
+              component={WrestlerEloByYearTable}
+            />
+            <Route
+              path={"/wrestler-elo-history"}
+              component={WrestlerEloHistory}
+            />
+            <Route
+              path={"/match-up-calculator"}
+              component={MatchUpCalculator}
+            />
+            <Route path={"/elos-by-height"} component={WrestlerEloByHeight} />
+            <Route path={"/elos-by-weight"} component={WrestlerEloByWeight} />
+          </Switch>
         </ApolloProvider>
       </div>
     );

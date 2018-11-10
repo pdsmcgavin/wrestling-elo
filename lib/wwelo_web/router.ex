@@ -13,12 +13,6 @@ defmodule WweloWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", WweloWeb do
-    pipe_through(:browser)
-
-    get("/", PageController, :index)
-  end
-
   scope "/api" do
     pipe_through(:api)
 
@@ -29,5 +23,11 @@ defmodule WweloWeb.Router do
     )
 
     forward("/", Absinthe.Plug, schema: WweloWeb.Schema)
+  end
+
+  scope "/", WweloWeb do
+    pipe_through(:browser)
+
+    forward("/", PageController, :index)
   end
 end
