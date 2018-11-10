@@ -22,7 +22,15 @@ defmodule Wwelo.SiteScraper.Participants do
       })
 
     cond do
-      participants == [] ->
+      participants == [] || is_nil(participants) ->
+        # credo:disable-for-next-line
+        IO.puts("Participants not found")
+        # credo:disable-for-next-line
+        IO.inspect(%{
+          match_id: match_id,
+          match_result: match_result
+        })
+
         Match |> Repo.get!(match_id) |> Repo.delete()
         nil
 
