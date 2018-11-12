@@ -9,7 +9,7 @@ defmodule Wwelo.Utils.GetEloConsts do
 
   defp elo_consts_location do
     if Application.get_env(:wwelo, :environment) == :prod do
-      "priv/static/elo_consts.json"
+      "priv/static/elo-consts.json"
     else
       "assets/static/elo-consts.json"
     end

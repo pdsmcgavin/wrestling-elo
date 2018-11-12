@@ -39,15 +39,6 @@ pre_erlang_clean_compile() {
     npm run deploy $SILENCE
   "
 
-  status "Running migrations"
-  __sync_remote "
-    [ -f ~/.profile ] && source ~/.profile
-    set -e
-
-    cd '$BUILD_AT'
-    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD ecto.migrate $SILENCE
-  "
-
   status "Running phoenix.digest"
   __sync_remote "
     [ -f ~/.profile ] && source ~/.profile
@@ -55,5 +46,14 @@ pre_erlang_clean_compile() {
 
     cd '$BUILD_AT'
     APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phx.digest $SILENCE
+  "
+
+  status "Running migrations"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+
+    cd '$BUILD_AT'
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD ecto.migrate $SILENCE
   "
 }
