@@ -1,21 +1,21 @@
-defmodule Mix.Tasks.JsPreCommits do
+defmodule Mix.Tasks.RunEslint do
   @moduledoc false
   use Mix.Task
   require Logger
 
-  @shortdoc "Runs pre commit hooks for javascript files"
+  @shortdoc "Runs eslint"
   def run(_) do
-    IO.puts("Running eslint on ./assets")
+    "Running eslint on ./assets" |> Logger.info()
     File.cd("assets")
     {linting_errors, linting_exit_code} = System.cmd("eslint", ["."])
     File.cd("../")
 
     if linting_exit_code == 0 do
-      IO.puts("No linting errors")
+      "No eslint errors" |> Logger.info()
       exit(:normal)
     end
 
-    linting_errors |> Logger.info()
+    linting_errors |> Logger.error()
     exit({:shutdown, linting_exit_code})
   end
 end

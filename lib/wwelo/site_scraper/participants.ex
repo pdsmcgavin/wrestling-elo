@@ -22,7 +22,7 @@ defmodule Wwelo.SiteScraper.Participants do
       })
 
     cond do
-      participants == [] || is_nil(participants) ->
+      participants == [] ->
         # credo:disable-for-next-line
         IO.puts("Participants not found")
         # credo:disable-for-next-line
@@ -109,7 +109,7 @@ defmodule Wwelo.SiteScraper.Participants do
         |> Enum.map(&Map.put(&1, :match_id, match_id))
 
       nil ->
-        nil
+        []
     end
   end
 
