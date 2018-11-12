@@ -1,0 +1,6 @@
+{
+  "default_elo": 1200,
+  "match_weight": 32,
+  "elo_base": 10,
+  "distribution_factor": 400
+}
