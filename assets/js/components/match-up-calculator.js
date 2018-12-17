@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import oddsCalculator from "./utils/odds-calculator";
 import { todaysDateISO } from "./utils/iso-dates";
 
+import "./match-up-calculator.styl";
+
 class MatchUpCalculator extends React.Component {
   constructor(props) {
     super(props);
@@ -52,48 +54,38 @@ class MatchUpCalculator extends React.Component {
       .sort((a, b) => a.value.localeCompare(b.value));
 
     return (
-      <div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            padding: "25px"
-          }}
-        >
-          <SelectionAndOdds
-            wrestlerDisplayList={wrestlerDisplayList}
-            wrestlers={wrestlers}
-            team={0}
-            expectedOdds={expectedOdds}
-            handleWrestlerChange={this.handleWrestlerChange}
-          />
-          <div style={{ paddingLeft: "10px", paddingRight: "10px" }}> vs. </div>
-          <SelectionAndOdds
-            wrestlerDisplayList={wrestlerDisplayList}
-            wrestlers={wrestlers}
-            team={1}
-            expectedOdds={expectedOdds}
-            handleWrestlerChange={this.handleWrestlerChange}
-          />
-          <div style={{ paddingLeft: "10px", paddingRight: "10px" }}> vs. </div>
-          <SelectionAndOdds
-            wrestlerDisplayList={wrestlerDisplayList}
-            wrestlers={wrestlers}
-            team={2}
-            expectedOdds={expectedOdds}
-            handleWrestlerChange={this.handleWrestlerChange}
-          />
-          <div style={{ paddingLeft: "10px", paddingRight: "10px" }}> vs. </div>
-          <SelectionAndOdds
-            wrestlerDisplayList={wrestlerDisplayList}
-            wrestlers={wrestlers}
-            team={3}
-            expectedOdds={expectedOdds}
-            handleWrestlerChange={this.handleWrestlerChange}
-          />
-        </div>
+      <div className="match-up-calculator-container">
+        <SelectionAndOdds
+          wrestlerDisplayList={wrestlerDisplayList}
+          wrestlers={wrestlers}
+          team={0}
+          expectedOdds={expectedOdds}
+          handleWrestlerChange={this.handleWrestlerChange}
+        />
+        <span className="versus"> vs. </span>
+        <SelectionAndOdds
+          wrestlerDisplayList={wrestlerDisplayList}
+          wrestlers={wrestlers}
+          team={1}
+          expectedOdds={expectedOdds}
+          handleWrestlerChange={this.handleWrestlerChange}
+        />
+        <span className="versus"> vs. </span>
+        <SelectionAndOdds
+          wrestlerDisplayList={wrestlerDisplayList}
+          wrestlers={wrestlers}
+          team={2}
+          expectedOdds={expectedOdds}
+          handleWrestlerChange={this.handleWrestlerChange}
+        />
+        <span className="versus"> vs. </span>
+        <SelectionAndOdds
+          wrestlerDisplayList={wrestlerDisplayList}
+          wrestlers={wrestlers}
+          team={3}
+          expectedOdds={expectedOdds}
+          handleWrestlerChange={this.handleWrestlerChange}
+        />
       </div>
     );
   }
@@ -109,15 +101,15 @@ const SelectionAndOdds = ({
   return (
     <div>
       <Select
+        className="team-selection"
         name="wrestlerDisplayList"
         value={wrestlers[team]}
         onChange={wrestlers => handleWrestlerChange(wrestlers, team)}
         options={wrestlerDisplayList}
-        style={{ width: "250px" }}
         multi
         removeSelected={true}
       />
-      <div style={{ textAlign: "center" }}>
+      <div className="team-chances">
         {wrestlers[team] && wrestlers[team].length > 0 && expectedOdds[team]}
       </div>
     </div>

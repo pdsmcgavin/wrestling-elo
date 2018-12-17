@@ -12,6 +12,8 @@ import rankChanges from "./utils/rank-changes";
 import { Brands } from "./consts/brands";
 import { EloPrecision, DateFormat } from "./consts/elo-table";
 
+import "./current-wrestler-elo-table.styl";
+
 class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {
     super(props);
@@ -129,43 +131,26 @@ class CurrentWrestlerEloTable extends React.Component {
 
     return (
       <div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexWrap: "wrap",
-            justifyContent: "space-around"
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <label htmlFor="name" style={{ marginRight: "10px" }}>
+        <div className="table-filters">
+          <div className="filter-container">
+            <label className="filter-labels" htmlFor="name-filter">
               Name:{" "}
             </label>
             <input
-              id="name"
-              name="name"
+              className="name-filter"
+              id="name-filter"
+              name="name-filter"
               type="text"
               value={this.state.value}
               onChange={this.handleNameChange}
             />
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <label htmlFor="gender-filter" style={{ marginRight: "10px" }}>
+          <div className="filter-container">
+            <label className="filter-labels" htmlFor="gender-filter">
               Gender:{" "}
             </label>
             <Select
+              className="gender-filter"
               id="gender-filter"
               name="gender-filter"
               value={selectedGender}
@@ -174,20 +159,14 @@ class CurrentWrestlerEloTable extends React.Component {
                 { value: "male", label: "Male" },
                 { value: "female", label: "Female" }
               ]}
-              style={{ minWidth: "150px" }}
             />
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <label htmlFor="brand-filter" style={{ marginRight: "10px" }}>
+          <div className="filter-container">
+            <label className="filter-labels" htmlFor="brand-filter">
               Brand:{" "}
             </label>
             <Select
+              className="brand-filter"
               id="brand-filter"
               name="brand-filter"
               value={selectedBrand}
@@ -195,7 +174,6 @@ class CurrentWrestlerEloTable extends React.Component {
               options={Brands}
               multi
               removeSelected={true}
-              style={{ minWidth: "400px" }}
             />
           </div>
         </div>
@@ -209,7 +187,6 @@ class CurrentWrestlerEloTable extends React.Component {
           }
           columns={columns}
           defaultSorted={defaultSort}
-          style={{ height: "800px" }}
         />
       </div>
     );
