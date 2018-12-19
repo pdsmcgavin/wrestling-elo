@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "../priv/static"),
     filename: "js/main.js",
-    publicPath: "http://local.wwelo.com:8080/"
+    publicPath: "http://0.0.0.0:8080/"
   },
   devServer: {
     headers: {

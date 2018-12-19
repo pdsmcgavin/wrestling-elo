@@ -1,0 +1,18 @@
+version: "2"
+services:
+  wwelo:
+    build: ..
+    environment:
+      - MIX_ENV=dev
+    ports:
+      - "4000:4000"
+      - "8080:8080"
+    depends_on:
+      - db
+    command: bash -c "while ! nc -z db 5432; do sleep 2; done; mix do ecto.migrate, phx.server;"
+  db:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_USER=wwelo
+      - POSTGRES_PASSWORD=wwelo
+      - POSTGRES_DB=wwelo

@@ -21,11 +21,11 @@ config :wwelo, WweloWeb.Endpoint,
       "--hot",
       "--stdin",
       "--host",
-      "local.wwelo.com",
+      "0.0.0.0",
       "--port",
       "8080",
       "--public",
-      "local.wwelo.com:8080",
+      "0.0.0.0:8080",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
@@ -49,13 +49,23 @@ config :logger, :console, format: "[$level] $message\n", level: :info
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
+# config :wwelo, Wwelo.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: "postgres",
+#   password: "postgres",
+#   database: "wwelo_dev",
+#   hostname: "0.0.0.0",
+#   pool_size: 10
+
 config :wwelo, Wwelo.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "wwelo_dev",
-  hostname: "localhost",
-  pool_size: 10
+  pool: Ecto.Adapters.SQL.Sandbox,
+  database: "wwelo",
+  username: "wwelo",
+  password: "wwelo",
+  admin_username: "postgres",
+  admin_password: "postgres",
+  hostname: "db"
 
 config :wwelo, :children, [Wwelo.Repo, WweloWeb.Endpoint]
 

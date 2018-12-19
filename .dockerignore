@@ -1,0 +1,14 @@
+.gitignore
+.travis.yml
+.formatter.exs
+.coveralls.json
+deploy_rsa.enc
+README.md
+_build
+.deliver
+.elixir_ls
+.gitignore
+assets/node_modules
+cover
+deps
+test
