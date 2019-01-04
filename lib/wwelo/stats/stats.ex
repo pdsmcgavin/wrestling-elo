@@ -12,6 +12,7 @@ defmodule Wwelo.Stats do
   alias Wwelo.Stats.Match
   alias Wwelo.Stats.Participant
   alias Wwelo.Stats.Roster
+  alias Wwelo.Stats.TitleHolder
   alias Wwelo.Stats.Wrestler
   alias Wwelo.Utils.GetEloConsts
 
@@ -48,6 +49,12 @@ defmodule Wwelo.Stats do
   def create_roster(attrs \\ %{}) do
     %Roster{}
     |> Roster.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_title_holder(attrs \\ %{}) do
+    %TitleHolder{}
+    |> TitleHolder.changeset(attrs)
     |> Repo.insert()
   end
 

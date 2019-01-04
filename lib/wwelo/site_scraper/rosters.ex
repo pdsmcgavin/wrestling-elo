@@ -12,6 +12,7 @@ defmodule Wwelo.SiteScraper.Rosters do
   def save_current_roster_to_database do
     roster = get_active_roster_list()
     Repo.delete_all(Roster)
+
     Enum.each(roster, fn member -> save_roster_member_to_database(member) end)
   end
 
