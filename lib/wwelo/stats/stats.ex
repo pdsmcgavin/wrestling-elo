@@ -355,4 +355,21 @@ defmodule Wwelo.Stats do
     query
     |> Repo.all()
   end
+
+  def get_title_holders do
+    query =
+      from(t in TitleHolder, join: a in Alias, on: a.id == t.holder_alias_id)
+
+    query =
+      from([t, a] in query,
+        select: %{
+          name: a.name,
+          belt_name: t.name,
+          brand: t.brand,
+          gender: t.gender
+        }
+      )
+
+    query |> Repo.all()
+  end
 end

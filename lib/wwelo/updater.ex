@@ -6,6 +6,7 @@ defmodule Wwelo.Updater do
   alias Wwelo.EloCalculator.EloCalculator
   alias Wwelo.SiteScraper.Rosters
   alias Wwelo.SiteScraper.Scraper
+  alias Wwelo.SiteScraper.TitleHolders
 
   def start_link(state) do
     IO.puts("Updater initialised")
@@ -28,6 +29,7 @@ defmodule Wwelo.Updater do
     Scraper.scrape_site()
     EloCalculator.calculate_elos()
     Rosters.save_current_roster_to_database()
+    TitleHolders.save_current_title_holders_to_database()
   end
 
   defp schedule_work() do

@@ -13,7 +13,6 @@ defmodule Wwelo.SiteScraper.TitleHolders do
     Repo.delete_all(TitleHolder)
 
     Enum.each(title_holders, fn member ->
-      member
       save_title_holder_to_database(member)
     end)
   end

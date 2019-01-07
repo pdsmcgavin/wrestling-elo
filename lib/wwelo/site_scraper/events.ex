@@ -1,6 +1,8 @@
 defmodule Wwelo.SiteScraper.Events do
   @moduledoc false
 
+  require Logger
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -31,13 +33,19 @@ defmodule Wwelo.SiteScraper.Events do
   end
 
   @spec get_event_info(event_url_path :: String.t()) :: map
-  defp get_event_info(event_url_path) do
+  def get_event_info(event_url_path) do
     event_url = "https://www.cagematch.net/" <> event_url_path
     event_html_body = UrlHelper.get_page_html_body(event_url)
 
-    [{_, _, event_info}] =
-      event_html_body
-      |> Floki.find(".InformationBoxTable")
+    event_info =
+      case event_html_body |> Floki.find(".InformationBoxTable") do
+        [{_, _, event_info}] ->
+          event_info
+
+        _ ->
+          Logger.info("Error scraping " <> event_url_path)
+          []
+      end
 
     event_matches =
       case event_html_body |> Floki.find(".Matches") do
@@ -56,7 +64,9 @@ defmodule Wwelo.SiteScraper.Events do
   end
 
   @spec save_event_to_database(event_info :: map) :: integer
-  defp save_event_to_database(event_info) do
+  defp save_event_to_database(
+         %{name: _name, date: _date, location: _location} = event_info
+       ) do
     event_query =
       from(
         e in Event,
@@ -76,5 +86,9 @@ defmodule Wwelo.SiteScraper.Events do
       end
 
     event_result |> Map.get(:id)
+  end
+
+  defp save_event_to_database(%{}) do
+    nil
   end
 end
