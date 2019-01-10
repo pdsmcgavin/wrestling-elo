@@ -6,6 +6,7 @@ import WrestlerEloByHeight from "./components/wrestler-elo-by-height";
 import WrestlerEloByWeight from "./components/wrestler-elo-by-weight";
 import MatchUpCalculator from "./components/match-up-calculator";
 import WrestlerEloHistory from "./components/wrestler-elo-history";
+import TitleContenders from "./components/title-contenders";
 
 import { hot } from "react-hot-loader";
 import { ApolloProvider } from "react-apollo";
@@ -38,6 +39,7 @@ class App extends React.Component {
           <NavTab to="/match-up-calculator">Match Up Calculator</NavTab>
           <NavTab to="/elos-by-height">Elos By Height</NavTab>
           <NavTab to="/elos-by-weight">Elos By Weight</NavTab>
+          <NavTab to="/title-contenders">Title Contenders</NavTab>
           <Switch>
             <Route
               exact
@@ -66,6 +68,7 @@ class App extends React.Component {
             />
             <Route path={"/elos-by-height"} component={WrestlerEloByHeight} />
             <Route path={"/elos-by-weight"} component={WrestlerEloByWeight} />
+            <Route path={"/title-contenders"} component={TitleContenders} />
           </Switch>
         </ApolloProvider>
       </div>

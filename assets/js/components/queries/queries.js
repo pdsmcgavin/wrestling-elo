@@ -164,3 +164,39 @@ export const GET_WRESTLERS_ELOS_BY_YEAR = gql`
     }
   }
 `;
+
+export const GET_TITLE_HOLDERS = gql`
+  query getTitleHolders {
+    titleHolders {
+      titleHolder {
+        name
+        beltName
+        gender
+        brand
+      }
+    }
+  }
+`;
+
+export const GET_ROSTER_CURRENT_ELOS = gql`
+  query getCurrentWrestlersElos(
+    $minMatches: Int!
+    $lastMatchWithinDays: Int!
+    $date: String!
+  ) {
+    currentWrestlerStats(
+      minMatches: $minMatches
+      lastMatchWithinDays: $lastMatchWithinDays
+      date: $date
+    ) {
+      currentWrestlerStat {
+        name
+        gender
+        currentElo {
+          elo
+        }
+        brand
+      }
+    }
+  }
+`;

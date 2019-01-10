@@ -5,7 +5,7 @@ defmodule WweloWeb.Schema.TitleHolders do
   alias Wwelo.Stats
 
   object :title_holders do
-    field(:title_holders, list_of(:title_holder))
+    field(:title_holder, list_of(:title_holder))
   end
 
   object :title_holder do
@@ -18,7 +18,7 @@ defmodule WweloWeb.Schema.TitleHolders do
   object :title_holders_queries do
     field :title_holders, :title_holders do
       resolve(fn _, _ ->
-        {:ok, %{elo_stats_of_year: Stats.get_title_holders()}}
+        {:ok, %{title_holder: Stats.get_title_holders()}}
       end)
     end
   end
