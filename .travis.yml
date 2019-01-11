@@ -13,4 +13,4 @@ before_install:
 script:
   - mix edeliver build release --verbose --auto-version=build-date+git-revision
   - mix edeliver deploy release to production
-  - mix edeliver start production --start-deploy
+  - mix edeliver restart production

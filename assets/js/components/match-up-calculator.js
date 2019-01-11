@@ -40,8 +40,7 @@ class MatchUpCalculator extends React.Component {
 
     const wrestlerList = this.props.getCurrentWrestlersElos.loading
       ? []
-      : this.props.getCurrentWrestlersElos.currentWrestlerStats
-          .currentWrestlerStat;
+      : this.props.getCurrentWrestlersElos.currentWrestlerStats;
 
     const wrestlerDisplayList = wrestlerList
       .map(wrestler => {

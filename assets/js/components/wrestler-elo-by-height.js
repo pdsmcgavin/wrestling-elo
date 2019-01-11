@@ -7,31 +7,31 @@ import { ScatterplotChart } from "react-easy-chart";
 
 class WrestlerEloByHeightChart extends React.Component {
   render() {
-    const elosByHeight =
-      this.props.getWrestlersElosByHeight.wrestlerStats &&
-      this.props.getWrestlersElosByHeight.wrestlerStats.wrestlerStat
-        .filter(wrestler => wrestler.height)
-        .reduce(
-          (acc, wrestler) =>
-            acc.concat([
-              {
-                type: "Maximum Elo",
-                x: wrestler.height,
-                y: wrestler.maxElo.elo
-              },
-              {
-                type: "Minimum Elo",
-                x: wrestler.height,
-                y: wrestler.minElo.elo
-              },
-              {
-                type: "Current Elo",
-                x: wrestler.height,
-                y: wrestler.currentElo.elo
-              }
-            ]),
-          []
-        );
+    const elosByHeight = (
+      this.props.getWrestlersElosByHeight.wrestlerStats || []
+    )
+      .filter(wrestler => wrestler.height)
+      .reduce(
+        (acc, wrestler) =>
+          acc.concat([
+            {
+              type: "Maximum Elo",
+              x: wrestler.height,
+              y: wrestler.maxElo.elo
+            },
+            {
+              type: "Minimum Elo",
+              x: wrestler.height,
+              y: wrestler.minElo.elo
+            },
+            {
+              type: "Current Elo",
+              x: wrestler.height,
+              y: wrestler.currentElo.elo
+            }
+          ]),
+        []
+      );
 
     return (
       <div>

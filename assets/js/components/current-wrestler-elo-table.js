@@ -47,13 +47,11 @@ class CurrentWrestlerEloTable extends React.Component {
 
     let data = this.props.getCurrentWrestlersElos.loading
       ? []
-      : this.props.getCurrentWrestlersElos.currentWrestlerStats
-          .currentWrestlerStat;
+      : this.props.getCurrentWrestlersElos.currentWrestlerStats;
 
     const previousData = this.props.getPreviousCurrentWrestlersElos.loading
       ? []
-      : this.props.getPreviousCurrentWrestlersElos.currentWrestlerStats
-          .currentWrestlerStat;
+      : this.props.getPreviousCurrentWrestlersElos.currentWrestlerStats;
 
     data = rankChanges(data, previousData);
 

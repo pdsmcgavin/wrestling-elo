@@ -3,10 +3,8 @@ import gql from "graphql-tag";
 export const GET_WRESTLER_LIST = gql`
   query getWrestlersElos($minMatches: Int!) {
     wrestlerStats(minMatches: $minMatches) {
-      wrestlerStat {
-        id
-        name
-      }
+      id
+      name
     }
   }
 `;
@@ -14,21 +12,19 @@ export const GET_WRESTLER_LIST = gql`
 export const GET_WRESTLERS_ELOS = gql`
   query getWrestlersElos($minMatches: Int!) {
     wrestlerStats(minMatches: $minMatches) {
-      wrestlerStat {
-        name
-        aliases
-        currentElo {
-          elo
-          date
-        }
-        maxElo {
-          elo
-          date
-        }
-        minElo {
-          elo
-          date
-        }
+      name
+      aliases
+      currentElo {
+        elo
+        date
+      }
+      maxElo {
+        elo
+        date
+      }
+      minElo {
+        elo
+        date
       }
     }
   }
@@ -45,23 +41,21 @@ export const GET_CURRENT_WRESTLERS_ELOS = gql`
       lastMatchWithinDays: $lastMatchWithinDays
       date: $date
     ) {
-      currentWrestlerStat {
-        name
-        gender
-        currentElo {
-          elo
-          date
-        }
-        maxElo {
-          elo
-          date
-        }
-        minElo {
-          elo
-          date
-        }
-        brand
+      name
+      gender
+      currentElo {
+        elo
+        date
       }
+      maxElo {
+        elo
+        date
+      }
+      minElo {
+        elo
+        date
+      }
+      brand
     }
   }
 `;
@@ -77,11 +71,9 @@ export const GET_WRESTLERS_ELOS_FOR_MATCH_UP = gql`
       lastMatchWithinDays: $lastMatchWithinDays
       date: $date
     ) {
-      currentWrestlerStat {
-        name
-        currentElo {
-          elo
-        }
+      name
+      currentElo {
+        elo
       }
     }
   }
@@ -90,12 +82,10 @@ export const GET_WRESTLERS_ELOS_FOR_MATCH_UP = gql`
 export const GET_WRESTLERS_ELO_HISTORIES = gql`
   query getWrestlersEloHistories($ids: [Int]!) {
     wrestlerEloHistories(ids: $ids) {
-      wrestlerEloHistory {
-        id
-        elos {
-          elo
-          date
-        }
+      id
+      elos {
+        elo
+        date
       }
     }
   }
@@ -104,17 +94,15 @@ export const GET_WRESTLERS_ELO_HISTORIES = gql`
 export const GET_WRESTLERS_ELOS_BY_HEIGHT = gql`
   query getWrestlersElosByHeight {
     wrestlerStats(minMatches: 50) {
-      wrestlerStat {
-        height
-        currentElo {
-          elo
-        }
-        maxElo {
-          elo
-        }
-        minElo {
-          elo
-        }
+      height
+      currentElo {
+        elo
+      }
+      maxElo {
+        elo
+      }
+      minElo {
+        elo
       }
     }
   }
@@ -123,17 +111,15 @@ export const GET_WRESTLERS_ELOS_BY_HEIGHT = gql`
 export const GET_WRESTLERS_ELOS_BY_WEIGHT = gql`
   query getWrestlersElosByWeight {
     wrestlerStats(minMatches: 50) {
-      wrestlerStat {
-        weight
-        currentElo {
-          elo
-        }
-        maxElo {
-          elo
-        }
-        minElo {
-          elo
-        }
+      weight
+      currentElo {
+        elo
+      }
+      maxElo {
+        elo
+      }
+      minElo {
+        elo
       }
     }
   }
@@ -142,24 +128,22 @@ export const GET_WRESTLERS_ELOS_BY_WEIGHT = gql`
 export const GET_WRESTLERS_ELOS_BY_YEAR = gql`
   query getWrestlersElosByYear {
     eloStatsByYear {
-      eloStatsOfYear {
-        year
-        maxElo {
-          elo
-          name
-        }
-        minElo {
-          elo
-          name
-        }
-        maxEloDifference {
-          eloDifference
-          name
-        }
-        minEloDifference {
-          eloDifference
-          name
-        }
+      year
+      maxElo {
+        elo
+        name
+      }
+      minElo {
+        elo
+        name
+      }
+      maxEloDifference {
+        eloDifference
+        name
+      }
+      minEloDifference {
+        eloDifference
+        name
       }
     }
   }
@@ -168,12 +152,10 @@ export const GET_WRESTLERS_ELOS_BY_YEAR = gql`
 export const GET_TITLE_HOLDERS = gql`
   query getTitleHolders {
     titleHolders {
-      titleHolder {
-        name
-        beltName
-        gender
-        brand
-      }
+      name
+      beltName
+      gender
+      brand
     }
   }
 `;
@@ -189,14 +171,12 @@ export const GET_ROSTER_CURRENT_ELOS = gql`
       lastMatchWithinDays: $lastMatchWithinDays
       date: $date
     ) {
-      currentWrestlerStat {
-        name
-        gender
-        currentElo {
-          elo
-        }
-        brand
+      name
+      gender
+      currentElo {
+        elo
       }
+      brand
     }
   }
 `;

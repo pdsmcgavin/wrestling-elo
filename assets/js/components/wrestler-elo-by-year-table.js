@@ -85,7 +85,7 @@ class WrestlerEloByYearTable extends React.Component {
         data={
           this.props.getWrestlersElosByYear.loading
             ? []
-            : this.props.getWrestlersElosByYear.eloStatsByYear.eloStatsOfYear
+            : this.props.getWrestlersElosByYear.eloStatsByYear
         }
         noDataText={
           this.props.getWrestlersElosByYear.loading

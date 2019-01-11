@@ -17,15 +17,10 @@ class TitleHolders extends React.Component {
   render() {
     const { getCurrentWrestlersElos, getTitleHolders } = this.props;
 
-    const titleHolders =
-      (getTitleHolders.titleHolders &&
-        getTitleHolders.titleHolders.titleHolder) ||
-      [];
+    const titleHolders = getTitleHolders.titleHolders || [];
 
     const currentWrestlerStats =
-      (getCurrentWrestlersElos.currentWrestlerStats &&
-        getCurrentWrestlersElos.currentWrestlerStats.currentWrestlerStat) ||
-      [];
+      getCurrentWrestlersElos.currentWrestlerStats || [];
 
     const titleHolderAndContenders = titleHolders.map(titleHolder => {
       return holderAndContenders(titleHolder, currentWrestlerStats, 3);

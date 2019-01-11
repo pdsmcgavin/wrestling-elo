@@ -40,7 +40,7 @@ class WrestlerEloHistory extends React.Component {
 
     const wrestlerList = this.props.getWrestlerList.loading
       ? []
-      : this.props.getWrestlerList.wrestlerStats.wrestlerStat;
+      : this.props.getWrestlerList.wrestlerStats;
 
     const wrestlerDisplayList = wrestlerList
       .map(wrestler => {
@@ -72,7 +72,7 @@ class WrestlerEloHistory extends React.Component {
             if (loading) return null;
             if (error) return `Error!: ${error}`;
 
-            const wrestlerEloHistories = data.wrestlerEloHistories.wrestlerEloHistory.map(
+            const wrestlerEloHistories = data.wrestlerEloHistories.map(
               (wrestler, index) => {
                 return {
                   name: this.state.wrestlers[index].label,

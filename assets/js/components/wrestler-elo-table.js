@@ -81,7 +81,7 @@ class WrestlerEloTable extends React.Component {
         data={
           this.props.getWrestlersElos.loading
             ? []
-            : this.props.getWrestlersElos.wrestlerStats.wrestlerStat
+            : this.props.getWrestlersElos.wrestlerStats
         }
         noDataText={
           this.props.getWrestlersElos.loading ? "Loading..." : "No data found"

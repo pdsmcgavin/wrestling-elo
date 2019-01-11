@@ -4,14 +4,6 @@ defmodule WweloWeb.Schema.WrestlerStats do
 
   alias Wwelo.Stats
 
-  object :wrestler_stats do
-    field(:wrestler_stat, list_of(:wrestler_stat))
-  end
-
-  object :current_wrestler_stats do
-    field(:current_wrestler_stat, list_of(:wrestler_stat))
-  end
-
   object :wrestler_stat do
     field(:id, :integer)
     field(:name, :string)
@@ -25,10 +17,6 @@ defmodule WweloWeb.Schema.WrestlerStats do
     field(:brand, :string)
   end
 
-  object :wrestler_elo_histories do
-    field(:wrestler_elo_history, list_of(:wrestler_elo_history))
-  end
-
   object :wrestler_elo_history do
     field(:id, :integer)
     field(:elos, list_of(:elo))
@@ -40,15 +28,15 @@ defmodule WweloWeb.Schema.WrestlerStats do
   end
 
   object :wrestler_stat_queries do
-    field :wrestler_stats, :wrestler_stats do
+    field :wrestler_stats, list_of(:wrestler_stat) do
       arg(:min_matches, :integer)
 
       resolve(fn %{min_matches: min_matches}, _ ->
-        {:ok, %{wrestler_stat: Stats.list_wrestlers_stats(min_matches)}}
+        {:ok, Stats.list_wrestlers_stats(min_matches)}
       end)
     end
 
-    field :current_wrestler_stats, :current_wrestler_stats do
+    field :current_wrestler_stats, list_of(:wrestler_stat) do
       arg(:min_matches, :integer)
       arg(:last_match_within_days, :integer)
       arg(:date, :date)
@@ -60,28 +48,22 @@ defmodule WweloWeb.Schema.WrestlerStats do
                  },
                  _ ->
         {:ok,
-         %{
-           current_wrestler_stat:
-             Stats.list_current_wrestlers_stats(
-               min_matches,
-               last_match_within_days,
-               date
-             )
-         }}
+         Stats.list_current_wrestlers_stats(
+           min_matches,
+           last_match_within_days,
+           date
+         )}
       end)
     end
 
-    field :wrestler_elo_histories, :wrestler_elo_histories do
+    field :wrestler_elo_histories, list_of(:wrestler_elo_history) do
       arg(:ids, list_of(:integer))
 
       resolve(fn %{ids: ids}, _ ->
         {:ok,
-         %{
-           wrestler_elo_history:
-             Enum.map(ids, fn id ->
-               Stats.wrestler_elos_by_id(id)
-             end)
-         }}
+         Enum.map(ids, fn id ->
+           Stats.wrestler_elos_by_id(id)
+         end)}
       end)
     end
   end
