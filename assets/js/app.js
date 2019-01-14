@@ -30,46 +30,55 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h2>WWElo</h2>
+        <h1 className="title">WWElo</h1>
         <ApolloProvider client={client}>
-          <NavTab to="/current-wrestlers-elos">Current Wrestlers Elos</NavTab>
-          <NavTab to="/all-time-wrestlers-elos">All Time Wrestlers Elos</NavTab>
-          <NavTab to="/elo-extremes-by-year">Elo Extremes By Year</NavTab>
-          <NavTab to="/wrestler-elo-history">Wrestler Elo History</NavTab>
-          <NavTab to="/match-up-calculator">Match Up Calculator</NavTab>
-          <NavTab to="/elos-by-height">Elos By Height</NavTab>
-          <NavTab to="/elos-by-weight">Elos By Weight</NavTab>
-          <NavTab to="/title-contenders">Title Contenders</NavTab>
-          <Switch>
-            <Route
-              exact
-              path={"/"}
-              render={() => <Redirect replace to={"/current-wrestlers-elos"} />}
-            />
-            <Route
-              path={"/current-wrestlers-elos"}
-              component={CurrentWrestlerEloTable}
-            />
-            <Route
-              path={"/all-time-wrestlers-elos"}
-              component={WrestlerEloTable}
-            />
-            <Route
-              path={"/elo-extremes-by-year"}
-              component={WrestlerEloByYearTable}
-            />
-            <Route
-              path={"/wrestler-elo-history"}
-              component={WrestlerEloHistory}
-            />
-            <Route
-              path={"/match-up-calculator"}
-              component={MatchUpCalculator}
-            />
-            <Route path={"/elos-by-height"} component={WrestlerEloByHeight} />
-            <Route path={"/elos-by-weight"} component={WrestlerEloByWeight} />
-            <Route path={"/title-contenders"} component={TitleContenders} />
-          </Switch>
+          <div className="tabs">
+            <NavTab to="/current-wrestlers-elos">Current Wrestlers Elos</NavTab>
+            <NavTab to="/all-time-wrestlers-elos">
+              All Time Wrestlers Elos
+            </NavTab>
+            <NavTab to="/elo-extremes-by-year">Elo Extremes By Year</NavTab>
+            <NavTab to="/wrestler-elo-history">Wrestler Elo History</NavTab>
+            <NavTab to="/match-up-calculator">Match Up Calculator</NavTab>
+            <NavTab to="/elos-by-height">Elos By Height</NavTab>
+            <NavTab to="/elos-by-weight">Elos By Weight</NavTab>
+            <NavTab to="/title-contenders">Title Contenders</NavTab>
+            <div className="fake-tab" />
+          </div>
+          <div className="tab-content">
+            <Switch>
+              <Route
+                exact
+                path={"/"}
+                render={() => (
+                  <Redirect replace to={"/current-wrestlers-elos"} />
+                )}
+              />
+              <Route
+                path={"/current-wrestlers-elos"}
+                component={CurrentWrestlerEloTable}
+              />
+              <Route
+                path={"/all-time-wrestlers-elos"}
+                component={WrestlerEloTable}
+              />
+              <Route
+                path={"/elo-extremes-by-year"}
+                component={WrestlerEloByYearTable}
+              />
+              <Route
+                path={"/wrestler-elo-history"}
+                component={WrestlerEloHistory}
+              />
+              <Route
+                path={"/match-up-calculator"}
+                component={MatchUpCalculator}
+              />
+              <Route path={"/elos-by-height"} component={WrestlerEloByHeight} />
+              <Route path={"/elos-by-weight"} component={WrestlerEloByWeight} />
+              <Route path={"/title-contenders"} component={TitleContenders} />
+            </Switch>
+          </div>
         </ApolloProvider>
       </div>
     );
