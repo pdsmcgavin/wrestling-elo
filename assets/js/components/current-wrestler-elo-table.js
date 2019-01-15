@@ -128,7 +128,7 @@ class CurrentWrestlerEloTable extends React.Component {
     const defaultSort = [{ id: "currentEloValue", desc: true }];
 
     return (
-      <div>
+      <React.Fragment>
         <div className="table-filters">
           <div className="filter-container">
             <label className="filter-labels" htmlFor="name-filter">
@@ -186,7 +186,7 @@ class CurrentWrestlerEloTable extends React.Component {
           columns={columns}
           defaultSorted={defaultSort}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

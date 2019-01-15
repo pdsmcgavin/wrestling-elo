@@ -29,7 +29,7 @@ const client = new ApolloClient({
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <h1 className="title">WWElo</h1>
         <ApolloProvider client={client}>
           <div className="tabs">
@@ -80,7 +80,7 @@ class App extends React.Component {
             </Switch>
           </div>
         </ApolloProvider>
-      </div>
+      </React.Fragment>
     );
   }
 }

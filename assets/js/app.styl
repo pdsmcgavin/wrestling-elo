@@ -1,16 +1,7 @@
-body 
-  font: 14px/1.5 Helvetica, arial, sans-serif;
-
-*, *:before, *:after
-  margin: 0;
-  box-sizing: border-box;
-
 div
-  &.ReactTable
-    height: 800px
-
   &.tabs
     display: flex
+    flex-shrink: 0
 
   &.fake-tab
     flex-grow: 1
@@ -18,8 +9,15 @@ div
 
   &.tab-content
     padding: 10px
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+
+  &.ReactTable
+    flex-grow: 1
 
 h1
   &.title
     padding: 10px 25px 10px 25px
     font-size: 21px
+    flex-shrink: 0

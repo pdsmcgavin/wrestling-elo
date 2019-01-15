@@ -1,25 +1,23 @@
-.brand-filter
-    min-width: 400px
-
 div
-    &.filter-container
-        display: flex
-        align-items: center
-        justify-content: center
-
     &.table-filters
         display: flex
         align-items: center
         flex-wrap: wrap
         justify-content: space-around
         padding-bottom: 10px
+        flex-shrink: 0
+   
+    &.filter-container
+        display: flex
+        align-items: center
+        justify-content: center
+
+    
+.brand-filter
+    min-width: 400px
 
 .gender-filter
     min-width: 150px
-
-label
-    &.filter-labels
-        margin-right: 10px
 
 .name-filter
     color: #333
@@ -28,3 +26,7 @@ label
     border: 1px solid #ccc;
     height: 36px;
     padding-left: 10px
+
+label
+    &.filter-labels
+        margin-right: 10px
