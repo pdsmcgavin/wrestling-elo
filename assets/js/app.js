@@ -19,7 +19,7 @@ import { NavTab } from "react-router-tabs";
 import "react-router-tabs/styles/react-router-tabs.css";
 import "react-select/dist/react-select.css";
 import "react-virtualized-select/styles.css";
-import "../stylus/app.styl";
+import "./app.styl";
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: "/api/graphql" }),
