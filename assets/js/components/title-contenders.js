@@ -26,9 +26,26 @@ class TitleHolders extends React.Component {
       return holderAndContenders(titleHolder, currentWrestlerStats, 3);
     });
 
-    return titleHolderAndContenders.map((titleHolderAndContender, index) => {
-      return topContendersDisplay(titleHolderAndContender, index);
-    });
+    return (
+      <React.Fragment>
+        <div className="title-holder-and-contenders content-title">
+          <h2 className="title-holder">Belt and Current Champion</h2>
+          <div className="contenders">
+            <div className="wrestler">
+              <div className="contender">
+                <h2>Contender</h2>
+                <h2>Elo</h2>
+              </div>
+              <h2>Odds</h2>
+            </div>
+          </div>
+        </div>
+
+        {titleHolderAndContenders.map((titleHolderAndContender, index) => {
+          return topContendersDisplay(titleHolderAndContender, index);
+        })}
+      </React.Fragment>
+    );
   }
 }
 
@@ -56,38 +73,38 @@ const topContendersDisplay = (
   { titleInfo, currentHolder, topContenders },
   index
 ) => {
-  return currentHolder ? (
-    <div key={index} className="title-holder-and-contenders">
-      <div className="title-holder">
-        <div>{titleInfo.beltName}</div>
-        <div className="wrestler">
-          <div>{currentHolder.name}</div>
-          <div>{currentHolder.currentElo.elo.toFixed(EloPrecision)}</div>
+  return (
+    currentHolder && (
+      <div key={index} className="title-holder-and-contenders">
+        <div className="title-holder">
+          <div>{titleInfo.beltName}</div>
+          <div className="wrestler">
+            <div>{currentHolder.name}</div>
+            <div>{currentHolder.currentElo.elo.toFixed(EloPrecision)}</div>
+          </div>
+        </div>
+        <div className="contenders">
+          {topContenders.map((contender, contenderIndex) => {
+            return (
+              <div className="wrestler" key={contenderIndex}>
+                <div className="contender">
+                  <div>{contender.name}</div>
+                  <div>{contender.currentElo.elo.toFixed(EloPrecision)}</div>
+                </div>
+                <div>
+                  {(
+                    oddsCalculator([
+                      [contender.currentElo.elo],
+                      [currentHolder.currentElo.elo]
+                    ])[0] * 100
+                  ).toFixed(1) + "%"}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div className="contenders">
-        {topContenders.map((contender, contenderIndex) => {
-          return (
-            <div className="wrestler" key={contenderIndex}>
-              <div className="contender">
-                <div>{contender.name}</div>
-                <div>{contender.currentElo.elo.toFixed(EloPrecision)}</div>
-              </div>
-              <div>
-                {(
-                  oddsCalculator([
-                    [contender.currentElo.elo],
-                    [currentHolder.currentElo.elo]
-                  ])[0] * 100
-                ).toFixed(1) + "%"}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  ) : (
-    <div key={index}> Loading...</div>
+    )
   );
 };
 
