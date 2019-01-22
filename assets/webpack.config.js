@@ -36,8 +36,12 @@ module.exports = {
       },
 
       {
-        test: /(react-router-tabs|react-table|react-select|react-virtualized-select\/styles).css$/,
+        test: /(katex|react-router-tabs|react-table|react-select|react-virtualized-select\/styles).css$/,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: "url-loader?limit=100000"
       }
     ]
   },
