@@ -1,6 +1,8 @@
 defmodule Wwelo.SiteScraper.Participants do
   @moduledoc false
 
+  require Logger
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -23,13 +25,13 @@ defmodule Wwelo.SiteScraper.Participants do
 
     cond do
       participants == [] ->
-        # credo:disable-for-next-line
-        IO.puts("Participants not found")
-        # credo:disable-for-next-line
-        IO.inspect(%{
-          match_id: match_id,
-          match_result: match_result
-        })
+        Logger.error(
+          "Participants not found" <>
+            Poison.encode!(%{
+              match_id: match_id,
+              match_result: match_result
+            })
+        )
 
         Match |> Repo.get!(match_id) |> Repo.delete()
         nil
@@ -109,6 +111,13 @@ defmodule Wwelo.SiteScraper.Participants do
         |> Enum.map(&Map.put(&1, :match_id, match_id))
 
       nil ->
+        Logger.error(
+          "Result could not be split into winners and losers" <>
+            Poison.encode!(%{
+              match_result: match_result
+            })
+        )
+
         []
     end
   end

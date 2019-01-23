@@ -13,8 +13,7 @@ defmodule Wwelo.SiteScraper.Events do
 
   @spec save_events_of_year(year :: integer) :: [map]
   def save_events_of_year(year) do
-    # credo:disable-for-next-line
-    IO.inspect(year)
+    Logger.warn("Scraping year: #{year}")
 
     list_of_event_urls = UrlHelper.wwe_event_url_paths_list(year)
 
@@ -43,14 +42,18 @@ defmodule Wwelo.SiteScraper.Events do
           event_info
 
         _ ->
-          Logger.info("Error scraping " <> event_url_path)
+          Logger.error("Error scraping: #{event_url}")
           []
       end
 
     event_matches =
       case event_html_body |> Floki.find(".Matches") do
-        [{_, _, event_matches}] -> event_matches
-        _ -> []
+        [{_, _, event_matches}] ->
+          event_matches
+
+        _ ->
+          Logger.error("Error find matches: #{event_url}")
+          []
       end
 
     %{event_info: event_info, event_matches: event_matches}

@@ -1,6 +1,8 @@
 defmodule Wwelo.SiteScraper.Wrestlers do
   @moduledoc false
 
+  require Logger
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -21,8 +23,15 @@ defmodule Wwelo.SiteScraper.Wrestlers do
 
     wrestler_info =
       case wrestler_info do
-        [] -> empty_wrestler_profile_info(alias)
-        _ -> wrestler_info |> convert_wrestler_info
+        [] ->
+          Logger.error(
+            "Wreslter profile empty: " <> Poison.encode!(wrestler_url_path)
+          )
+
+          empty_wrestler_profile_info(alias)
+
+        _ ->
+          wrestler_info |> convert_wrestler_info
       end
 
     wrestler_ids =

@@ -69,7 +69,8 @@ defmodule Wwelo.Mixfile do
       {:poison, "~> 3.1"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:mock, "~> 0.3.2", only: [:test]},
-      {:ecto_enum, "~> 1.1.0"}
+      {:ecto_enum, "~> 1.1.0"},
+      {:gelf_logger, "~> 0.7.5"}
     ]
   end
 

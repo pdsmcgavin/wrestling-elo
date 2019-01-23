@@ -2,6 +2,8 @@ defmodule Wwelo.EloCalculator.EloCalculator do
   @moduledoc """
   Wrestler Elo calculation module
   """
+  require Logger
+
   alias Wwelo.Utils.GetEloConsts
   alias Wwelo.EloCalculator.EloDatabaseCalls
 
@@ -86,7 +88,6 @@ defmodule Wwelo.EloCalculator.EloCalculator do
           :win -> 1
           :draw -> 0.5
           :loss -> 0
-          _ -> nil
         end
 
       Map.put(participant, :result_value, result_value)
@@ -130,9 +131,11 @@ defmodule Wwelo.EloCalculator.EloCalculator do
         end)
 
       true ->
-        IO.puts("Incorrect match result scenario")
-        # credo:disable-for-next-line
-        IO.inspect(participants)
+        Logger.error(
+          "Incorrect match result scenario" <> Poison.encode!(participants)
+        )
+
+        []
     end
   end
 

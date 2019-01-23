@@ -3,13 +3,16 @@ defmodule Wwelo.Updater do
     Updates the site daily
   """
   use GenServer
+
+  require Logger
+
   alias Wwelo.EloCalculator.EloCalculator
   alias Wwelo.SiteScraper.Rosters
   alias Wwelo.SiteScraper.Scraper
   alias Wwelo.SiteScraper.TitleHolders
 
   def start_link(state) do
-    IO.puts("Updater initialised")
+    Logger.warn("Updater initialised")
     GenServer.start_link(__MODULE__, state)
   end
 
@@ -26,10 +29,12 @@ defmodule Wwelo.Updater do
   end
 
   defp update_site do
+    Logger.warn("Updating site")
     Scraper.scrape_site()
     EloCalculator.calculate_elos()
     Rosters.save_current_roster_to_database()
     TitleHolders.save_current_title_holders_to_database()
+    Logger.warn("Updating site complete")
   end
 
   defp schedule_work() do

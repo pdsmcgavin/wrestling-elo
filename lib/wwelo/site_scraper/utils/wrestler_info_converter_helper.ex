@@ -1,6 +1,8 @@
 defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
   @moduledoc false
 
+  require Logger
+
   alias Wwelo.SiteScraper.Utils.DateHelper
 
   @spec convert_wrestler_info(wrestler_info :: {}, acc :: map) :: map
@@ -9,9 +11,16 @@ defmodule Wwelo.SiteScraper.Utils.WrestlerInfoConverterHelper do
         acc
       ) do
     case gender |> String.downcase() do
-      "female" -> Map.put(acc, :gender, :female)
-      "male" -> Map.put(acc, :gender, :male)
-      _ -> Map.put(acc, :gender, :unknown)
+      "female" ->
+        Map.put(acc, :gender, :female)
+
+      "male" ->
+        Map.put(acc, :gender, :male)
+
+      _ ->
+        Logger.error("Gender not found: " <> Poison.encode!(gender))
+
+        Map.put(acc, :gender, :unknown)
     end
   end
 

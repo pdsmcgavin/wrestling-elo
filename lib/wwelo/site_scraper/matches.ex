@@ -1,6 +1,8 @@
 defmodule Wwelo.SiteScraper.Matches do
   @moduledoc false
 
+  require Logger
+
   import Ecto.Query
 
   alias Wwelo.Repo
@@ -67,10 +69,7 @@ defmodule Wwelo.SiteScraper.Matches do
           false
 
         _ ->
-          # Checking for edge cases
-          # credo:disable-for-lines:2
-          IO.puts("Match edge case")
-          IO.inspect(match)
+          Logger.error("Match edge case: " <> Poison.encode!(match))
           false
       end
     end)
@@ -86,9 +85,7 @@ defmodule Wwelo.SiteScraper.Matches do
 
       _ ->
         # Checking for edge cases
-        # credo:disable-for-lines:2
-        IO.puts("Match type edge case")
-        IO.inspect(match)
+        Logger.error("Match type edge case: " <> Poison.encode!(match))
         "No stipulation found"
     end
   end

@@ -4,8 +4,9 @@ defmodule Wwelo.Stats do
   """
 
   import Ecto.Query, warn: false
-  alias Wwelo.Repo
+  require Logger
 
+  alias Wwelo.Repo
   alias Wwelo.Stats.Alias
   alias Wwelo.Stats.Elo
   alias Wwelo.Stats.Event
@@ -357,6 +358,8 @@ defmodule Wwelo.Stats do
   end
 
   def get_title_holders do
+    Logger.error("Getting title holders")
+
     query =
       from(t in TitleHolder, join: a in Alias, on: a.id == t.holder_alias_id)
 
