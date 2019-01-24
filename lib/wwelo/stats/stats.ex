@@ -358,8 +358,6 @@ defmodule Wwelo.Stats do
   end
 
   def get_title_holders do
-    Logger.error("Getting title holders")
-
     query =
       from(t in TitleHolder, join: a in Alias, on: a.id == t.holder_alias_id)
 

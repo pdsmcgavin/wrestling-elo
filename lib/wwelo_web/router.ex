@@ -19,11 +19,13 @@ defmodule WweloWeb.Router do
   scope "/api" do
     pipe_through(:api)
 
-    forward(
-      "/graphiql",
-      Absinthe.Plug.GraphiQL,
-      schema: WweloWeb.Schema
-    )
+    if Application.get_env(:wwelo, :environment) == :dev do
+      forward(
+        "/graphiql",
+        Absinthe.Plug.GraphiQL,
+        schema: WweloWeb.Schema
+      )
+    end
 
     forward("/", Absinthe.Plug, schema: WweloWeb.Schema)
   end
