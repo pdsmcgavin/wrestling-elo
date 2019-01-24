@@ -4,7 +4,7 @@ defmodule Wwelo.Mixfile do
   def project do
     [
       app: :wwelo,
-      version: "0.0.5",
+      version: "0.0.6",
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -30,7 +30,8 @@ defmodule Wwelo.Mixfile do
       extra_applications: [
         :logger,
         :runtime_tools,
-        :edeliver
+        :edeliver,
+        :sentry
       ]
     ]
   end
@@ -70,7 +71,8 @@ defmodule Wwelo.Mixfile do
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:mock, "~> 0.3.2", only: [:test]},
       {:ecto_enum, "~> 1.1.0"},
-      {:gelf_logger, "~> 0.7.5"}
+      {:gelf_logger, "~> 0.7.5"},
+      {:sentry, "~> 6.4"}
     ]
   end
 
