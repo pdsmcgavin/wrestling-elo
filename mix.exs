@@ -4,7 +4,7 @@ defmodule Wwelo.Mixfile do
   def project do
     [
       app: :wwelo,
-      version: "0.0.8",
+      version: "0.0.9",
       elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -28,7 +28,8 @@ defmodule Wwelo.Mixfile do
         :logger,
         :runtime_tools,
         :edeliver,
-        :sentry
+        :sentry,
+        :timber
       ]
     ]
   end
@@ -49,7 +50,6 @@ defmodule Wwelo.Mixfile do
       {:elixir_mbcs, github: "woxtu/elixir-mbcs", tag: "0.1.3"},
       {:excoveralls, "~> 0.8", only: :test},
       {:floki, "~> 0.18.0"},
-      {:gelf_logger, "~> 0.7.5"},
       {:gettext, "~> 0.11"},
       {:httpoison, "~> 1.0"},
       {:math, "~> 0.3.0"},
@@ -65,7 +65,8 @@ defmodule Wwelo.Mixfile do
       {:poison, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
       {:pre_commit, "~> 0.2.4", only: :dev},
-      {:sentry, "~> 6.4"}
+      {:sentry, "~> 6.4"},
+      {:timber, "~> 3.0"}
     ]
   end
 

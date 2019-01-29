@@ -8,16 +8,10 @@ config :wwelo, WweloWeb.Endpoint,
   version: Mix.Project.config()[:version],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-config :logger, :gelf_logger,
-  host: "127.0.0.1",
-  port: 12201,
-  application: "wwelo_api",
-  compression: :gzip,
-  metadata: :all,
-  level: :warn
-
 config :logger,
-  backends: [{Logger.Backends.Gelf, :gelf_logger}]
+  backends: [Timber.LoggerBackends.HTTP],
+  utc_log: true,
+  level: :warn
 
 config :sentry,
   dsn: "https://83510e2fdf6e4046b2ad83c670366e3a@sentry.io/1378716",
