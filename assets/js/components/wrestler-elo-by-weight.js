@@ -2,8 +2,14 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { GET_WRESTLERS_ELOS_BY_WEIGHT } from "./queries/queries";
 import PropTypes from "prop-types";
-import "react-table/react-table.css";
-import { ScatterplotChart } from "react-easy-chart";
+import {
+  VictoryAxis,
+  VictoryChart,
+  VictoryScatter,
+  VictoryTheme
+} from "victory";
+import { ScatterChartColours } from "./consts/colours";
+import { ChartLabels } from "./consts/labels";
 
 class WrestlerEloByWeightChart extends React.Component {
   render() {
@@ -15,19 +21,21 @@ class WrestlerEloByWeightChart extends React.Component {
         (acc, wrestler) =>
           acc.concat([
             {
-              type: "Maximum Elo",
+              type: ChartLabels.max,
               x: wrestler.weight,
-              y: wrestler.maxElo.elo
+              y: wrestler.maxElo.elo,
+              symbol: "triangleUp"
             },
             {
-              type: "Minimum Elo",
-              x: wrestler.weight,
-              y: wrestler.minElo.elo
-            },
-            {
-              type: "Current Elo",
+              type: ChartLabels.current,
               x: wrestler.weight,
               y: wrestler.currentElo.elo
+            },
+            {
+              type: ChartLabels.min,
+              x: wrestler.weight,
+              y: wrestler.minElo.elo,
+              symbol: "triangleDown"
             }
           ]),
         []
@@ -38,17 +46,23 @@ class WrestlerEloByWeightChart extends React.Component {
         {this.props.getWrestlersElosByWeight.loading ? (
           <p>Loading...</p>
         ) : (
-          <ScatterplotChart
-            style={{ ".label": { fill: "black" } }}
-            data={elosByWeight}
-            axes
-            axisLabels={{ x: "Weight (kg)", y: "Elo" }}
-            width={900}
-            height={600}
-            margin={{ top: 20, right: 20, bottom: 20, left: 70 }}
-            grid
-            verticalGrid
-          />
+          <VictoryChart width={900} height={400} theme={VictoryTheme.material}>
+            <VictoryAxis label="Weight (kg)" />
+            <VictoryAxis dependentAxis label="Elo" />
+            <VictoryScatter
+              data={elosByWeight}
+              style={{
+                data: {
+                  fill: d =>
+                    d.type === ChartLabels.max
+                      ? ScatterChartColours.red
+                      : d.type === ChartLabels.min
+                      ? ScatterChartColours.orange
+                      : ScatterChartColours.blue
+                }
+              }}
+            />
+          </VictoryChart>
         )}
       </div>
     );

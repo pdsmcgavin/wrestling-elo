@@ -36,7 +36,7 @@ module.exports = {
       },
 
       {
-        test: /(katex|react-router-tabs|react-table|react-select|react-virtualized-select\/styles).css$/,
+        test: /(react-router-tabs|react-table|react-select|react-virtualized-select\/styles).css$/,
         use: ["style-loader", "css-loader"]
       },
       {
