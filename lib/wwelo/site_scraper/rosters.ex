@@ -34,11 +34,14 @@ defmodule Wwelo.SiteScraper.Rosters do
          _
        ]} = worker
 
-      wrestler_id = get_active_wrestler_id(wrestler)
+      trimmed_wrestler = wrestler |> String.trim()
+
+      wrestler_id = get_active_wrestler_id(trimmed_wrestler)
 
       case wrestler?(jobs, brand) && !is_nil(wrestler_id) do
         true ->
-          acc ++ [%{wrestler_id: wrestler_id, brand: brand, alias: wrestler}]
+          acc ++
+            [%{wrestler_id: wrestler_id, brand: brand, alias: trimmed_wrestler}]
 
         _ ->
           acc
