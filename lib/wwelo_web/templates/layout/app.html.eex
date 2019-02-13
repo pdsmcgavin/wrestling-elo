@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <script>
+    window.addEventListener("load", function(){
+      window.cookieconsent.initialise({
+        "palette": {
+          "popup": {
+            "background": "#237afc"
+          },
+          "button": {
+            "background": "#fff",
+            "text": "#237afc"
+          }
+        },
+        "theme": "classic"
+      })
+    });
+    </script>
+    <!-- End Cookie Consent -->
+
     <!-- Google Tag Manager -->
     <script>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -10,32 +32,41 @@
       })(window,document,'script','dataLayer','GTM-MLK5NRW');
     </script>
     <!-- End Google Tag Manager -->
+
+    <!-- Metadata -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Elo Rankings for Wrestlers of WWE">
     <meta name="author" content="Philip McGavin">
     <meta name="keywords" content="WWE, Wrestler, Wrestling, Elo, Ranking">
+    <!-- Metadata -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
+
     <title>WWElo</title>
+
   </head>
 
   <body>
+
     <!-- Google Tag Manager (noscript) -->
     <noscript>
       <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MLK5NRW"
       height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
+
     <div class="container">
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
+    </div>
 
-    </div> <!-- /container -->
     <%= {:safe, js_script_tag() } %>
+
   </body>
 </html>
