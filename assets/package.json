@@ -3,7 +3,8 @@
   "license": "MIT",
   "scripts": {
     "deploy": "NODE_ENV=production BABEL_ENV=production webpack -p",
-    "test": "NODE_ENV=dev BABEL_ENV=dev jest --coverage"
+    "test": "NODE_ENV=dev BABEL_ENV=dev jest --coverage",
+    "lint": "eslint ."
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.2.10",
