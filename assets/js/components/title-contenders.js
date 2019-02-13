@@ -3,7 +3,7 @@ import { GET_ROSTER_CURRENT_ELOS, GET_TITLE_HOLDERS } from "./queries/queries";
 import { todaysDateISO } from "./utils/iso-dates";
 import { graphql, compose } from "react-apollo";
 import PropTypes from "prop-types";
-import { sortBy } from "lodash";
+import sortBy from "./utils/sort-by";
 import { EloPrecision } from "./consts/elo-table";
 import oddsCalculator from "./utils/odds-calculator";
 
@@ -62,7 +62,8 @@ const holderAndContenders = (titleHolder, wrestlerElos, numberOfContenders) => {
     );
   });
 
-  const topContenders = sortBy(eligibleWrestlers, ["currentElo.elo"])
+  const topContenders = eligibleWrestlers
+    .sort(sortBy("currentElo.elo"))
     .reverse()
     .slice(0, numberOfContenders);
 
