@@ -2,21 +2,23 @@ import React from "react";
 import CurrentWrestlerEloTable from "./components/current-wrestler-elo-table";
 import WrestlerEloTable from "./components/wrestler-elo-table";
 import WrestlerEloByYearTable from "./components/wrestler-elo-by-year-table";
-import WrestlerEloByHeight from "./components/wrestler-elo-by-height";
-import WrestlerEloByWeight from "./components/wrestler-elo-by-weight";
 import MatchUpCalculator from "./components/match-up-calculator";
 import WrestlerEloHistory from "./components/wrestler-elo-history";
 import TitleContenders from "./components/title-contenders";
+
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import PropTypes from "prop-types";
 
 import { hot } from "react-hot-loader";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { Route, Switch, Redirect } from "react-router-dom";
-import { NavTab } from "react-router-tabs";
+import { Link, Route, Redirect, Switch } from "react-router-dom";
 
-import "react-router-tabs/styles/react-router-tabs.css";
 import "react-select/dist/react-select.css";
 import "react-virtualized-select/styles.css";
 import "./app.styl";
@@ -30,21 +32,43 @@ class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1 className="title">WWElo</h1>
         <ApolloProvider client={client}>
-          <div className="tabs">
-            <NavTab to="/current-wrestlers-elos">Current Wrestlers Elos</NavTab>
-            <NavTab to="/all-time-wrestlers-elos">
-              All Time Wrestlers Elos
-            </NavTab>
-            <NavTab to="/elo-extremes-by-year">Elo Extremes By Year</NavTab>
-            <NavTab to="/wrestler-elo-history">Wrestler Elo History</NavTab>
-            <NavTab to="/match-up-calculator">Match Up Calculator</NavTab>
-            <NavTab to="/elos-by-height">Elos By Height</NavTab>
-            <NavTab to="/elos-by-weight">Elos By Weight</NavTab>
-            <NavTab to="/title-contenders">Title Contenders</NavTab>
-            <div className="fake-tab" />
-          </div>
+          <Drawer
+            className="drawer"
+            classes={{
+              paper: "drawer"
+            }}
+            variant="permanent"
+            anchor="left"
+          >
+            <List>
+              <ListItemLinkShorthand
+                text={"Current Wrestlers Elos"}
+                route={"/current-wrestlers-elos"}
+              />
+              <ListItemLinkShorthand
+                text={"All Time Wrestlers Elos"}
+                route={"/all-time-wrestlers-elos"}
+              />
+              <ListItemLinkShorthand
+                text={"Elo Extremes By Year"}
+                route={"/elo-extremes-by-year"}
+              />
+              <ListItemLinkShorthand
+                text={"Wrestler Elo History"}
+                route={"/wrestler-elo-history"}
+              />
+              <ListItemLinkShorthand
+                text={"Match Up Calculator"}
+                route={"/match-up-calculator"}
+              />
+              <ListItemLinkShorthand
+                text={"Title Contenders"}
+                route={"/title-contenders"}
+              />
+            </List>
+          </Drawer>
+
           <div className="tab-content">
             <Switch>
               <Route
@@ -74,8 +98,6 @@ class App extends React.Component {
                 path={"/match-up-calculator"}
                 component={MatchUpCalculator}
               />
-              <Route path={"/elos-by-height"} component={WrestlerEloByHeight} />
-              <Route path={"/elos-by-weight"} component={WrestlerEloByWeight} />
               <Route path={"/title-contenders"} component={TitleContenders} />
             </Switch>
           </div>
@@ -84,5 +106,20 @@ class App extends React.Component {
     );
   }
 }
+
+const ListItemLinkShorthand = ({ text, route }) => {
+  return (
+    <li>
+      <ListItem button component={Link} to={route}>
+        <ListItemText primary={text} />
+      </ListItem>
+    </li>
+  );
+};
+
+ListItemLinkShorthand.propTypes = {
+  text: PropTypes.string,
+  route: PropTypes.string
+};
 
 export default hot(module)(App);

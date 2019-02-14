@@ -1,23 +1,20 @@
-div
-  &.tabs
-    display: flex
-    flex-shrink: 0
+@require "../stylus/consts"
 
-  &.fake-tab
-    flex-grow: 1
-    border-bottom: solid 1px #ddd
+#app
+  display: flex
+  height: 100vh
+
+div
+  &.drawer
+    flex-shrink: 0
+    width: 240px
 
   &.tab-content
-    padding: 10px
+    padding: padding[small]
     display: flex
     flex-direction: column
     flex-grow: 1
+    flex-shrink: 1
 
   &.ReactTable
     flex-grow: 1
-
-h1
-  &.title
-    padding: 10px 25px 10px 25px
-    font-size: 21px
-    flex-shrink: 0

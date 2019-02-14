@@ -7,6 +7,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",
     "apollo-link-http": "^1.5.5",
@@ -16,7 +17,6 @@
     "moment": "^2.22.1",
     "react-apollo": "^2.1.4",
     "react-router-dom": "^4.3.1",
-    "react-router-tabs": "^1.2.0",
     "react-select": "^1.2.1",
     "react-table": "^6.8.2",
     "react-virtualized-select": "^3.1.3",
