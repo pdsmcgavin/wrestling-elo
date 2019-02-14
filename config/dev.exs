@@ -46,7 +46,11 @@ config :wwelo, Wwelo.Repo,
   hostname: "0.0.0.0",
   pool_size: 10
 
-config :wwelo, :children, [Wwelo.Repo, WweloWeb.Endpoint]
+config :wwelo, :children, [
+  Wwelo.Repo,
+  WweloWeb.Endpoint,
+  {Cachex, :wwelo_cache}
+]
 
 config :pre_commit,
   commands: [

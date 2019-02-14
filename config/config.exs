@@ -16,6 +16,11 @@ config :logger, :console,
 
 config :wwelo, :environment, Mix.env()
 
-config :wwelo, :children, [Wwelo.Repo, WweloWeb.Endpoint, Wwelo.Updater]
+config :wwelo, :children, [
+  Wwelo.Repo,
+  WweloWeb.Endpoint,
+  Wwelo.Updater,
+  {Cachex, [:wwelo_cache]}
+]
 
 import_config "#{Mix.env()}.exs"

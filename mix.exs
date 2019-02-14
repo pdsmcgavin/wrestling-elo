@@ -29,7 +29,8 @@ defmodule Wwelo.Mixfile do
         :runtime_tools,
         :edeliver,
         :sentry,
-        :timber
+        :timber,
+        :cachex
       ]
     ]
   end
@@ -66,7 +67,8 @@ defmodule Wwelo.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:pre_commit, "~> 0.2.4", only: :dev},
       {:sentry, "~> 6.4"},
-      {:timber, "~> 3.0"}
+      {:timber, "~> 3.0"},
+      {:cachex, "~> 3.1"}
     ]
   end
 
