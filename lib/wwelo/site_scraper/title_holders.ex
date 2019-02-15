@@ -1,6 +1,8 @@
 defmodule Wwelo.SiteScraper.TitleHolders do
   @moduledoc false
 
+  require Logger
+
   alias Wwelo.Repo
   alias Wwelo.SiteScraper.Aliases
   alias Wwelo.SiteScraper.Utils.UrlHelper
@@ -19,9 +21,19 @@ defmodule Wwelo.SiteScraper.TitleHolders do
 
   @spec get_active_title_holders_list :: [map]
   def get_active_title_holders_list do
-    [{_, _, [{_, _, [_ | all_titles_table]}]}] =
+    title_contents =
       title_holder_html_body()
       |> Floki.find(".TableContents")
+
+    all_titles_table =
+      case title_contents do
+        [{_, _, [{_, _, [_ | titles]}]}] ->
+          titles
+
+        _ ->
+          Logger.error("No title holders found")
+          []
+      end
 
     all_titles_table =
       all_titles_table

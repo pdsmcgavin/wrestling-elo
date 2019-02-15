@@ -1,6 +1,8 @@
 defmodule Wwelo.SiteScraper.Rosters do
   @moduledoc false
 
+  require Logger
+
   alias Wwelo.Repo
   alias Wwelo.SiteScraper.Utils.UrlHelper
   alias Wwelo.Stats
@@ -18,9 +20,17 @@ defmodule Wwelo.SiteScraper.Rosters do
 
   @spec get_active_roster_list :: [map]
   defp get_active_roster_list do
-    [{_, _, [{_, _, [_ | entire_roster]}]}] =
-      roster_html_body()
-      |> Floki.find(".TableContents")
+    roster_contents = roster_html_body() |> Floki.find(".TableContents")
+
+    entire_roster =
+      case roster_contents do
+        [{_, _, [{_, _, [_ | roster]}]}] ->
+          roster
+
+        _ ->
+          Logger.error("No roster found")
+          []
+      end
 
     Enum.reduce(entire_roster, [], fn worker, acc ->
       {_, _,
@@ -41,7 +51,13 @@ defmodule Wwelo.SiteScraper.Rosters do
       case wrestler?(jobs, brand) && !is_nil(wrestler_id) do
         true ->
           acc ++
-            [%{wrestler_id: wrestler_id, brand: brand, alias: trimmed_wrestler}]
+            [
+              %{
+                wrestler_id: wrestler_id,
+                brand: brand,
+                alias: trimmed_wrestler
+              }
+            ]
 
         _ ->
           acc
