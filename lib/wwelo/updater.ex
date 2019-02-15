@@ -35,6 +35,7 @@ defmodule Wwelo.Updater do
     Rosters.save_current_roster_to_database()
     TitleHolders.save_current_title_holders_to_database()
     Logger.warn("Updating site complete")
+    Cachex.clear(:wwelo_cache)
   end
 
   defp schedule_work() do
