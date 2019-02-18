@@ -35,6 +35,7 @@ pre_erlang_clean_compile() {
     set -e
 
     cd '$BUILD_AT/assets'
+    npm run generate-sitemap $SILENCE
     mkdir -p priv/static
     npm run deploy $SILENCE
   "

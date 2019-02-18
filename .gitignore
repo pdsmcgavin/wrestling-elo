@@ -43,3 +43,6 @@ priv/server*
 # test coverage reports
 cover
 assets/coverage
+
+# auto generated sitemap
+sitemap.xml

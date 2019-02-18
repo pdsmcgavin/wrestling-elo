@@ -10,7 +10,8 @@ defmodule WweloWeb.Endpoint do
     at: "/",
     from: :wwelo,
     gzip: true,
-    only: ~w(css fonts images js robots.txt manifest.json favicon.ico),
+    only:
+      ~w(css fonts images js robots.txt manifest.json favicon.ico sitemap.xml),
     cache_control_for_etags: "no-cache, max-age=3600"
   )
 
