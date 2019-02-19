@@ -12,10 +12,7 @@ import TitleContenders from "./title-contenders";
 const Router = () => {
   root.dataLayer &&
     root.dataLayer.push({
-      event: "pageView",
-      page: {
-        url: root.location.pathname
-      }
+      event: "pageView"
     });
 
   return (

@@ -1,10 +1,12 @@
 import React from "react";
-import Select from "react-virtualized-select";
-import { GET_WRESTLERS_ELOS_FOR_MATCH_UP } from "./queries/queries";
-import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
-import oddsCalculator from "./utils/odds-calculator";
+import { graphql } from "react-apollo";
+import Select from "react-virtualized-select";
+import root from "window-or-global";
+
+import { GET_WRESTLERS_ELOS_FOR_MATCH_UP } from "./queries/queries";
 import { todaysDateISO } from "./utils/iso-dates";
+import oddsCalculator from "./utils/odds-calculator";
 
 import "./match-up-calculator.styl";
 
@@ -16,9 +18,21 @@ class MatchUpCalculator extends React.Component {
       expectedOdds: []
     };
 
-    this.handleWrestlerChange = (selectedWrestler, team) => {
+    this.handleWrestlerChange = (selectedWrestlers, team) => {
+      const newlySelectedWrestler = selectedWrestlers.find(
+        wrestler => !this.state.wrestlers.flat().includes(wrestler)
+      );
+
+      if (newlySelectedWrestler) {
+        root.dataLayer &&
+          root.dataLayer.push({
+            event: "wrestlerSelect",
+            wrestlerName: newlySelectedWrestler.label
+          });
+      }
+
       const updatedWrestlers = this.state.wrestlers;
-      updatedWrestlers[team] = selectedWrestler;
+      updatedWrestlers[team] = selectedWrestlers;
 
       const wrestlerElos = updatedWrestlers.map(team =>
         team.map(wrestler => wrestler.currentElo)

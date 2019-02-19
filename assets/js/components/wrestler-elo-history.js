@@ -1,13 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { graphql, Query } from "react-apollo";
 import Select from "react-virtualized-select";
+import root from "window-or-global";
+
+import { LineChartColours } from "./consts/colours";
 import {
   GET_WRESTLER_LIST,
   GET_WRESTLERS_ELO_HISTORIES
 } from "./queries/queries";
-import { graphql, Query } from "react-apollo";
-import PropTypes from "prop-types";
 import WrestlerEloHistoryChart from "./wrestler-elo-history-chart";
-import { LineChartColours } from "./consts/colours";
 
 class WrestlerEloHistory extends React.Component {
   constructor(props) {
@@ -16,10 +18,22 @@ class WrestlerEloHistory extends React.Component {
       wrestlers: []
     };
 
-    this.handleWrestlerChange = selectedWrestler => {
-      if (selectedWrestler.length <= 5) {
+    this.handleWrestlerChange = selectedWrestlers => {
+      const newlySelectedWrestler = selectedWrestlers.find(
+        wrestler => !this.state.wrestlers.includes(wrestler)
+      );
+
+      if (newlySelectedWrestler) {
+        root.dataLayer &&
+          root.dataLayer.push({
+            event: "wrestlerSelect",
+            wrestlerName: newlySelectedWrestler.label
+          });
+      }
+
+      if (selectedWrestlers.length <= 5) {
         this.setState({
-          wrestlers: selectedWrestler
+          wrestlers: selectedWrestlers
         });
       }
     };
