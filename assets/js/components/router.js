@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
+import root from "window-or-global";
 
 import CurrentWrestlerEloTable from "./current-wrestler-elo-table";
 import WrestlerEloTable from "./wrestler-elo-table";
@@ -9,12 +10,13 @@ import WrestlerEloHistory from "./wrestler-elo-history";
 import TitleContenders from "./title-contenders";
 
 const Router = () => {
-  window.dataLayer.push({
-    event: "pageView",
-    page: {
-      url: window.location.pathname
-    }
-  });
+  root.dataLayer &&
+    root.dataLayer.push({
+      event: "pageView",
+      page: {
+        url: root.location.pathname
+      }
+    });
 
   return (
     <Switch>
