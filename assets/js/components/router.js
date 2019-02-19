@@ -9,6 +9,13 @@ import WrestlerEloHistory from "./wrestler-elo-history";
 import TitleContenders from "./title-contenders";
 
 const Router = () => {
+  window.dataLayer.push({
+    event: "pageView",
+    page: {
+      url: window.location.pathname
+    }
+  });
+
   return (
     <Switch>
       <Route
