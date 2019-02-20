@@ -19,7 +19,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Type:"]}, {_, _, [event_type]}]},
+        {_, _, [{_, _, ["Type:"]}, {_, _, [{_, _, [event_type]}]}]},
         acc
       ) do
     case event_type do
@@ -30,21 +30,21 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Location:"]}, {_, _, [location]}]},
+        {_, _, [{_, _, ["Location:"]}, {_, _, [{_, _, [location]}]}]},
         acc
       ) do
     Map.put(acc, :location, location)
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Arena:"]}, {_, _, [arena]}]},
+        {_, _, [{_, _, ["Arena:"]}, {_, _, [{_, _, [arena]}]}]},
         acc
       ) do
     Map.put(acc, :arena, arena)
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Date:"]}, {_, _, [date]}]},
+        {_, _, [{_, _, ["Date:"]}, {_, _, [{_, _, [date]}]}]},
         acc
       ) do
     case DateHelper.format_date(date) do
