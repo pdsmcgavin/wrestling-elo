@@ -1,11 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { graphql, compose } from "react-apollo";
+import { Helmet } from "react-helmet";
+
+import { EloPrecision } from "./consts/elo-table";
 import { GET_ROSTER_CURRENT_ELOS, GET_TITLE_HOLDERS } from "./queries/queries";
 import { todaysDateISO } from "./utils/iso-dates";
-import { graphql, compose } from "react-apollo";
-import PropTypes from "prop-types";
-import sortBy from "./utils/sort-by";
-import { EloPrecision } from "./consts/elo-table";
 import oddsCalculator from "./utils/odds-calculator";
+import sortBy from "./utils/sort-by";
 
 import "./title-contenders.styl";
 
@@ -28,6 +30,15 @@ class TitleHolders extends React.Component {
 
     return (
       <React.Fragment>
+        <Helmet>
+          <title>
+            WWElo - Title Contenders - The Rightful Contenders For Each WWE Belt
+          </title>
+          <meta
+            name="description"
+            content="Compare the current champion with the top 3 rightful contenders for each belt and see how each would fair in a singles match with the champ."
+          />
+        </Helmet>
         <div className="title-holder-and-contenders content-title">
           <h2 className="title-holder">Belt and Current Champion</h2>
           <div className="contenders">

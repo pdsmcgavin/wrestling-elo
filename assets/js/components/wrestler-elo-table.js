@@ -1,13 +1,16 @@
 import React from "react";
-import { graphql } from "react-apollo";
-import { GET_WRESTLERS_ELOS } from "./queries/queries";
-import PropTypes from "prop-types";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import moment from "moment";
-import { floatStringSort, dateStringSort } from "./utils/table-sort";
-import { EloPrecision, DateFormat } from "./consts/elo-table";
 import joinable from "joinable";
+import moment from "moment";
+import PropTypes from "prop-types";
+import { graphql } from "react-apollo";
+import { Helmet } from "react-helmet";
+import ReactTable from "react-table";
+
+import "react-table/react-table.css";
+
+import { EloPrecision, DateFormat } from "./consts/elo-table";
+import { GET_WRESTLERS_ELOS } from "./queries/queries";
+import { floatStringSort, dateStringSort } from "./utils/table-sort";
 
 class WrestlerEloTable extends React.Component {
   render() {
@@ -77,18 +80,32 @@ class WrestlerEloTable extends React.Component {
     const defaultSort = [{ id: "maxEloValue", desc: true }];
 
     return (
-      <ReactTable
-        data={
-          this.props.getWrestlersElos.loading
-            ? []
-            : this.props.getWrestlersElos.wrestlerStats
-        }
-        noDataText={
-          this.props.getWrestlersElos.loading ? "Loading..." : "No data found"
-        }
-        columns={columns}
-        defaultSorted={defaultSort}
-      />
+      <React.Fragment>
+        <Helmet>
+          <title>
+            WWElo - All Time Wrestlers Elos - The Greatest Wrestlers Of All Time
+            Ranked
+          </title>
+          <meta
+            name="description"
+            content="Elo Rankings for Wrestlers of WWE across from the current 
+    superstars of RAW, SmackDown, NXT and 205 Live to all the legends 
+    of the past 50+ years of sports entertainment."
+          />
+        </Helmet>
+        <ReactTable
+          data={
+            this.props.getWrestlersElos.loading
+              ? []
+              : this.props.getWrestlersElos.wrestlerStats
+          }
+          noDataText={
+            this.props.getWrestlersElos.loading ? "Loading..." : "No data found"
+          }
+          columns={columns}
+          defaultSorted={defaultSort}
+        />
+      </React.Fragment>
     );
   }
 }

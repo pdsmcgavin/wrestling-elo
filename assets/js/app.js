@@ -3,6 +3,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { ApolloProvider } from "react-apollo";
+import { Helmet } from "react-helmet";
 import { hot } from "react-hot-loader";
 
 import "react-select/dist/react-select.css";
@@ -22,6 +23,15 @@ class App extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <Helmet>
+          <title>WWElo - Elo Rankings For Wrestlers</title>
+          <meta
+            name="description"
+            content="Elo rankings for Wrestlers all across WWE from the current 
+    superstars of RAW, SmackDown, NXT and 205 Live to all the legends 
+    of the past 50+ years of sports entertainment."
+          />
+        </Helmet>
         <ApolloProvider client={client}>
           <SideDrawer />
           <div className="tab-content">

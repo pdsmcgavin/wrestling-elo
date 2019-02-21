@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { graphql, Query } from "react-apollo";
+import { Helmet } from "react-helmet";
 import Select from "react-virtualized-select";
 import root from "window-or-global";
 
@@ -67,6 +68,16 @@ class WrestlerEloHistory extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>
+            WWElo - Wrestler Elo History - Compare And Contrast The Careers Of
+            WWE Wrestlers
+          </title>
+          <meta
+            name="description"
+            content="Compare the highs and lows of multiple wrestlers' careers from the entire history of the WWE."
+          />
+        </Helmet>
         <Select
           name="wrestlerDisplayList"
           value={wrestlers}

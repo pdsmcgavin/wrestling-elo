@@ -1,16 +1,19 @@
 import React from "react";
-import { graphql, compose } from "react-apollo";
-import { GET_CURRENT_WRESTLERS_ELOS } from "./queries/queries";
-import PropTypes from "prop-types";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import Select from "react-virtualized-select";
 import moment from "moment";
-import { floatStringSort, dateStringSort } from "./utils/table-sort";
-import { todaysDateISO, previousDateISO } from "./utils/iso-dates";
-import rankChanges from "./utils/rank-changes";
+import PropTypes from "prop-types";
+import { graphql, compose } from "react-apollo";
+import { Helmet } from "react-helmet";
+import ReactTable from "react-table";
+import Select from "react-virtualized-select";
+
+import "react-table/react-table.css";
+
 import { Brands } from "./consts/brands";
 import { EloPrecision, DateFormat } from "./consts/elo-table";
+import { GET_CURRENT_WRESTLERS_ELOS } from "./queries/queries";
+import { todaysDateISO, previousDateISO } from "./utils/iso-dates";
+import rankChanges from "./utils/rank-changes";
+import { floatStringSort, dateStringSort } from "./utils/table-sort";
 
 import "./current-wrestler-elo-table.styl";
 
@@ -129,6 +132,17 @@ class CurrentWrestlerEloTable extends React.Component {
 
     return (
       <React.Fragment>
+        <Helmet>
+          <title>
+            WWElo - Current Wrestlers Elos - The Greatest Wrestlers Of The WWE
+            Ranked
+          </title>
+          <meta
+            name="description"
+            content="Elo Rankings for Wrestlers of the WWE for all the 
+    superstars of RAW, SmackDown, NXT and 205 Live."
+          />
+        </Helmet>
         <div className="table-filters">
           <div className="filter-container">
             <label className="filter-labels" htmlFor="name-filter">

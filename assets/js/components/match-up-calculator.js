@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
+import { Helmet } from "react-helmet";
 import Select from "react-virtualized-select";
 import root from "window-or-global";
 
@@ -67,39 +68,51 @@ class MatchUpCalculator extends React.Component {
       .sort((a, b) => a.value.localeCompare(b.value));
 
     return (
-      <div className="match-up-calculator-container">
-        <SelectionAndOdds
-          wrestlerDisplayList={wrestlerDisplayList}
-          wrestlers={wrestlers}
-          team={0}
-          expectedOdds={expectedOdds}
-          handleWrestlerChange={this.handleWrestlerChange}
-        />
-        <span className="versus"> vs. </span>
-        <SelectionAndOdds
-          wrestlerDisplayList={wrestlerDisplayList}
-          wrestlers={wrestlers}
-          team={1}
-          expectedOdds={expectedOdds}
-          handleWrestlerChange={this.handleWrestlerChange}
-        />
-        <span className="versus"> vs. </span>
-        <SelectionAndOdds
-          wrestlerDisplayList={wrestlerDisplayList}
-          wrestlers={wrestlers}
-          team={2}
-          expectedOdds={expectedOdds}
-          handleWrestlerChange={this.handleWrestlerChange}
-        />
-        <span className="versus"> vs. </span>
-        <SelectionAndOdds
-          wrestlerDisplayList={wrestlerDisplayList}
-          wrestlers={wrestlers}
-          team={3}
-          expectedOdds={expectedOdds}
-          handleWrestlerChange={this.handleWrestlerChange}
-        />
-      </div>
+      <React.Fragment>
+        <Helmet>
+          <title>
+            WWElo - Match Up Calculator - What Would Be The Outcome Of Your
+            Dream Match
+          </title>
+          <meta
+            name="description"
+            content="Create your dream match from the current roster of WWE superstars to see how your favourite wrestler would fair."
+          />
+        </Helmet>
+        <div className="match-up-calculator-container">
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={0}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
+          />
+          <span className="versus"> vs. </span>
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={1}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
+          />
+          <span className="versus"> vs. </span>
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={2}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
+          />
+          <span className="versus"> vs. </span>
+          <SelectionAndOdds
+            wrestlerDisplayList={wrestlerDisplayList}
+            wrestlers={wrestlers}
+            team={3}
+            expectedOdds={expectedOdds}
+            handleWrestlerChange={this.handleWrestlerChange}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 }

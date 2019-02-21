@@ -1,11 +1,14 @@
 import React from "react";
-import { graphql } from "react-apollo";
-import { GET_WRESTLERS_ELOS_BY_YEAR } from "./queries/queries";
 import PropTypes from "prop-types";
+import { graphql } from "react-apollo";
+import { Helmet } from "react-helmet";
 import ReactTable from "react-table";
+
 import "react-table/react-table.css";
-import { floatStringSort } from "./utils/table-sort";
+
 import { EloPrecision } from "./consts/elo-table";
+import { GET_WRESTLERS_ELOS_BY_YEAR } from "./queries/queries";
+import { floatStringSort } from "./utils/table-sort";
 
 class WrestlerEloByYearTable extends React.Component {
   render() {
@@ -81,20 +84,31 @@ class WrestlerEloByYearTable extends React.Component {
     const defaultSort = [{ id: "year", desc: true }];
 
     return (
-      <ReactTable
-        data={
-          this.props.getWrestlersElosByYear.loading
-            ? []
-            : this.props.getWrestlersElosByYear.eloStatsByYear
-        }
-        noDataText={
-          this.props.getWrestlersElosByYear.loading
-            ? "Loading..."
-            : "No data found"
-        }
-        columns={columns}
-        defaultSorted={defaultSort}
-      />
+      <React.Fragment>
+        <Helmet>
+          <title>
+            WWElo - Elo Extremes By Year - The Best And Worst Wrestlers By Year
+          </title>
+          <meta
+            name="description"
+            content="The greatest, most improved, worst and least improved wrestlers from each and every year of the WWE according to their Elo."
+          />
+        </Helmet>
+        <ReactTable
+          data={
+            this.props.getWrestlersElosByYear.loading
+              ? []
+              : this.props.getWrestlersElosByYear.eloStatsByYear
+          }
+          noDataText={
+            this.props.getWrestlersElosByYear.loading
+              ? "Loading..."
+              : "No data found"
+          }
+          columns={columns}
+          defaultSorted={defaultSort}
+        />
+      </React.Fragment>
     );
   }
 }
