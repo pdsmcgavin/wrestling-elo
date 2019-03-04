@@ -11,6 +11,13 @@ defmodule Wwelo.StatsCache do
     |> retrieve(key, &Stats.get_elo_stats_by_year/0, [])
   end
 
+  def get_events(event_type) do
+    key = "get_events-#{event_type}"
+
+    Cachex.get(:wwelo_cache, key)
+    |> retrieve(key, &Stats.get_events/1, [event_type])
+  end
+
   def get_title_holders do
     key = "get_title_holders"
 

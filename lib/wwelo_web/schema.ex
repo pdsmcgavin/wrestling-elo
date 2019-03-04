@@ -5,11 +5,13 @@ defmodule WweloWeb.Schema do
   import_types(WweloWeb.Schema.EloStatsByYear)
   import_types(WweloWeb.Schema.WrestlerStats)
   import_types(WweloWeb.Schema.TitleHolders)
+  import_types(WweloWeb.Schema.Events)
   import_types(Absinthe.Type.Custom)
 
   query do
     import_fields(:wrestler_stat_queries)
     import_fields(:elo_stats_by_year_queries)
     import_fields(:title_holders_queries)
+    import_fields(:events_queries)
   end
 end

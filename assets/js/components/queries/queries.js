@@ -160,6 +160,16 @@ export const GET_TITLE_HOLDERS = gql`
   }
 `;
 
+export const GET_EVENTS = gql`
+  query getEvents($eventType: String!) {
+    events(event_type: $eventType) {
+      name
+      date
+      event_type
+    }
+  }
+`;
+
 export const GET_ROSTER_CURRENT_ELOS = gql`
   query getCurrentWrestlersElos(
     $minMatches: Int!
