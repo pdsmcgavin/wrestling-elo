@@ -8,6 +8,7 @@ defmodule WweloWeb.Schema.Events do
     field(:name, :string)
     field(:date, :string)
     field(:event_type, :string)
+    field(:id, :integer)
   end
 
   object :events_queries do

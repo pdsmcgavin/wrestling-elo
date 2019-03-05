@@ -165,7 +165,7 @@ export const GET_EVENTS = gql`
     events(event_type: $eventType) {
       name
       date
-      event_type
+      id
     }
   }
 `;

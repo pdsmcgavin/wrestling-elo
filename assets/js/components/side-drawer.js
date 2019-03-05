@@ -1,10 +1,8 @@
 import React from "react";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Drawer, List } from "@material-ui/core";
+
+import LinkListItem from "./common/link-list-item";
+// import PastEventsList from "./past-events-list";
 
 const SideDrawer = () => {
   return (
@@ -17,48 +15,31 @@ const SideDrawer = () => {
       anchor="left"
     >
       <List>
-        <ListItemLinkShorthand
+        <LinkListItem
           text={"Current Wrestlers Elos"}
           route={"/current-wrestlers-elos"}
         />
-        <ListItemLinkShorthand
+        <LinkListItem
           text={"All Time Wrestlers Elos"}
           route={"/all-time-wrestlers-elos"}
         />
-        <ListItemLinkShorthand
+        <LinkListItem
           text={"Elo Extremes By Year"}
           route={"/elo-extremes-by-year"}
         />
-        <ListItemLinkShorthand
+        <LinkListItem
           text={"Wrestler Elo History"}
           route={"/wrestler-elo-history"}
         />
-        <ListItemLinkShorthand
+        <LinkListItem
           text={"Match Up Calculator"}
           route={"/match-up-calculator"}
         />
-        <ListItemLinkShorthand
-          text={"Title Contenders"}
-          route={"/title-contenders"}
-        />
+        <LinkListItem text={"Title Contenders"} route={"/title-contenders"} />
+        {/* <PastEventsList /> */}
       </List>
     </Drawer>
   );
-};
-
-const ListItemLinkShorthand = ({ text, route }) => {
-  return (
-    <li>
-      <ListItem button component={Link} to={route}>
-        <ListItemText primary={text} />
-      </ListItem>
-    </li>
-  );
-};
-
-ListItemLinkShorthand.propTypes = {
-  text: PropTypes.string,
-  route: PropTypes.string
 };
 
 export default SideDrawer;

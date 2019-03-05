@@ -8,6 +8,7 @@ import WrestlerEloByYearTable from "./wrestler-elo-by-year-table";
 import MatchUpCalculator from "./match-up-calculator";
 import WrestlerEloHistory from "./wrestler-elo-history";
 import TitleContenders from "./title-contenders";
+import PastEvent from "./past-event";
 
 const Router = () => {
   root.dataLayer &&
@@ -29,6 +30,7 @@ const Router = () => {
       <Route path={"/wrestler-elo-history"} component={WrestlerEloHistory} />
       <Route path={"/match-up-calculator"} component={MatchUpCalculator} />
       <Route path={"/title-contenders"} component={TitleContenders} />
+      <Route path={"/past-events/:year/:event"} component={PastEvent} />
       <Redirect from="/" to="/current-wrestlers-elos" />
     </Switch>
   );

@@ -378,7 +378,12 @@ defmodule Wwelo.Stats do
     query =
       from(e in Event,
         where: e.event_type == ^event_type,
-        select: %{name: e.name, date: e.date, event_type: e.event_type}
+        select: %{
+          name: e.name,
+          date: e.date,
+          event_type: e.event_type,
+          id: e.id
+        }
       )
 
     query |> Repo.all()
