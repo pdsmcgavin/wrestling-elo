@@ -170,6 +170,29 @@ export const GET_EVENTS = gql`
   }
 `;
 
+export const GET_EVENT = gql`
+  query getEvent($eventId: Int!) {
+    event(event_id: $eventId) {
+      id
+      name
+      date
+      matches {
+        id
+        stipulation
+        cardPosition
+        participants {
+          id
+          name
+          eloAfter
+          eloBefore
+          outcome
+          matchTeam
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ROSTER_CURRENT_ELOS = gql`
   query getCurrentWrestlersElos(
     $minMatches: Int!

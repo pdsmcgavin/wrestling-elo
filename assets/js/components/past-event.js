@@ -1,9 +1,13 @@
 import React from "react";
-import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
+import { graphql, Query } from "react-apollo";
+import { Helmet } from "react-helmet";
 
 import addEventUrls from "./common/add-event-urls";
-import { GET_EVENTS } from "./queries/queries";
+import { GET_EVENT, GET_EVENTS } from "./queries/queries";
+import groupBy from "./utils/group-by";
+
+import "./past-event.styl";
 
 class PastEvent extends React.Component {
   constructor(props) {
@@ -24,17 +28,117 @@ class PastEvent extends React.Component {
 
     const eventId = event && event.id;
 
+    if (!eventId) {
+      return null;
+    }
+
     return (
-      <React.Fragment>
-        <h1>{eventId}</h1>
-      </React.Fragment>
+      <Query
+        query={GET_EVENT}
+        variables={{
+          eventId
+        }}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return null;
+          if (error) return `Error!: ${error}`;
+
+          const { name, date } = data.event;
+          const matches = data.event.matches;
+
+          return (
+            <div>
+              <Helmet>
+                <title>{`WWElo - ${name}`}</title>
+              </Helmet>
+              <h1>{name}</h1>
+              <h1>{date}</h1>
+              {matches.map((match, index) => {
+                return <PastEventMatch match={match} key={index} />;
+              })}
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 }
 
+const PastEventMatch = ({ match }) => {
+  const teams = groupBy(match.participants, "matchTeam");
+
+  return (
+    <div className="past-event-match">
+      <h2>{match.stipulation}</h2>
+      <div className="past-event-teams">
+        {Object.keys(teams).map(index => {
+          return <PastEventTeam team={teams[index]} key={index} />;
+        })}
+      </div>
+    </div>
+  );
+};
+
+const PastEventTeam = ({ team }) => {
+  return (
+    <div className="past-event-team">
+      <div>{team[0].outcome}</div>
+      {team.map((participant, index) => {
+        return <PastEventParticipant participant={participant} key={index} />;
+      })}
+    </div>
+  );
+};
+
+const PastEventParticipant = ({ participant }) => {
+  return (
+    <div>
+      <h3>{participant.name}</h3>
+      <PastEventEloChange participant={participant} />
+    </div>
+  );
+};
+
+const PastEventEloChange = ({ participant }) => {
+  const eloChange = (participant.eloAfter - participant.eloBefore).toFixed(1);
+
+  return (
+    <div>
+      {`${participant.eloBefore.toFixed(1)} -> ${participant.eloAfter.toFixed(
+        1
+      )} `}
+      <div
+        className={
+          eloChange > 0
+            ? "past-event-elo-change-win"
+            : "past-event-elo-change-loss"
+        }
+      >
+        {`${eloChange > 0 ? "+" : ""}${eloChange}`}
+      </div>
+    </div>
+  );
+};
+
 PastEvent.propTypes = {
   getEvents: PropTypes.object,
   location: PropTypes.object
+};
+
+PastEventMatch.propTypes = {
+  match: PropTypes.object
+};
+
+PastEventTeam.propTypes = {
+  team: PropTypes.arrayOf(PropTypes.object)
+};
+
+PastEventParticipant.propTypes = {
+  participant: PropTypes.object
+};
+
+PastEventEloChange.propTypes = {
+  participant: PropTypes.object
 };
 
 export default graphql(GET_EVENTS, {

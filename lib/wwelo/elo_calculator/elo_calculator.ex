@@ -145,6 +145,8 @@ defmodule Wwelo.EloCalculator.EloCalculator do
       participant.previous_elo +
         @elo_consts.match_weight * (participant.result_value - participant.odds)
 
-    Map.put(participant, :elo, new_elo)
+    participant
+    |> Map.put(:elo, new_elo)
+    |> Map.put(:elo_before, participant.previous_elo)
   end
 end
