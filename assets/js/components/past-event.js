@@ -51,11 +51,13 @@ class PastEvent extends React.Component {
               <Helmet>
                 <title>{`WWElo - ${name}`}</title>
               </Helmet>
-              <h1>{name}</h1>
-              <h1>{date}</h1>
-              {matches.map((match, index) => {
-                return <PastEventMatch match={match} key={index} />;
-              })}
+              <h1 className="past-event-name">{name}</h1>
+              <h2 className="past-event-date">{date}</h2>
+              <div className="past-event-matches">
+                {matches.map((match, index) => {
+                  return <PastEventMatch match={match} key={index} />;
+                })}
+              </div>
             </div>
           );
         }}
@@ -69,7 +71,7 @@ const PastEventMatch = ({ match }) => {
 
   return (
     <div className="past-event-match">
-      <h2>{match.stipulation}</h2>
+      <h3 className="past-event-stipulation">{match.stipulation}</h3>
       <div className="past-event-teams">
         {Object.keys(teams).map(index => {
           return <PastEventTeam team={teams[index]} key={index} />;
@@ -92,7 +94,7 @@ const PastEventTeam = ({ team }) => {
 
 const PastEventParticipant = ({ participant }) => {
   return (
-    <div>
+    <div className="past-event-participant">
       <h3>{participant.name}</h3>
       <PastEventEloChange participant={participant} />
     </div>

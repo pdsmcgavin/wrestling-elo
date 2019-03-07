@@ -1,7 +1,15 @@
+@require "../../stylus/consts"
+
 div
+    &.past-event-matches
+        padding: padding[small]
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+
     &.past-event-match
-        padding: 10px
-        margin: 10px
+        padding: padding[medium]
+        margin: padding[small]
         display: flex
         flex-direction: column
         justify-content: space-around
@@ -11,8 +19,6 @@ div
         align-self: center
 
     &.past-event-teams
-        padding: 10px
-        margin: 10px
         display: flex
         flex-wrap: wrap
         justify-content: space-around
@@ -20,8 +26,10 @@ div
         align-self: center
 
     &.past-event-team
-        padding: 10px
-        margin: 10px
+        padding: padding[medium] padding[medium] 0 padding[medium]
+
+    &.past-event-participant
+        padding: padding[small] 0 padding[small] 0
 
     &.past-event-elo-change-win
         color: green
@@ -30,3 +38,17 @@ div
     &.past-event-elo-change-loss
         color: red
         display: inline
+
+h1
+    &.past-event-name
+        font-size: 18px
+        text-align: center
+
+h2
+    &.past-event-date
+        font-size: 16px
+        text-align: center
+
+h3
+    &.past-event-stipulation
+        text-align: center
