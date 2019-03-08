@@ -286,14 +286,14 @@ defmodule Wwelo.SiteScraper.Participants do
     participants =
       participants
       |> Enum.chunk_by(fn x ->
-        (is_bitstring(x) && String.contains?(x, "w/")) ||
-          (is_map(x) && String.contains?(Map.get(x, :jobbers), "w/"))
+        (is_bitstring(x) && String.contains?(x, "(w/")) ||
+          (is_map(x) && String.contains?(Map.get(x, :jobbers), "(w/"))
       end)
       |> Enum.at(0)
 
     if is_bitstring(Enum.at(participants, 0)) &&
-         String.contains?(Enum.at(participants, 0), "w/") do
-      {[%{jobbers: participants |> Enum.at(0) |> String.replace("w/", "")}],
+         String.contains?(Enum.at(participants, 0), "(w/") do
+      {[%{jobbers: participants |> Enum.at(0) |> String.replace("(w/", "")}],
        match_team}
     else
       {participants, match_team}
@@ -318,12 +318,17 @@ defmodule Wwelo.SiteScraper.Participants do
             }
 
           %{jobbers: jobber_name} ->
-            jobber_name = jobber_name |> clean_jobber_name |> clean_jobber_name
+            cleaned_jobber_name =
+              jobber_name
+              |> clean_jobber_name
+              |> clean_jobber_name
+              |> String.trim()
 
-            if jobber_name != "" &&
-                 !Regex.match?(~r/^ ?[(),.\[\]] ?$/, jobber_name) do
+            if cleaned_jobber_name != "" &&
+                 !Regex.match?(~r/^ ?[(),.\[\]] ?$/, cleaned_jobber_name) &&
+                 !Regex.match?(~r/\($/, jobber_name) do
               %{
-                alias: jobber_name,
+                alias: cleaned_jobber_name,
                 profile_url: nil,
                 outcome: outcome,
                 match_team: match_team
