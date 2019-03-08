@@ -2,7 +2,7 @@ import React from "react";
 import { Drawer, List } from "@material-ui/core";
 
 import LinkListItem from "./common/link-list-item";
-// import PastEventsList from "./past-events-list";
+import PastEventsList from "./past-events-list";
 
 const SideDrawer = () => {
   return (
@@ -36,7 +36,7 @@ const SideDrawer = () => {
           route={"/match-up-calculator"}
         />
         <LinkListItem text={"Title Contenders"} route={"/title-contenders"} />
-        {/* <PastEventsList /> */}
+        <PastEventsList />
       </List>
     </Drawer>
   );
