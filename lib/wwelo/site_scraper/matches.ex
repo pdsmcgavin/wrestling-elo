@@ -81,7 +81,7 @@ defmodule Wwelo.SiteScraper.Matches do
 
     case match_type do
       [{_, [{"class", "MatchType"}], stipulation}] ->
-        stipulation |> combine_stipulation_info
+        stipulation |> combine_stipulation_info |> clean_match_stipulation
 
       _ ->
         # Checking for edge cases
@@ -99,5 +99,16 @@ defmodule Wwelo.SiteScraper.Matches do
         string -> acc <> string
       end
     end)
+  end
+
+  @spec clean_match_stipulation(stipulation :: String.t()) :: String.t()
+  def clean_match_stipulation(stipulation) do
+    extra_info_regex = ~r/\(.*\)\s*$/
+
+    cleaned_stipulation = extra_info_regex |> Regex.replace(stipulation, "")
+
+    trim_extra_space_regex = ~r/\s+/
+
+    trim_extra_space_regex |> Regex.replace(cleaned_stipulation, " ")
   end
 end
