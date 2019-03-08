@@ -4,7 +4,7 @@ defmodule Wwelo.Mixfile do
   def project do
     [
       app: :wwelo,
-      version: "0.2.0",
+      version: "0.2.1",
       elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -42,6 +42,7 @@ defmodule Wwelo.Mixfile do
     [
       {:absinthe, "~> 1.4.13"},
       {:absinthe_plug, "~> 1.4"},
+      {:cachex, "~> 3.1"},
       {:cowboy, "~> 2.3"},
       {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
@@ -67,8 +68,7 @@ defmodule Wwelo.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:pre_commit, "~> 0.2.4", only: :dev},
       {:sentry, "~> 6.4"},
-      {:timber, "~> 3.0"},
-      {:cachex, "~> 3.1"}
+      {:timber, "~> 3.0"}
     ]
   end
 

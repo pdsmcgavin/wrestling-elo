@@ -19,8 +19,8 @@ config :wwelo, :environment, Mix.env()
 config :wwelo, :children, [
   Wwelo.Repo,
   WweloWeb.Endpoint,
-  Wwelo.Updater,
-  {Cachex, :wwelo_cache}
+  {Cachex, :wwelo_cache},
+  Wwelo.Updater
 ]
 
 import_config "#{Mix.env()}.exs"
