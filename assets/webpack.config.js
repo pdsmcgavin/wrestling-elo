@@ -28,7 +28,7 @@ if (isProduction) {
 }
 
 module.exports = {
-  entry: "./js/main.js",
+  entry: ["@babel/polyfill", "./js/main.js"],
   output: {
     path: path.resolve(__dirname, "../priv/static"),
     filename: "js/main.js",
