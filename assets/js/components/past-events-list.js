@@ -5,6 +5,7 @@ import {
   ExpansionPanelSummary,
   List
 } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
 
@@ -13,7 +14,7 @@ import LinkListItem from "./common/link-list-item";
 import { GET_EVENTS } from "./queries/queries";
 import groupBy from "./utils/group-by";
 
-import "./title-contenders.styl";
+import "./past-events-list.styl";
 
 class PastEventsList extends React.Component {
   constructor(props) {
@@ -34,17 +35,29 @@ class PastEventsList extends React.Component {
     const eventsByYear = this.eventsByYear();
 
     return (
-      <ExpansionPanel>
-        <ExpansionPanelSummary>Past Events</ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+      <ExpansionPanel className="past-events-list-panel">
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          className="past-events-list-summary"
+        >
+          Past Events
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className="past-events-list-details">
           <List>
             {Object.keys(eventsByYear).map(year => {
-              const events = eventsByYear[year];
+              const events = eventsByYear[year].sort((a, b) => {
+                return a.date > b.date ? 1 : -1;
+              });
 
               return (
-                <ExpansionPanel key={year}>
-                  <ExpansionPanelSummary>{year}</ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
+                <ExpansionPanel className="past-events-list-panel" key={year}>
+                  <ExpansionPanelSummary
+                    className="past-events-list-summary"
+                    expandIcon={<ExpandMoreIcon />}
+                  >
+                    {year}
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails className="past-events-list-details">
                     <List>
                       {events.map((event, index) => {
                         return (
