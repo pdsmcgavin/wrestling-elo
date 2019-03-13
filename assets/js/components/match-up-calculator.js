@@ -78,6 +78,10 @@ class MatchUpCalculator extends React.Component {
             name="description"
             content="Create your dream match from the current roster of WWE superstars to see how your favourite wrestler would fair."
           />
+          <link
+            rel="canonical"
+            href="https://www.wwelo.com/match-up-calculator"
+          />
         </Helmet>
         <div className="match-up-calculator-container">
           <SelectionAndOdds

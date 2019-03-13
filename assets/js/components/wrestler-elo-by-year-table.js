@@ -93,6 +93,10 @@ class WrestlerEloByYearTable extends React.Component {
             name="description"
             content="The greatest, most improved, worst and least improved wrestlers from each and every year of the WWE according to their Elo."
           />
+          <link
+            rel="canonical"
+            href="https://www.wwelo.com/elo-extremes-by-year"
+          />
         </Helmet>
         <ReactTable
           data={

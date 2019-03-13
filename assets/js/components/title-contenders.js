@@ -38,6 +38,7 @@ class TitleHolders extends React.Component {
             name="description"
             content="Compare the current champion with the top 3 rightful contenders for each belt and see how each would fair in a singles match with the champ."
           />
+          <link rel="canonical" href="https://www.wwelo.com/title-contenders" />
         </Helmet>
         <div className="title-holder-and-contenders content-title">
           <h2 className="title-holder">Belt and Current Champion</h2>

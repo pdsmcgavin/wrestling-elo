@@ -50,6 +50,10 @@ class PastEvent extends React.Component {
             <div>
               <Helmet>
                 <title>{`WWElo - ${name}`}</title>
+                <link
+                  rel="canonical"
+                  href={`https://www.wwelo.com${pathname}`}
+                />
               </Helmet>
               <h1 className="past-event-name">{name}</h1>
               <h2 className="past-event-date">{date}</h2>

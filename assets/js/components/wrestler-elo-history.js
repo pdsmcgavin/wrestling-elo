@@ -77,6 +77,10 @@ class WrestlerEloHistory extends React.Component {
             name="description"
             content="Compare the highs and lows of multiple wrestlers' careers from the entire history of the WWE."
           />
+          <link
+            rel="canonical"
+            href="https://www.wwelo.com/wrestler-elo-history"
+          />
         </Helmet>
         <Select
           name="wrestlerDisplayList"

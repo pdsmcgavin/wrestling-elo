@@ -92,6 +92,10 @@ class WrestlerEloTable extends React.Component {
     superstars of RAW, SmackDown, NXT and 205 Live to all the legends 
     of the past 50+ years of sports entertainment."
           />
+          <link
+            rel="canonical"
+            href="https://www.wwelo.com/all-time-wrestlers-elos"
+          />
         </Helmet>
         <ReactTable
           data={

@@ -142,6 +142,10 @@ class CurrentWrestlerEloTable extends React.Component {
             content="Elo Rankings for Wrestlers of the WWE for all the 
     superstars of RAW, SmackDown, NXT and 205 Live."
           />
+          <link
+            rel="canonical"
+            href="https://www.wwelo.com/current-wrestlers-elos"
+          />
         </Helmet>
         <div className="table-filters">
           <div className="filter-container">
