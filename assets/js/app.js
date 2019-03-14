@@ -9,8 +9,8 @@ import { hot } from "react-hot-loader";
 import "react-select/dist/react-select.css";
 import "react-virtualized-select/styles.css";
 
-import Router from "./components/router";
-import SideDrawer from "./components/side-drawer";
+import Router from "./router";
+import SideDrawer from "./navbar/side-drawer";
 
 import "./app.styl";
 

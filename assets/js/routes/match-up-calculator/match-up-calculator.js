@@ -5,9 +5,9 @@ import { Helmet } from "react-helmet";
 import Select from "react-virtualized-select";
 import root from "window-or-global";
 
-import { GET_WRESTLERS_ELOS_FOR_MATCH_UP } from "./queries/queries";
-import { todaysDateISO } from "./utils/iso-dates";
-import oddsCalculator from "./utils/odds-calculator";
+import { GET_WRESTLERS_ELOS_FOR_MATCH_UP } from "../../queries/queries";
+import { todaysDateISO } from "../../common/utils/iso-dates";
+import oddsCalculator from "../../common/utils/odds-calculator";
 
 import "./match-up-calculator.styl";
 

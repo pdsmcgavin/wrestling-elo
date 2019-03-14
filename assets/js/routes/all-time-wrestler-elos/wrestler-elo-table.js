@@ -8,9 +8,9 @@ import ReactTable from "react-table";
 
 import "react-table/react-table.css";
 
-import { EloPrecision, DateFormat } from "./consts/elo-table";
-import { GET_WRESTLERS_ELOS } from "./queries/queries";
-import { floatStringSort, dateStringSort } from "./utils/table-sort";
+import { EloPrecision, DateFormat } from "../../common/consts/elo-table";
+import { GET_WRESTLERS_ELOS } from "../../queries/queries";
+import { floatStringSort, dateStringSort } from "../../common/utils/table-sort";
 
 class WrestlerEloTable extends React.Component {
   render() {

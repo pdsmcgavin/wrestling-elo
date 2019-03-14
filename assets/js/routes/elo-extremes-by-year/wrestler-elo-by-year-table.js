@@ -6,9 +6,9 @@ import ReactTable from "react-table";
 
 import "react-table/react-table.css";
 
-import { EloPrecision } from "./consts/elo-table";
-import { GET_WRESTLERS_ELOS_BY_YEAR } from "./queries/queries";
-import { floatStringSort } from "./utils/table-sort";
+import { EloPrecision } from "../../common/consts/elo-table";
+import { GET_WRESTLERS_ELOS_BY_YEAR } from "../../queries/queries";
+import { floatStringSort } from "../../common/utils/table-sort";
 
 class WrestlerEloByYearTable extends React.Component {
   render() {

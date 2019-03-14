@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 import { graphql, compose } from "react-apollo";
 import { Helmet } from "react-helmet";
 
-import { EloPrecision } from "./consts/elo-table";
-import { GET_ROSTER_CURRENT_ELOS, GET_TITLE_HOLDERS } from "./queries/queries";
-import { todaysDateISO } from "./utils/iso-dates";
-import oddsCalculator from "./utils/odds-calculator";
-import sortBy from "./utils/sort-by";
+import { EloPrecision } from "../../common/consts/elo-table";
+import {
+  GET_ROSTER_CURRENT_ELOS,
+  GET_TITLE_HOLDERS
+} from "../../queries/queries";
+import { todaysDateISO } from "../../common/utils/iso-dates";
+import oddsCalculator from "../../common/utils/odds-calculator";
+import sortBy from "../../common/utils/sort-by";
 
 import "./title-contenders.styl";
 

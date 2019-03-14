@@ -1,8 +1,8 @@
 import React from "react";
 import { Drawer, List } from "@material-ui/core";
 
-import LinkListItem from "./common/link-list-item";
-import PastEventsList from "./past-events-list";
+import LinkListItem from "./components/link-list-item";
+import PastEventsList from "./components/past-events-list";
 
 const SideDrawer = () => {
   return (

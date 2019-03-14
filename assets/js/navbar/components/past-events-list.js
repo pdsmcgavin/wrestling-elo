@@ -9,10 +9,10 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
 
-import addEventUrls from "./common/add-event-urls";
-import LinkListItem from "./common/link-list-item";
-import { GET_EVENTS } from "./queries/queries";
-import groupBy from "./utils/group-by";
+import addEventUrls from "../../common/utils/add-event-urls";
+import LinkListItem from "./link-list-item";
+import { GET_EVENTS } from "../../queries/queries";
+import groupBy from "../../common/utils/group-by";
 
 import "./past-events-list.styl";
 

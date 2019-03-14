@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import { GET_WRESTLERS_ELOS_BY_WEIGHT } from "./queries/queries";
+import { GET_WRESTLERS_ELOS_BY_WEIGHT } from "../../queries/queries";
 import PropTypes from "prop-types";
 import {
   VictoryAxis,
@@ -8,8 +8,8 @@ import {
   VictoryScatter,
   VictoryTheme
 } from "victory";
-import { ScatterChartColours } from "./consts/colours";
-import { ChartLabels } from "./consts/labels";
+import { ScatterChartColours } from "../consts/colours";
+import { ChartLabels } from "../consts/labels";
 
 class WrestlerEloByWeightChart extends React.Component {
   render() {

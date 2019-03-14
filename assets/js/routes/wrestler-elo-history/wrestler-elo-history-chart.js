@@ -10,7 +10,7 @@ import {
   VictoryTooltip,
   VictoryZoomContainer
 } from "victory";
-import eloConsts from "../../static/elo-consts.json";
+import eloConsts from "../../../static/elo-consts.json";
 
 class WrestlerEloHistoryChart extends React.Component {
   constructor(props) {

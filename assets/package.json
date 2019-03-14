@@ -5,7 +5,7 @@
     "deploy": "NODE_ENV=production BABEL_ENV=production webpack -p",
     "test": "NODE_ENV=dev BABEL_ENV=dev jest --coverage",
     "lint": "eslint .",
-    "generate-sitemap": "node js/components/utils/sitemap-builder.js"
+    "generate-sitemap": "node sitemap-builder.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",

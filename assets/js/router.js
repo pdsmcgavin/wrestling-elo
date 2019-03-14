@@ -2,13 +2,13 @@ import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import root from "window-or-global";
 
-import CurrentWrestlerEloTable from "./current-wrestler-elo-table";
-import WrestlerEloTable from "./wrestler-elo-table";
-import WrestlerEloByYearTable from "./wrestler-elo-by-year-table";
-import MatchUpCalculator from "./match-up-calculator";
-import WrestlerEloHistory from "./wrestler-elo-history";
-import TitleContenders from "./title-contenders";
-import PastEvent from "./past-event";
+import CurrentWrestlerEloTable from "./routes/current-wrestler-elos/current-wrestler-elo-table";
+import WrestlerEloTable from "./routes/all-time-wrestler-elos/wrestler-elo-table";
+import WrestlerEloByYearTable from "./routes/elo-extremes-by-year/wrestler-elo-by-year-table";
+import MatchUpCalculator from "./routes/match-up-calculator/match-up-calculator";
+import WrestlerEloHistory from "./routes/wrestler-elo-history/wrestler-elo-history";
+import TitleContenders from "./routes/title-contenders/title-contenders";
+import PastEvent from "./routes/past-events/past-event";
 
 const Router = () => {
   root.dataLayer &&

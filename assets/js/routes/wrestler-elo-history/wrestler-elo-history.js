@@ -5,11 +5,11 @@ import { Helmet } from "react-helmet";
 import Select from "react-virtualized-select";
 import root from "window-or-global";
 
-import { LineChartColours } from "./consts/colours";
+import { LineChartColours } from "../../common/consts/colours";
 import {
   GET_WRESTLER_LIST,
   GET_WRESTLERS_ELO_HISTORIES
-} from "./queries/queries";
+} from "../../queries/queries";
 import WrestlerEloHistoryChart from "./wrestler-elo-history-chart";
 
 class WrestlerEloHistory extends React.Component {

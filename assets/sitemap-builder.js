@@ -6,7 +6,7 @@ require.extensions[".styl"] = function() {
   return null;
 };
 
-const router = require("../router").default;
+const router = require("./js/router").default;
 const Sitemap = require("react-router-sitemap").default;
 
 const filterConfig = {

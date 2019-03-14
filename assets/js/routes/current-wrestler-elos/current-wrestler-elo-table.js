@@ -8,12 +8,12 @@ import Select from "react-virtualized-select";
 
 import "react-table/react-table.css";
 
-import { Brands } from "./consts/brands";
-import { EloPrecision, DateFormat } from "./consts/elo-table";
-import { GET_CURRENT_WRESTLERS_ELOS } from "./queries/queries";
-import { todaysDateISO, previousDateISO } from "./utils/iso-dates";
-import rankChanges from "./utils/rank-changes";
-import { floatStringSort, dateStringSort } from "./utils/table-sort";
+import { Brands } from "../../common/consts/brands";
+import { EloPrecision, DateFormat } from "../../common/consts/elo-table";
+import { GET_CURRENT_WRESTLERS_ELOS } from "../../queries/queries";
+import { todaysDateISO, previousDateISO } from "../../common/utils/iso-dates";
+import rankChanges from "../../common/utils/rank-changes";
+import { floatStringSort, dateStringSort } from "../../common/utils/table-sort";
 
 import "./current-wrestler-elo-table.styl";
 
