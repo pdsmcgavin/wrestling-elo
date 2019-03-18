@@ -160,6 +160,14 @@ export const GET_TITLE_HOLDERS = gql`
   }
 `;
 
+export const GET_BRANDS = gql`
+  query getBrands {
+    brands {
+      name
+    }
+  }
+`;
+
 export const GET_EVENTS = gql`
   query getEvents($eventType: String!) {
     events(event_type: $eventType) {

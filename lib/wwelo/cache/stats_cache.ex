@@ -4,6 +4,13 @@ defmodule Wwelo.StatsCache do
   """
   alias Wwelo.Stats
 
+  def get_brands do
+    key = "get_brands"
+
+    Cachex.get(:wwelo_cache, key)
+    |> retrieve(key, &Stats.get_brands/0, [])
+  end
+
   def get_elo_stats_by_year do
     key = "get_elo_stats_by_year"
 

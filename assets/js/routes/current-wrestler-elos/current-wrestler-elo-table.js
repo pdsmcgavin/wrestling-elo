@@ -8,9 +8,8 @@ import Select from "react-virtualized-select";
 
 import "react-table/react-table.css";
 
-import { Brands } from "../../common/consts/brands";
 import { EloPrecision, DateFormat } from "../../common/consts/elo-table";
-import { GET_CURRENT_WRESTLERS_ELOS } from "../../queries/queries";
+import { GET_BRANDS, GET_CURRENT_WRESTLERS_ELOS } from "../../queries/queries";
 import { todaysDateISO, previousDateISO } from "../../common/utils/iso-dates";
 import rankChanges from "../../common/utils/rank-changes";
 import { floatStringSort, dateStringSort } from "../../common/utils/table-sort";
@@ -21,7 +20,6 @@ class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedBrand: Brands,
       selectedGender: null,
       nameToMatch: ""
     };
@@ -45,8 +43,16 @@ class CurrentWrestlerEloTable extends React.Component {
     };
   }
 
+  componentDidUpdate(props, prevState) {
+    if (!prevState.selectedBrand) {
+      this.setState({ selectedBrand: getBrands(props.getBrands) });
+    }
+  }
+
   render() {
     const { selectedBrand, selectedGender, nameToMatch } = this.state;
+
+    const brandOptions = getBrands(this.props.getBrands);
 
     let data = this.props.getCurrentWrestlersElos.loading
       ? []
@@ -187,7 +193,7 @@ class CurrentWrestlerEloTable extends React.Component {
               name="brand-filter"
               value={selectedBrand}
               onChange={this.handleBrandChange}
-              options={Brands}
+              options={brandOptions}
               multi
               removeSelected={true}
             />
@@ -210,6 +216,7 @@ class CurrentWrestlerEloTable extends React.Component {
 }
 
 CurrentWrestlerEloTable.propTypes = {
+  getBrands: PropTypes.object,
   getCurrentWrestlersElos: PropTypes.object, // Define better in future
   getPreviousCurrentWrestlersElos: PropTypes.object // Define better in future
 };
@@ -221,12 +228,23 @@ const displayWrestler = (
   nameToMatch
 ) => {
   return (
+    selectedBrand &&
     selectedBrand.length > 0 &&
     selectedBrand.some(o => o.value == wrestler.brand) &&
     wrestler.name &&
     wrestler.name.toLowerCase().includes(nameToMatch.toLowerCase()) &&
     (!selectedGender || wrestler.gender === selectedGender.value)
   );
+};
+
+const getBrands = brandsQuery => {
+  if (brandsQuery.loading) {
+    return [];
+  }
+
+  return brandsQuery.brands.map(brand => {
+    return { label: brand.name, value: brand.name };
+  });
 };
 
 export default compose(
@@ -249,5 +267,8 @@ export default compose(
         date: previousDateISO(7)
       }
     }
+  }),
+  graphql(GET_BRANDS, {
+    name: "getBrands"
   })
 )(CurrentWrestlerEloTable);

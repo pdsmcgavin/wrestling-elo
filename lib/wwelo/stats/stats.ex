@@ -450,4 +450,10 @@ defmodule Wwelo.Stats do
 
     event |> Map.put(:matches, matches_and_participants)
   end
+
+  def get_brands do
+    query = from(r in Roster, select: %{name: r.brand}, distinct: r.brand)
+
+    query |> Repo.all()
+  end
 end
