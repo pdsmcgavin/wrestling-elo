@@ -60,7 +60,6 @@ config :pre_commit,
     "dialyzer",
     "match_elo_consts_json",
     "run_eslint",
-    "run_jest",
-    "generate_sitemap"
+    "run_jest"
   ],
   verbose: true

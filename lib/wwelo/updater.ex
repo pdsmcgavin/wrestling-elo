@@ -39,9 +39,28 @@ defmodule Wwelo.Updater do
     EloCalculator.calculate_elos()
     Rosters.save_current_roster_to_database()
     TitleHolders.save_current_title_holders_to_database()
+    generate_sitemap()
     Logger.warn("Updating site complete")
     Cachex.clear(:wwelo_cache)
     cache_queries()
+  end
+
+  def generate_sitemap do
+    "Running npm run generate-sitemap on ./assets" |> Logger.info()
+    File.cd("assets")
+
+    {generate_sitemap_errors, generate_sitemap_exit_code} =
+      System.cmd("npm", ["run", "generate-sitemap"])
+
+    File.cd("../")
+
+    if generate_sitemap_exit_code == 0 do
+      "No sitemap generation errors" |> Logger.warn()
+      {:ok}
+    else
+      generate_sitemap_errors |> Logger.error()
+      {:ok}
+    end
   end
 
   def cache_queries do
