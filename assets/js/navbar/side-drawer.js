@@ -1,43 +1,19 @@
 import React from "react";
-import { Drawer, List } from "@material-ui/core";
+import { Drawer } from "@material-ui/core";
 
-import LinkListItem from "./components/link-list-item";
-import PastEventsList from "./components/past-events-list";
+import NavbarList from "./components/navbar-list";
 
 const SideDrawer = () => {
   return (
     <Drawer
-      className="drawer"
+      className="desktop-drawer"
       classes={{
-        paper: "drawer"
+        paper: "desktop-drawer"
       }}
       variant="permanent"
       anchor="left"
     >
-      <List>
-        <LinkListItem
-          text={"Current Wrestlers Elos"}
-          route={"/current-wrestlers-elos"}
-        />
-        <LinkListItem
-          text={"All Time Wrestlers Elos"}
-          route={"/all-time-wrestlers-elos"}
-        />
-        <LinkListItem
-          text={"Elo Extremes By Year"}
-          route={"/elo-extremes-by-year"}
-        />
-        <LinkListItem
-          text={"Wrestler Elo History"}
-          route={"/wrestler-elo-history"}
-        />
-        <LinkListItem
-          text={"Match Up Calculator"}
-          route={"/match-up-calculator"}
-        />
-        <LinkListItem text={"Title Contenders"} route={"/title-contenders"} />
-        <PastEventsList />
-      </List>
+      <NavbarList />
     </Drawer>
   );
 };

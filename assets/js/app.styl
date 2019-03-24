@@ -5,9 +5,17 @@
   height: 100vh
 
 div
-  &.drawer
+  &.desktop-drawer
+    display: auto
     flex-shrink: 0
     width: 240px
+    @media (max-width: 1024px)
+      display: none
+
+  &.mobile-drawer
+    display: auto
+    @media (min-width: 1025px)
+      display: none
 
   &.tab-content
     padding: padding[small]

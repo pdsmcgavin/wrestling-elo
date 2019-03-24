@@ -11,6 +11,7 @@ import "react-virtualized-select/styles.css";
 
 import Router from "./router";
 import SideDrawer from "./navbar/side-drawer";
+import TopDrawer from "./navbar/top-drawer";
 
 import "./app.styl";
 
@@ -34,6 +35,8 @@ class App extends React.Component {
         </Helmet>
         <ApolloProvider client={client}>
           <SideDrawer />
+          <TopDrawer />
+
           <div className="tab-content">
             <Router />
           </div>

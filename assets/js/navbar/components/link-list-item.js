@@ -3,10 +3,10 @@ import { ListItem, ListItemText } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const LinkListItem = ({ text, route }) => {
+const LinkListItem = ({ text, route, onClickHandler }) => {
   return (
     <li>
-      <ListItem button component={Link} to={route}>
+      <ListItem button component={Link} to={route} onClick={onClickHandler}>
         <ListItemText primary={text} />
       </ListItem>
     </li>
@@ -15,7 +15,8 @@ const LinkListItem = ({ text, route }) => {
 
 LinkListItem.propTypes = {
   text: PropTypes.string,
-  route: PropTypes.string
+  route: PropTypes.string,
+  onClickHandler: PropTypes.func
 };
 
 export default LinkListItem;

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { graphql, Query } from "react-apollo";
 import { Helmet } from "react-helmet";
 
-import addEventUrls from "../../common/utils/add-event-urls";
-import { GET_EVENT, GET_EVENTS } from "../../queries/queries";
-import groupBy from "../../common/utils/group-by";
+import addEventUrls from "../../../../common/utils/add-event-urls";
+import { GET_EVENT, GET_EVENTS } from "../../../../queries/queries";
+import groupBy from "../../../../common/utils/group-by";
 
 import "./past-event.styl";
 
