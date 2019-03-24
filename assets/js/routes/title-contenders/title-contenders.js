@@ -93,7 +93,7 @@ const topContendersDisplay = (
     currentHolder && (
       <div key={index} className="title-holder-and-contenders">
         <div className="title-holder">
-          <div>{titleInfo.beltName}</div>
+          <div className="title-belt">{titleInfo.beltName}</div>
           <div className="wrestler">
             <div>{currentHolder.name}</div>
             <div>{currentHolder.currentElo.elo.toFixed(EloPrecision)}</div>
@@ -104,10 +104,12 @@ const topContendersDisplay = (
             return (
               <div className="wrestler" key={contenderIndex}>
                 <div className="contender">
-                  <div>{contender.name}</div>
-                  <div>{contender.currentElo.elo.toFixed(EloPrecision)}</div>
+                  <div className="text-box-spacing">{contender.name}</div>
+                  <div className="text-box-spacing">
+                    {contender.currentElo.elo.toFixed(EloPrecision)}
+                  </div>
                 </div>
-                <div>
+                <div className="text-box-spacing">
                   {(
                     oddsCalculator([
                       [contender.currentElo.elo],
