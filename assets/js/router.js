@@ -9,7 +9,6 @@ import MatchUpCalculator from "./routes/match-up-calculator/match-up-calculator"
 import WrestlerEloHistory from "./routes/wrestler-elo-history/wrestler-elo-history";
 import TitleContenders from "./routes/title-contenders/title-contenders";
 import PastEvents from "./routes/past-events/past-events";
-import PastEventsYear from "./routes/past-events/past-events-year/past-events-year";
 import PastEvent from "./routes/past-events/past-events-year/past-event/past-event";
 
 const Router = () => {
@@ -33,7 +32,6 @@ const Router = () => {
       <Route path={"/match-up-calculator"} component={MatchUpCalculator} />
       <Route path={"/title-contenders"} component={TitleContenders} />
       <Route exact path={"/past-events"} component={PastEvents} />
-      <Route exact path={"/past-events/:year"} component={PastEventsYear} />
       <Route path={"/past-events/:year/:event"} component={PastEvent} />
       <Redirect from="/" to="/current-wrestlers-elos" />
     </Switch>
