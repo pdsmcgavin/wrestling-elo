@@ -1,11 +1,6 @@
 const addEventUrls = events => {
   const eventsWithUrls = events.map(event => {
-    const event_url = event.name
-      .replace(/[^\w\s]/g, "")
-      .replace(/\s/g, "-")
-      .toLowerCase()
-      .replace(/^wwe-?/, "")
-      .replace(/-\d*$/, "");
+    const event_url = urlFromName(event.name);
 
     const year = event.date.replace(/-.*$/, "");
 
@@ -18,3 +13,12 @@ const addEventUrls = events => {
 };
 
 export default addEventUrls;
+
+export const urlFromName = name => {
+  return name
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, "-")
+    .toLowerCase()
+    .replace(/^ww[ef]-?/, "")
+    .replace(/-\d*$/, "");
+};
