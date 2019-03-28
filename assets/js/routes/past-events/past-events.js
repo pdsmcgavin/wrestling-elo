@@ -45,7 +45,7 @@ class PastEventsList extends React.Component {
     };
 
     this.cleanEventName = name => {
-      return name.replace(/^WWE\s/, "");
+      return name.replace(/^WW[EF]\s/, "");
     };
   }
 
