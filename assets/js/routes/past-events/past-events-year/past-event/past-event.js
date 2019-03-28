@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql, Query } from "react-apollo";
 import { Helmet } from "react-helmet";
+import { Redirect } from "react-router-dom";
 
 import addEventUrls from "../../../../common/utils/add-event-urls";
 import { GET_EVENT, GET_EVENTS } from "../../../../queries/queries";
@@ -29,7 +30,11 @@ class PastEvent extends React.Component {
     const eventId = event && event.id;
 
     if (!eventId) {
-      return null;
+      const bestEventMatch = eventsWithUrls.find(event => {
+        return event.url.includes(pathname);
+      });
+
+      return bestEventMatch ? <Redirect to={bestEventMatch.url} /> : null;
     }
 
     return (
