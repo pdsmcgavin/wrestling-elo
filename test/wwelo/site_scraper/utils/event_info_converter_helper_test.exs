@@ -184,4 +184,51 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
       assert converted_event_info == %{}
     end
   end
+
+  describe "clean_event_name" do
+    test "will remove WWE from the front of events" do
+      event_name = "WWE Event"
+      expected_name = "Event"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove WWF from the front of events" do
+      event_name = "WWF Event"
+      expected_name = "Event"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove WWWF from the front of events" do
+      event_name = "WWWF Event"
+      expected_name = "Event"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove anything inclosed with parentheses" do
+      event_name = "Event (Brackets) None (Some)"
+      expected_name = "Event None"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove anything after a hypen with spaces" do
+      event_name = "Event Hy-phen - The Hyphen Event"
+      expected_name = "Event Hy-phen"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+  end
 end

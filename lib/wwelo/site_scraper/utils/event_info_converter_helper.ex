@@ -8,7 +8,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
         {_, _, [{_, _, ["Name of the event:"]}, {_, _, [event_name]}]},
         acc
       ) do
-    Map.put(acc, :name, event_name)
+    Map.put(acc, :name, event_name |> clean_event_name)
   end
 
   def convert_event_info(
@@ -65,5 +65,14 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
 
   def convert_event_info(_, acc) do
     acc
+  end
+
+  def clean_event_name(event_name) do
+    event_name
+    |> String.replace(~r/^WW(E|W?F)\s/, "")
+    |> String.replace(~r/\([^\)]*\)/, "")
+    |> String.replace(~r/\s-\s.*$/, "")
+    |> String.replace(~r/\s+/, " ")
+    |> String.trim_trailing()
   end
 end
