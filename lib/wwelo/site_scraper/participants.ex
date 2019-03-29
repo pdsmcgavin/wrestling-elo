@@ -28,8 +28,7 @@ defmodule Wwelo.SiteScraper.Participants do
         Logger.error(
           "Participants not found" <>
             Poison.encode!(%{
-              match_id: match_id,
-              match_result: match_result
+              match_id: match_id
             })
         )
 
@@ -197,6 +196,11 @@ defmodule Wwelo.SiteScraper.Participants do
           |> split_participants_into_teams("vs.")
 
         [{drawers, "draw"}]
+
+      _ ->
+        Logger.error("Unexpeced match outcome")
+
+        []
     end
   end
 
