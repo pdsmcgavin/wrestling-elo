@@ -15,7 +15,10 @@ defmodule Wwelo.SiteScraper.Events do
   def save_events_of_year(year) do
     Logger.warn("Scraping year: #{year}")
 
-    list_of_event_urls = UrlHelper.wwe_event_url_paths_list(year)
+    list_of_event_urls =
+      year
+      |> UrlHelper.wwe_event_url_paths_list()
+      |> Enum.filter(&(&1 != "?id=1&nr=1982"))
 
     list_of_event_urls
     |> Enum.map(fn event_url_path ->
