@@ -77,10 +77,13 @@ defmodule Wwelo.SiteScraper.Participants do
 
             is_bitstring(x) ->
               x
-              |> String.split(~r/[,&\(\)\[\]]|and|defeats?|vs\./,
+              |> String.split(
+                ~r/[,&\(\)\[\]]|^and\s|\sand\s|\sand$|^defeats?\s|\sdefeats?\s|\sdefeats?$|^vs\.\s|\svs\.\s|\svs\.$|^y\s|\sy\s|\sy$/,
                 include_captures: true
               )
+              |> Enum.map(&String.replace(&1, ~r/$by.*$|\sby.*$|w\/[^\)]*/, ""))
               |> Enum.map(&String.trim(&1))
+              |> Enum.filter(&(&1 != ""))
 
             x ->
               x
