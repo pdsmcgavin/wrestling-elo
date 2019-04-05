@@ -48,20 +48,19 @@ class PastEvent extends React.Component {
           if (loading) return null;
           if (error) return `Error!: ${error}`;
 
-          const { name, date } = data.event;
           const matches = data.event.matches;
 
           return (
             <div>
               <Helmet>
-                <title>{`WWElo - ${name}`}</title>
+                <title>{`WWElo - ${event.name}`}</title>
                 <link
                   rel="canonical"
                   href={`https://www.wwelo.com${pathname}`}
                 />
               </Helmet>
-              <h1 className="past-event-name">{name}</h1>
-              <h2 className="past-event-date">{date}</h2>
+              <h1 className="past-event-name">{event.name}</h1>
+              <h2 className="past-event-date">{event.date}</h2>
               <div className="past-event-matches">
                 {matches.map((match, index) => {
                   return <PastEventMatch match={match} key={index} />;

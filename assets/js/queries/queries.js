@@ -174,6 +174,7 @@ export const GET_EVENTS = gql`
       name
       date
       id
+      location
     }
   }
 `;

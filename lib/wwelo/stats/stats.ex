@@ -397,7 +397,8 @@ defmodule Wwelo.Stats do
           name: e.name,
           date: e.date,
           event_type: e.event_type,
-          id: e.id
+          id: e.id,
+          location: e.location
         }
       )
 
