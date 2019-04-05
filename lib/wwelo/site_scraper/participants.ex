@@ -247,7 +247,8 @@ defmodule Wwelo.SiteScraper.Participants do
           jobber_name ->
             if(
               is_bitstring(jobber_name) &&
-                !String.match?(jobber_name, ~r/^[&,-]/)
+                !String.contains?(jobber_name, ":") &&
+                !String.match?(jobber_name, ~r/^[&,\-a-z]/)
             ) do
               %{
                 alias: jobber_name,
