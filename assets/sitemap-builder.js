@@ -25,7 +25,7 @@ const postBody = {
   operationName: "getEvents",
   variables: { eventType: "ppv" },
   query:
-    "query getEvents($eventType: String!) {\n  events(event_type: $eventType) {\n    name\n    date\n    id\n    __typename\n  }\n}\n"
+    "query getEvents($eventType: String!) {\n  events(event_type: $eventType, upcoming: false) {\n    name\n    date\n    id\n    __typename\n  }\n}\n"
 };
 
 axios
