@@ -4,7 +4,7 @@ defmodule Wwelo.Mixfile do
   def project do
     [
       app: :wwelo,
-      version: "0.4.0",
+      version: "0.4.1",
       elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),

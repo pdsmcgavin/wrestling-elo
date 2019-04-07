@@ -5,6 +5,9 @@ require.extensions[".css"] = function() {
 require.extensions[".styl"] = function() {
   return null;
 };
+require.extensions[".png"] = function() {
+  return null;
+};
 
 const axios = require("axios");
 const reactRouterSitemap = require("react-router-sitemap");

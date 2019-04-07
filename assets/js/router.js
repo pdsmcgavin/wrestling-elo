@@ -11,6 +11,7 @@ import TitleContenders from "./routes/title-contenders/title-contenders";
 import PastEvents from "./routes/past-events/past-events";
 import PastEvent from "./routes/past-events/past-events-year/past-event/past-event";
 import UpcomingEvents from "./routes/upcoming-events/upcoming-events";
+import Faq from "./routes/faq/faq";
 
 const Router = () => {
   root.dataLayer &&
@@ -35,6 +36,7 @@ const Router = () => {
       <Route exact path={"/past-events"} component={PastEvents} />
       <Route path={"/past-events/:year/:event"} component={PastEvent} />
       <Route exact path={"/upcoming-events"} component={UpcomingEvents} />
+      <Route exact path={"/faq"} component={Faq} />
       <Redirect from="/" to="/current-wrestlers-elos" />
     </Switch>
   );
