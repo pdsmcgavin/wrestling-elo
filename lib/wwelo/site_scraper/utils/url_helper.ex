@@ -41,6 +41,21 @@ defmodule Wwelo.SiteScraper.Utils.UrlHelper do
     end
   end
 
+  def wwe_upcoming_event_url_paths_list do
+    results_body =
+      get_page_html_body(
+        "https://www.cagematch.net/?id=1&view=cards&name=&promotion=1&showtype=TV-Show%7CPay+Per+View"
+      )
+
+    [{_, _, [{_, _, [_ | event_rows]}]}] =
+      results_body
+      |> Floki.find(".TableContents")
+
+    event_rows
+    |> EventSearchResults.from_cagematch_upcoming_search_results()
+    |> Enum.map(&Map.get(&1, :url))
+  end
+
   @spec total_results(year :: integer) :: map
   defp total_results(year) do
     results_body = get_page_html_body(wwe_events_results_url(year, 1))

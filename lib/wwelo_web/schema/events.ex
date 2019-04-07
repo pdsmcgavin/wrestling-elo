@@ -10,6 +10,7 @@ defmodule WweloWeb.Schema.Events do
     field(:event_type, :string)
     field(:id, :integer)
     field(:matches, list_of(:match))
+    field(:location, :string)
   end
 
   object :match do
@@ -31,12 +32,18 @@ defmodule WweloWeb.Schema.Events do
   object :events_queries do
     field :events, list_of(:event) do
       arg(:event_type, :string)
+      arg(:upcoming, :boolean)
 
       resolve(fn %{
-                   event_type: event_type
+                   event_type: event_type,
+                   upcoming: upcoming
                  },
                  _ ->
-        {:ok, StatsCache.get_events(event_type)}
+        if upcoming == true do
+          {:ok, StatsCache.get_upcoming_events(event_type)}
+        else
+          {:ok, StatsCache.get_events(event_type)}
+        end
       end)
     end
 

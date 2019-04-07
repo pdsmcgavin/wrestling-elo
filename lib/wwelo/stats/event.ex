@@ -12,6 +12,7 @@ defmodule Wwelo.Stats.Event do
     field(:location, :string)
     field(:name, :string)
     field(:promotion, :string)
+    field(:upcoming, :boolean)
 
     timestamps()
   end
@@ -25,7 +26,8 @@ defmodule Wwelo.Stats.Event do
       :date,
       :event_type,
       :location,
-      :arena
+      :arena,
+      :upcoming
     ])
     |> validate_required([
       :name,

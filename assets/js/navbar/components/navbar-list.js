@@ -49,6 +49,11 @@ class NavbarList extends React.Component {
           route={"/past-events"}
           onClickHandler={onClickHandler}
         />
+        <LinkListItem
+          text={"Upcoming Events"}
+          route={"/upcoming-events"}
+          onClickHandler={onClickHandler}
+        />
       </List>
     );
   }

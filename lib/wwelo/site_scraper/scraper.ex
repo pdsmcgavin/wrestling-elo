@@ -35,5 +35,19 @@ defmodule Wwelo.SiteScraper.Scraper do
     end)
   end
 
+  def scrape_upcoming_events do
+    Events.clear_upcoming_events()
+
+    event_match_list = Events.save_upcoming_events()
+
+    Enum.map(event_match_list, fn event ->
+      match_result_list = Matches.save_matches_of_event(event)
+
+      Enum.map(match_result_list, fn match ->
+        Participants.save_participants_of_match(match)
+      end)
+    end)
+  end
+
   # credo:disable-for-this-file
 end

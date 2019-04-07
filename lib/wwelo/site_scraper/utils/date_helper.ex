@@ -31,9 +31,13 @@ defmodule Wwelo.SiteScraper.Utils.DateHelper do
   def year_range do
     initial_year = 1963
 
-    # credo:disable-for-lines:4
+    # credo:disable-for-lines:8
     last_event =
-      from(e in Event, select: e.date, order_by: [desc: e.date])
+      from(e in Event,
+        select: e.date,
+        where: e.upcoming |> is_nil,
+        order_by: [desc: e.date]
+      )
       |> first
       |> Repo.one()
 

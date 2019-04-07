@@ -179,6 +179,7 @@ defmodule Wwelo.Stats do
       from(
         [elos, m, e] in query,
         select: %{id: elos.wrestler_id, date: e.date, elo: elos.elo},
+        where: e.upcoming |> is_nil,
         order_by: [
           asc: elos.wrestler_id,
           asc: e.date,
@@ -213,7 +214,7 @@ defmodule Wwelo.Stats do
           asc: e.id,
           asc: m.card_position
         ],
-        where: elos.wrestler_id == ^wrestler_id
+        where: elos.wrestler_id == ^wrestler_id and e.upcoming |> is_nil
       )
 
     %{
@@ -244,7 +245,9 @@ defmodule Wwelo.Stats do
           asc: e.id,
           asc: m.card_position
         ],
-        where: elos.wrestler_id == ^wrestler_id and e.date <= ^date
+        where:
+          elos.wrestler_id == ^wrestler_id and e.date <= ^date and
+            e.upcoming |> is_nil
       )
 
     %{
@@ -361,6 +364,7 @@ defmodule Wwelo.Stats do
     query =
       from(
         [elos, m, e] in query,
+        where: e.upcoming |> is_nil,
         select: %{
           id: elos.wrestler_id,
           date: e.date,
@@ -392,7 +396,23 @@ defmodule Wwelo.Stats do
   def get_events(event_type) do
     query =
       from(e in Event,
-        where: e.event_type == ^event_type,
+        where: e.event_type == ^event_type and e.upcoming |> is_nil,
+        select: %{
+          name: e.name,
+          date: e.date,
+          event_type: e.event_type,
+          id: e.id,
+          location: e.location
+        }
+      )
+
+    query |> Repo.all()
+  end
+
+  def get_upcoming_events(event_type) do
+    query =
+      from(e in Event,
+        where: e.event_type == ^event_type and e.upcoming == true,
         select: %{
           name: e.name,
           date: e.date,

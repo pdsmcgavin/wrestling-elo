@@ -36,6 +36,7 @@ defmodule Wwelo.Updater do
   defp update_site do
     Logger.warn("Updating site")
     Scraper.scrape_site()
+    Scraper.scrape_upcoming_events()
     EloCalculator.calculate_elos()
     Rosters.save_current_roster_to_database()
     TitleHolders.save_current_title_holders_to_database()

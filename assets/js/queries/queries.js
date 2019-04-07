@@ -170,11 +170,19 @@ export const GET_BRANDS = gql`
 
 export const GET_EVENTS = gql`
   query getEvents($eventType: String!) {
-    events(event_type: $eventType) {
+    events(event_type: $eventType, upcoming: false) {
       name
       date
       id
       location
+    }
+  }
+`;
+
+export const GET_UPCOMING_EVENTS = gql`
+  query getEvents($eventType: String!) {
+    events(event_type: $eventType, upcoming: true) {
+      id
     }
   }
 `;
