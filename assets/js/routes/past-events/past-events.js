@@ -9,6 +9,7 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
+import { Helmet } from "react-helmet";
 
 import addEventUrls from "../../common/utils/add-event-urls";
 import LinkListItem from "../../navbar/components/link-list-item";
@@ -54,6 +55,10 @@ class PastEventsList extends React.Component {
 
     return (
       <React.Fragment>
+        <Helmet>
+          <title>{"WWElo - Past Events"}</title>
+          <link rel="canonical" href={"https://www.wwelo.com/past-events"} />
+        </Helmet>
         <h1>Past Events</h1>
         <div>Sort by date descending: </div>
         <Switch onChange={this.onSwitchSelect} />

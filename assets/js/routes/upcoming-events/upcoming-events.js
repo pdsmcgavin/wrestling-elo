@@ -33,7 +33,7 @@ class UpcomingEventsList extends React.Component {
                 return (
                   <React.Fragment>
                     <Helmet>
-                      <title>{`WWElo - ${data.name}`}</title>
+                      <title>{"WWElo - Upcoming Events"}</title>
                       <link
                         rel="canonical"
                         href={"https://www.wwelo.com/upcoming-events"}
