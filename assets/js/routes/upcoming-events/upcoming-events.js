@@ -10,8 +10,16 @@ import oddsCalculator from "../../common/utils/odds-calculator";
 class UpcomingEventsList extends React.Component {
   render() {
     const upcomingEvents = this.props.getUpcomingEvents.events || [];
+
     return (
       <React.Fragment>
+        <Helmet>
+          <title>{"WWElo - Upcoming Events"}</title>
+          <link
+            rel="canonical"
+            href={"https://www.wwelo.com/upcoming-events"}
+          />
+        </Helmet>
         <h1>Upcoming Events</h1>
         {upcomingEvents.map((upcomingEvent, index) => {
           return (
@@ -27,18 +35,11 @@ class UpcomingEventsList extends React.Component {
                 const matches = data.event.matches;
 
                 if (!matches || matches.length === 0) {
-                  return <div />;
+                  return null;
                 }
 
                 return (
                   <React.Fragment>
-                    <Helmet>
-                      <title>{"WWElo - Upcoming Events"}</title>
-                      <link
-                        rel="canonical"
-                        href={"https://www.wwelo.com/upcoming-events"}
-                      />
-                    </Helmet>
                     <h1 className="past-event-name">{data.event.name}</h1>
                     <h2 className="past-event-date">{data.event.date}</h2>
                     <div className="past-event-matches">
