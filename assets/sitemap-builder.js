@@ -25,11 +25,11 @@ const postBody = {
   operationName: "getEvents",
   variables: { eventType: "ppv" },
   query:
-    "query getEvents($eventType: String!) {\n  events(event_type: $eventType, upcoming: false) {\n    name\n    date\n    id\n    __typename\n  }\n}\n"
+    "query getEvents($eventType: String!) {\nevents(event_type: $eventType, upcoming: false) {\nname\ndate\nid\nlocation\n__typename\n}\n}"
 };
 
 axios
-  .post("http://localhost:4000/api/graphql", postBody)
+  .post("https://www.wwelo.com/api/graphql", postBody)
   .then(function(response) {
     const events = response.data.data.events;
 
