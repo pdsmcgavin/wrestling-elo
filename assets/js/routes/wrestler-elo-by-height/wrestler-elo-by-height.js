@@ -8,8 +8,8 @@ import {
   VictoryScatter,
   VictoryTheme
 } from "victory";
-import { ScatterChartColours } from "../consts/colours";
-import { ChartLabels } from "../consts/labels";
+import { ScatterChartColours } from "../../common/consts/colours";
+import { ChartLabels } from "../../common/consts/labels";
 
 class WrestlerEloByHeightChart extends React.Component {
   render() {

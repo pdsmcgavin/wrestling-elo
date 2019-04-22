@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql, Query } from "react-apollo";
 import { Helmet } from "react-helmet";
+import Loadable from "react-loadable";
 import Select from "react-virtualized-select";
 import root from "window-or-global";
 
@@ -10,7 +11,15 @@ import {
   GET_WRESTLER_LIST,
   GET_WRESTLERS_ELO_HISTORIES
 } from "../../queries/queries";
-import WrestlerEloHistoryChart from "./wrestler-elo-history-chart";
+
+const LoadableWrestlerEloHistoryChart = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "wrestlerEloHistoryChart", prefetch: true */
+    "./wrestler-elo-history-chart"),
+  loading() {
+    return <div>Loading...</div>;
+  }
+});
 
 class WrestlerEloHistory extends React.Component {
   constructor(props) {
@@ -120,7 +129,7 @@ class WrestlerEloHistory extends React.Component {
             }
 
             return (
-              <WrestlerEloHistoryChart
+              <LoadableWrestlerEloHistoryChart
                 wrestlerEloHistories={wrestlerEloHistories}
                 colours={this.colours}
               />
