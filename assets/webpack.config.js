@@ -32,6 +32,7 @@ module.exports = {
   entry: ["@babel/polyfill", "./js/main.js"],
   output: {
     path: path.resolve(__dirname, "../priv/static"),
+    publicPath: "/",
     filename: "js/main.js",
     chunkFilename: "js/[id].[hash].js"
   },

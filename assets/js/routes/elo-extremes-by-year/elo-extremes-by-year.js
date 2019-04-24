@@ -10,7 +10,7 @@ import { EloPrecision } from "../../common/consts/elo-table";
 import { GET_WRESTLERS_ELOS_BY_YEAR } from "../../queries/queries";
 import { floatStringSort } from "../../common/utils/table-sort";
 
-class WrestlerEloByYearTable extends React.Component {
+class EloExtremesByYear extends React.Component {
   render() {
     const columns = [
       {
@@ -117,10 +117,10 @@ class WrestlerEloByYearTable extends React.Component {
   }
 }
 
-WrestlerEloByYearTable.propTypes = {
+EloExtremesByYear.propTypes = {
   getWrestlersElosByYear: PropTypes.object // Define better in future
 };
 
 export default graphql(GET_WRESTLERS_ELOS_BY_YEAR, {
   name: "getWrestlersElosByYear"
-})(WrestlerEloByYearTable);
+})(EloExtremesByYear);

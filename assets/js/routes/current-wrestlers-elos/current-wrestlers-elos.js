@@ -14,7 +14,7 @@ import { todaysDateISO, previousDateISO } from "../../common/utils/iso-dates";
 import rankChanges from "../../common/utils/rank-changes";
 import { floatStringSort, dateStringSort } from "../../common/utils/table-sort";
 
-import "./current-wrestler-elo-table.styl";
+import "./current-wrestlers-elos.styl";
 
 class CurrentWrestlerEloTable extends React.Component {
   constructor(props) {

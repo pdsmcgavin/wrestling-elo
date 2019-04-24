@@ -12,7 +12,7 @@ import { EloPrecision, DateFormat } from "../../common/consts/elo-table";
 import { GET_WRESTLERS_ELOS } from "../../queries/queries";
 import { floatStringSort, dateStringSort } from "../../common/utils/table-sort";
 
-class WrestlerEloTable extends React.Component {
+class AllTimeWrestlersElos extends React.Component {
   render() {
     const columns = [
       {
@@ -114,7 +114,7 @@ class WrestlerEloTable extends React.Component {
   }
 }
 
-WrestlerEloTable.propTypes = {
+AllTimeWrestlersElos.propTypes = {
   getWrestlersElos: PropTypes.object // Define better in future
 };
 
@@ -125,4 +125,4 @@ export default graphql(GET_WRESTLERS_ELOS, {
       minMatches: 50
     }
   }
-})(WrestlerEloTable);
+})(AllTimeWrestlersElos);
