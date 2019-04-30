@@ -1,13 +1,13 @@
-@require "../../../../common/consts/consts"
+@require "../consts/consts"
 
 div
-    &.past-event-matches
+    &.event-matches
         padding: padding[small]
         display: flex
         flex-direction: column
         justify-content: space-around
 
-    &.past-event-match
+    &.event-match
         padding: padding[medium]
         margin: padding[small]
         display: flex
@@ -19,36 +19,36 @@ div
         border-radius: 4px
         align-self: center
 
-    &.past-event-teams
+    &.event-teams
         display: flex
         flex-wrap: wrap
         justify-content: space-around
         align-self: center
 
-    &.past-event-team
+    &.event-team
         padding: padding[medium] padding[medium] 0 padding[medium]
 
-    &.past-event-participant
+    &.event-participant
         padding: padding[small] 0 padding[small] 0
 
-    &.past-event-elo-change-win
+    &.event-elo-change-win
         color: green
         display: inline
 
-    &.past-event-elo-change-loss
+    &.event-elo-change-loss
         color: red
         display: inline
 
 h1
-    &.past-event-name
+    &.event-name
         font-size: 18px
         text-align: center
 
 h2
-    &.past-event-date
+    &.event-date
         font-size: 16px
         text-align: center
 
 h3
-    &.past-event-stipulation
+    &.event-stipulation
         text-align: center

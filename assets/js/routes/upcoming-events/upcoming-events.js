@@ -7,6 +7,8 @@ import { GET_EVENT, GET_UPCOMING_EVENTS } from "../../queries/queries";
 import groupBy from "../../common/utils/group-by";
 import oddsCalculator from "../../common/utils/odds-calculator";
 
+import "../../common/styles/event.styl";
+
 class UpcomingEventsList extends React.Component {
   render() {
     const upcomingEvents = this.props.getUpcomingEvents.events || [];
@@ -40,9 +42,9 @@ class UpcomingEventsList extends React.Component {
 
                 return (
                   <React.Fragment>
-                    <h1 className="past-event-name">{data.event.name}</h1>
-                    <h2 className="past-event-date">{data.event.date}</h2>
-                    <div className="past-event-matches">
+                    <h1 className="event-name">{data.event.name}</h1>
+                    <h2 className="event-date">{data.event.date}</h2>
+                    <div className="event-matches">
                       {matches.map((match, index) => {
                         return <UpcomingEventMatch match={match} key={index} />;
                       })}
@@ -81,9 +83,9 @@ const UpcomingEventMatch = ({ match }) => {
   const teamOdds = oddsCalculator(teamElos);
 
   return (
-    <div className="past-event-match">
-      <h3 className="past-event-stipulation">{match.stipulation}</h3>
-      <div className="past-event-teams">
+    <div className="event-match">
+      <h3 className="event-stipulation">{match.stipulation}</h3>
+      <div className="event-teams">
         {Object.keys(teams).map(index => {
           return (
             <UpcomingEventTeam
@@ -100,7 +102,7 @@ const UpcomingEventMatch = ({ match }) => {
 
 const UpcomingEventTeam = ({ team, odds }) => {
   return (
-    <div className="past-event-team">
+    <div className="event-team">
       <div>{(odds * 100).toFixed(1)}%</div>
       {team.map((participant, index) => {
         return (
@@ -113,7 +115,7 @@ const UpcomingEventTeam = ({ team, odds }) => {
 
 const UpcomingEventParticipant = ({ participant }) => {
   return (
-    <div className="past-event-participant">
+    <div className="event-participant">
       <h3>{participant.name}</h3>
       <UpcomingEventEloAndOdds participant={participant} />
     </div>

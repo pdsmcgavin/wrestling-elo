@@ -8,7 +8,7 @@ import addEventUrls from "../../../../common/utils/add-event-urls";
 import { GET_EVENT, GET_EVENTS } from "../../../../queries/queries";
 import groupBy from "../../../../common/utils/group-by";
 
-import "./past-event.styl";
+import "../../../../common/styles/event.styl";
 
 class PastEvent extends React.Component {
   constructor(props) {
@@ -59,9 +59,9 @@ class PastEvent extends React.Component {
                   href={`https://www.wwelo.com${pathname}`}
                 />
               </Helmet>
-              <h1 className="past-event-name">{event.name}</h1>
-              <h2 className="past-event-date">{event.date}</h2>
-              <div className="past-event-matches">
+              <h1 className="event-name">{event.name}</h1>
+              <h2 className="event-date">{event.date}</h2>
+              <div className="event-matches">
                 {matches.map((match, index) => {
                   return <PastEventMatch match={match} key={index} />;
                 })}
@@ -78,9 +78,9 @@ const PastEventMatch = ({ match }) => {
   const teams = groupBy(match.participants, "matchTeam");
 
   return (
-    <div className="past-event-match">
-      <h3 className="past-event-stipulation">{match.stipulation}</h3>
-      <div className="past-event-teams">
+    <div className="event-match">
+      <h3 className="event-stipulation">{match.stipulation}</h3>
+      <div className="event-teams">
         {Object.keys(teams).map(index => {
           return <PastEventTeam team={teams[index]} key={index} />;
         })}
@@ -91,7 +91,7 @@ const PastEventMatch = ({ match }) => {
 
 const PastEventTeam = ({ team }) => {
   return (
-    <div className="past-event-team">
+    <div className="event-team">
       <div>{team[0].outcome}</div>
       {team.map((participant, index) => {
         return <PastEventParticipant participant={participant} key={index} />;
@@ -102,7 +102,7 @@ const PastEventTeam = ({ team }) => {
 
 const PastEventParticipant = ({ participant }) => {
   return (
-    <div className="past-event-participant">
+    <div className="event-participant">
       <h3>{participant.name}</h3>
       <PastEventEloChange participant={participant} />
     </div>
@@ -119,9 +119,7 @@ const PastEventEloChange = ({ participant }) => {
       )} `}
       <div
         className={
-          eloChange > 0
-            ? "past-event-elo-change-win"
-            : "past-event-elo-change-loss"
+          eloChange > 0 ? "event-elo-change-win" : "event-elo-change-loss"
         }
       >
         {`${eloChange > 0 ? "+" : ""}${eloChange}`}
