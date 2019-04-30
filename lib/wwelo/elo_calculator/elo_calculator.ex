@@ -29,12 +29,12 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     |> Enum.each(&calculate_and_save_elo_for_match(&1))
   end
 
-  @spec calculate_and_save_elo_for_match(integer()) :: :ok
-  def calculate_and_save_elo_for_match(match_id) do
+  @spec calculate_and_save_elo_for_match(match_info :: map) :: :ok
+  def calculate_and_save_elo_for_match(%{id: match_id, upcoming: upcoming}) do
     match_id
     |> EloDatabaseCalls.participants_info_of_match()
     |> group_participants_by_team
-    |> elo_change_for_match
+    |> elo_change_for_match(upcoming)
     |> Enum.each(&EloDatabaseCalls.save_elo_to_database(&1))
   end
 
@@ -45,8 +45,9 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     |> Map.values()
   end
 
-  @spec elo_change_for_match(list_of_teams :: [[map]]) :: [[map]]
-  def elo_change_for_match(list_of_teams) do
+  @spec elo_change_for_match(list_of_teams :: [[map]], upcoming :: boolean) ::
+          [[map]]
+  def elo_change_for_match(list_of_teams, upcoming \\ false) do
     team_ratings = Enum.map(list_of_teams, &sum_team_rating(&1))
 
     list_of_teams
@@ -56,7 +57,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     |> List.flatten()
     |> assign_odds_to_participants()
     |> normalise_multiperson_match_results()
-    |> Enum.map(&assign_participant_elo_change(&1))
+    |> Enum.map(&assign_participant_elo_change(&1, upcoming))
   end
 
   @spec sum_team_rating(participants :: [map]) :: number
@@ -71,7 +72,7 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end)
   end
 
-  @spec assign_team_member_rating({team, rating} :: {[map], number}) :: [map]
+  @spec assign_team_member_rating(parameters :: {[map], number}) :: [map]
   defp assign_team_member_rating({team, rating}) do
     team
     |> Enum.map(fn participant ->
@@ -139,8 +140,15 @@ defmodule Wwelo.EloCalculator.EloCalculator do
     end
   end
 
-  @spec assign_participant_elo_change(participant :: map) :: map
-  defp assign_participant_elo_change(participant) do
+  @spec assign_participant_elo_change(participant :: map, upcoming :: boolean) ::
+          map
+  defp assign_participant_elo_change(participant, true) do
+    participant
+    |> Map.put(:elo, participant.previous_elo)
+    |> Map.put(:elo_before, participant.previous_elo)
+  end
+
+  defp assign_participant_elo_change(participant, _) do
     new_elo =
       participant.previous_elo +
         @elo_consts.match_weight * (participant.result_value - participant.odds)

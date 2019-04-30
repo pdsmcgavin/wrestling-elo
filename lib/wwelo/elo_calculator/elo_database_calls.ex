@@ -20,7 +20,7 @@ defmodule Wwelo.EloCalculator.EloDatabaseCalls do
     query =
       from(
         [e, m, elos] in event_match_elo_join(),
-        select: m.id,
+        select: %{id: m.id, upcoming: e.upcoming},
         order_by: [
           asc: e.date,
           asc: e.id,
