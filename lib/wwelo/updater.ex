@@ -42,7 +42,8 @@ defmodule Wwelo.Updater do
     TitleHolders.save_current_title_holders_to_database()
     generate_sitemap()
     Logger.warn("Updating site complete")
-    Cachex.clear(:wwelo_cache)
+    caches_cleared = Cachex.clear(:wwelo_cache)
+    Logger.warn(Poison.encode!(caches_cleared) <> "cleared from cache")
     cache_queries()
   end
 
