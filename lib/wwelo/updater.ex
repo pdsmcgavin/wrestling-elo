@@ -40,7 +40,7 @@ defmodule Wwelo.Updater do
     EloCalculator.calculate_elos()
     Rosters.save_current_roster_to_database()
     TitleHolders.save_current_title_holders_to_database()
-    generate_sitemap()
+    # generate_sitemap()
     Logger.warn("Updating site complete")
     caches_cleared = Cachex.clear(:wwelo_cache)
     Logger.warn(Poison.encode!(caches_cleared) <> "cleared from cache")
