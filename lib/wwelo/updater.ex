@@ -29,6 +29,8 @@ defmodule Wwelo.Updater do
     {:noreply, state}
   end
 
+  def handle_info({:ssl_closed, _msg}, state), do: {:noreply, state}
+
   defp schedule_work() do
     Process.send_after(self(), :work, 24 * 60 * 60 * 1000)
   end
