@@ -43,7 +43,7 @@ defmodule Wwelo.Updater do
     # generate_sitemap()
     Logger.warn("Updating site complete")
     caches_cleared = Cachex.clear!(:wwelo_cache)
-    Logger.warn(caches_cleared <> " cleared from cache")
+    Logger.warn(Integer.to_string(caches_cleared) <> " cleared from cache")
     cache_queries()
   end
 
