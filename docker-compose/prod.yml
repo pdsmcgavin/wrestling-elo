@@ -1,0 +1,26 @@
+version: "2"
+services:
+  wwelo:
+    image: wwelo
+    environment:
+      - MIX_ENV=prod
+    restart: always
+    ports:
+      - "4000:4000"
+      - "8080:8080"
+    depends_on:
+      - db
+    command: bash -c "while ! nc -z db 5432; do sleep 2; done; mix do ecto.migrate, phx.server;"
+    volumes:
+      - ~/prod.secret.exs:/opt/app/config/prod.secret.exs
+  db:
+    image: postgres:9.5
+    env_file:
+      - db-var.env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
