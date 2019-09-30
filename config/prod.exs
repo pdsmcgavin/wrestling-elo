@@ -9,7 +9,7 @@ config :wwelo, WweloWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :logger,
-  backends: [Timber.LoggerBackends.HTTP],
+  backends: [:console, Timber.LoggerBackends.HTTP],
   utc_log: true,
   level: :warn
 

@@ -1,7 +1,7 @@
 version: "2"
 services:
-  wwelo:
-    image: wwelo
+  app:
+    image: wwelo:latest
     environment:
       - MIX_ENV=prod
     restart: always
@@ -10,7 +10,7 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    command: bash -c "while ! nc -z db 5432; do sleep 2; done; mix do ecto.migrate, phx.server;"
+    command: bash -c "while ! nc -z db 5432; do sleep 2; done; mix do ecto.migrate, phx.digest, phx.server;"
     volumes:
       - ~/prod.secret.exs:/opt/app/config/prod.secret.exs
   db:

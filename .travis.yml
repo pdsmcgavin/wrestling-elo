@@ -1,3 +1,4 @@
+language: generic
 addons:
   ssh_known_hosts: wwelo.com
 before_install:
@@ -12,10 +13,9 @@ jobs:
         - docker build . -t wwelo
         - docker save --output wwelo_image.tar wwelo
         - gzip wwelo_image.tar
-        - rsync -aP wwelo_image.tar.gz mcgavin@wwelo.com:~
-        - rsync -aP docker-compose/prod.yml mcgavin@wwelo.com:docker-compose.yml
+        - rsync -aP wwelo_image.tar.gz mcgavin@wwelo.com:wwelo/
+        - rsync -aP docker-compose/prod.yml mcgavin@wwelo.com:wwelo/docker-compose.yml
     - stage: "Deploy"
       script:
-        - ssh mcgavin@wwelo.com gzip -d wwelo_image.tar.gz
-        - ssh mcgavin@wwelo.com docker load wwelo_image.tar
-        - ssh mcgavin@wwelo.com docker-compose up
+        - ssh mcgavin@wwelo.com docker load < wwelo/wwelo_image.tar.gz
+        - ssh mcgavin@wwelo.com docker-compose -f wwelo/docker-compose.yml up -d
