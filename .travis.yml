@@ -17,5 +17,5 @@ jobs:
         - rsync -aP docker-compose/prod.yml mcgavin@wwelo.com:wwelo/docker-compose.yml
     - stage: "Deploy"
       script:
-        - ssh mcgavin@wwelo.com docker load < wwelo/wwelo_image.tar.gz
-        - ssh mcgavin@wwelo.com docker-compose -f wwelo/docker-compose.yml up -d
+        - ssh mcgavin@wwelo.com "docker load < wwelo/wwelo_image.tar.gz"
+        - ssh mcgavin@wwelo.com "docker-compose -f wwelo/docker-compose.yml up -d"
