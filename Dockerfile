@@ -9,6 +9,8 @@ COPY mix.exs mix.lock ./
 RUN mix deps.get
 RUN mix deps.compile
 
+COPY . .
+
 # Same with npm deps
 WORKDIR /opt/app/assets
 COPY assets/package.json .
@@ -17,4 +19,3 @@ RUN mkdir -p priv/static
 RUN npm run deploy
 
 WORKDIR /opt/app
-COPY . .
