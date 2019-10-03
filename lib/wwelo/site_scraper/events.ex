@@ -15,7 +15,10 @@ defmodule Wwelo.SiteScraper.Events do
   def save_events_of_year(year) do
     Logger.warn("Scraping year: #{year}")
 
-    list_of_event_urls = UrlHelper.wwe_event_url_paths_list(year)
+    list_of_event_urls =
+      year
+      |> UrlHelper.wwe_event_url_paths_list()
+      |> Enum.filter(&(&1 != "?id=1&nr=1982"))
 
     list_of_event_urls
     |> Enum.map(fn event_url_path ->
@@ -25,6 +28,26 @@ defmodule Wwelo.SiteScraper.Events do
       event_id =
         event_info
         |> convert_event_info
+        |> save_event_to_database
+
+      %{event_id: event_id, event_matches: event_matches}
+    end)
+  end
+
+  def save_upcoming_events do
+    Logger.warn("Scraping upcoming events")
+
+    list_of_upcoming_event_urls = UrlHelper.wwe_upcoming_event_url_paths_list()
+
+    list_of_upcoming_event_urls
+    |> Enum.map(fn event_url_path ->
+      %{event_info: event_info, event_matches: event_matches} =
+        get_event_info(event_url_path)
+
+      event_id =
+        event_info
+        |> convert_event_info
+        |> Map.put(:upcoming, true)
         |> save_event_to_database
 
       %{event_id: event_id, event_matches: event_matches}
@@ -66,6 +89,31 @@ defmodule Wwelo.SiteScraper.Events do
     end)
   end
 
+  defp save_event_to_database(
+         %{name: _name, date: _date, location: _location, upcoming: true} =
+           event_info
+       ) do
+    event_query =
+      from(
+        e in Event,
+        where:
+          e.name == ^event_info.name and e.date == ^event_info.date and
+            e.location == ^event_info.location,
+        select: e
+      )
+
+    event_result = Repo.one(event_query)
+
+    event_result =
+      if is_nil(event_result) do
+        event_info |> Stats.create_event() |> elem(1)
+      else
+        event_result
+      end
+
+    event_result |> Map.get(:id)
+  end
+
   @spec save_event_to_database(event_info :: map) :: integer
   defp save_event_to_database(
          %{name: _name, date: _date, location: _location} = event_info
@@ -93,5 +141,14 @@ defmodule Wwelo.SiteScraper.Events do
 
   defp save_event_to_database(%{}) do
     nil
+  end
+
+  def clear_upcoming_events do
+    query =
+      from(e in Event,
+        where: e.upcoming == true
+      )
+
+    Repo.delete_all(query)
   end
 end

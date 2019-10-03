@@ -168,6 +168,23 @@ defmodule Wwelo.SiteScraper.ParticipantsTest do
 
       assert tag_outcome_champions == map_set_output
     end
+
+    test "Survivor Series match with managers" do
+      survivor_series_result_with_managers =
+        ParticipantConsts.survivor_series_result_with_managers()
+
+      survivor_series_outcome_with_managers =
+        ParticipantConsts.survivor_series_outcome_with_managers()
+
+      map_set_output =
+        MapSet.new(
+          Participants.convert_result_to_participant_info(
+            survivor_series_result_with_managers
+          )
+        )
+
+      assert survivor_series_outcome_with_managers == map_set_output
+    end
   end
 
   describe "Match results split into winners and losers without all having profiles" do

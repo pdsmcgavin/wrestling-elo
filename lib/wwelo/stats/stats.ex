@@ -76,6 +76,21 @@ defmodule Wwelo.Stats do
     )
   end
 
+  def get_used_wrestler_aliases(wrestler_id) do
+    query =
+      from(a in Alias, inner_join: p in Participant, on: p.alias_id == a.id)
+
+    query =
+      from(
+        [a] in query,
+        where: a.wrestler_id == ^wrestler_id,
+        distinct: a.name,
+        select: a.name
+      )
+
+    query |> Repo.all()
+  end
+
   def list_wrestlers_stats(min_matches) do
     wrestler_elos_by_id()
     |> Enum.filter(fn wrestler -> wrestler.elos |> length >= min_matches end)
@@ -90,7 +105,7 @@ defmodule Wwelo.Stats do
       aliases =
         wrestler
         |> Map.get(:id)
-        |> get_wrestler_aliases()
+        |> get_used_wrestler_aliases()
         |> List.delete(wrestler_info.name)
 
       %{
@@ -164,6 +179,7 @@ defmodule Wwelo.Stats do
       from(
         [elos, m, e] in query,
         select: %{id: elos.wrestler_id, date: e.date, elo: elos.elo},
+        where: e.upcoming |> is_nil,
         order_by: [
           asc: elos.wrestler_id,
           asc: e.date,
@@ -198,7 +214,7 @@ defmodule Wwelo.Stats do
           asc: e.id,
           asc: m.card_position
         ],
-        where: elos.wrestler_id == ^wrestler_id
+        where: elos.wrestler_id == ^wrestler_id and e.upcoming |> is_nil
       )
 
     %{
@@ -229,7 +245,9 @@ defmodule Wwelo.Stats do
           asc: e.id,
           asc: m.card_position
         ],
-        where: elos.wrestler_id == ^wrestler_id and e.date <= ^date
+        where:
+          elos.wrestler_id == ^wrestler_id and e.date <= ^date and
+            e.upcoming |> is_nil
       )
 
     %{
@@ -346,6 +364,7 @@ defmodule Wwelo.Stats do
     query =
       from(
         [elos, m, e] in query,
+        where: e.upcoming |> is_nil,
         select: %{
           id: elos.wrestler_id,
           date: e.date,
@@ -370,6 +389,91 @@ defmodule Wwelo.Stats do
           gender: t.gender
         }
       )
+
+    query |> Repo.all()
+  end
+
+  def get_events(event_type) do
+    query =
+      from(e in Event,
+        where: e.event_type == ^event_type and e.upcoming |> is_nil,
+        select: %{
+          name: e.name,
+          date: e.date,
+          event_type: e.event_type,
+          id: e.id,
+          location: e.location
+        }
+      )
+
+    query |> Repo.all()
+  end
+
+  def get_upcoming_events(event_type) do
+    query =
+      from(e in Event,
+        where: e.event_type == ^event_type and e.upcoming == true,
+        select: %{
+          name: e.name,
+          date: e.date,
+          event_type: e.event_type,
+          id: e.id,
+          location: e.location
+        }
+      )
+
+    query |> Repo.all()
+  end
+
+  def get_event(event_id) do
+    query =
+      from(
+        m in Match,
+        join: p in Participant,
+        on: p.match_id == m.id,
+        join: a in Alias,
+        on: a.id == p.alias_id,
+        join: e in Elo,
+        on: e.match_id == m.id and e.wrestler_id == a.wrestler_id
+      )
+
+    query =
+      from(
+        [m, p, a, e] in query,
+        select: %{
+          match: m,
+          participant: p,
+          alias: a,
+          elo: e
+        },
+        where: m.event_id == ^event_id
+      )
+
+    matches_and_participants =
+      query
+      |> Repo.all()
+      |> Enum.group_by(fn %{match: match} -> match end)
+      |> Enum.map(fn {match, participants} ->
+        match
+        |> Map.put(
+          :participants,
+          participants
+          |> Enum.map(fn %{alias: alias, participant: participant, elo: elo} ->
+            participant
+            |> Map.put(:name, alias.name)
+            |> Map.put(:elo_after, elo.elo)
+            |> Map.put(:elo_before, elo.elo_before)
+          end)
+        )
+      end)
+
+    event = Event |> Repo.get!(event_id)
+
+    event |> Map.put(:matches, matches_and_participants)
+  end
+
+  def get_brands do
+    query = from(r in Roster, select: %{name: r.brand}, distinct: r.brand)
 
     query |> Repo.all()
   end

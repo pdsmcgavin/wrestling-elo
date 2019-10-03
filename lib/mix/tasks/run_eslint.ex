@@ -7,7 +7,7 @@ defmodule Mix.Tasks.RunEslint do
   def run(_) do
     "Running eslint on ./assets" |> Logger.info()
     File.cd("assets")
-    {linting_errors, linting_exit_code} = System.cmd("eslint", ["."])
+    {linting_errors, linting_exit_code} = System.cmd("npm", ["run", "lint"])
     File.cd("../")
 
     if linting_exit_code == 0 do

@@ -31,7 +31,8 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
     end
 
     test "Type will map to type" do
-      event_info = {"", "", [{"", "", ["Type:"]}, {"", "", ["Pay Per View"]}]}
+      event_info =
+        {"", "", [{"", "", ["Type:"]}, {"", "", [{"", "", ["Pay Per View"]}]}]}
 
       converted_event_info =
         EventInfoConverterHelper.convert_event_info(
@@ -44,7 +45,8 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
 
     test "Location will map to location" do
       event_info =
-        {"", "", [{"", "", ["Location:"]}, {"", "", ["event_location"]}]}
+        {"", "",
+         [{"", "", ["Location:"]}, {"", "", [{"", "", ["event_location"]}]}]}
 
       converted_event_info =
         EventInfoConverterHelper.convert_event_info(
@@ -56,7 +58,8 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
     end
 
     test "Arena will map to arena" do
-      event_info = {"", "", [{"", "", ["Arena:"]}, {"", "", ["event_arena"]}]}
+      event_info =
+        {"", "", [{"", "", ["Arena:"]}, {"", "", [{"", "", ["event_arena"]}]}]}
 
       converted_event_info =
         EventInfoConverterHelper.convert_event_info(
@@ -68,7 +71,8 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
     end
 
     test "Date will map to date" do
-      event_info = {"", "", [{"", "", ["Date:"]}, {"", "", ["21.11.2000"]}]}
+      event_info =
+        {"", "", [{"", "", ["Date:"]}, {"", "", [{"", "", ["21.11.2000"]}]}]}
 
       converted_event_info =
         EventInfoConverterHelper.convert_event_info(
@@ -178,6 +182,53 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelperTest do
         )
 
       assert converted_event_info == %{}
+    end
+  end
+
+  describe "clean_event_name" do
+    test "will remove WWE from the front of events" do
+      event_name = "WWE Event"
+      expected_name = "Event"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove WWF from the front of events" do
+      event_name = "WWF Event"
+      expected_name = "Event"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove WWWF from the front of events" do
+      event_name = "WWWF Event"
+      expected_name = "Event"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove anything inclosed with parentheses" do
+      event_name = "Event (Brackets) None (Some)"
+      expected_name = "Event None"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
+    end
+
+    test "will remove anything after a hypen with spaces" do
+      event_name = "Event Hy-phen - The Hyphen Event"
+      expected_name = "Event Hy-phen"
+
+      cleaned_name = EventInfoConverterHelper.clean_event_name(event_name)
+
+      assert cleaned_name == expected_name
     end
   end
 end

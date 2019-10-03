@@ -53,7 +53,7 @@ defmodule ScraperTest do
          {"div", [],
           [
             {"div", [], ["Date:"]},
-            {"div", [], ["01.01.1337"]}
+            {"div", [], [{"div", [], ["01.01.1337"]}]}
           ]},
          {"div", [],
           [
@@ -66,17 +66,17 @@ defmodule ScraperTest do
          {"div", [],
           [
             {"div", [], ["Type:"]},
-            {"div", [], ["Pay Per View"]}
+            {"div", [], [{"div", [], ["Pay Per View"]}]}
           ]},
          {"div", [],
           [
             {"div", [], ["Location:"]},
-            {"div", [], ["EVENT_LOCATION"]}
+            {"div", [], [{"div", [], ["EVENT_LOCATION"]}]}
           ]},
          {"div", [],
           [
             {"div", [], ["Arena:"]},
-            {"div", [], ["EVENT_ARENA"]}
+            {"div", [], [{"div", [], ["EVENT_ARENA"]}]}
           ]}
        ]},
       {"div", [{"class", "Matches"}],

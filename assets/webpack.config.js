@@ -21,18 +21,20 @@ if (isProduction) {
   plugins.concat([
     new CompressionPlugin(), //compresses react
     new UglifyJsPlugin(), //minify everything
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.HashedModuleIdsPlugin()
   ]);
 } else {
   plugins.push(new WriteFilePlugin()); // Otherwise webpack-dev-server doesn't use copy-webpack-plugin
 }
 
 module.exports = {
-  entry: "./js/main.js",
+  entry: ["@babel/polyfill", "./js/main.js"],
   output: {
     path: path.resolve(__dirname, "../priv/static"),
+    publicPath: "/",
     filename: "js/main.js",
-    publicPath: "http://0.0.0.0:8080/"
+    chunkFilename: "js/[id].[hash].js"
   },
   devServer: {
     headers: {

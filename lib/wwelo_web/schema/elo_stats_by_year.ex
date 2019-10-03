@@ -2,7 +2,7 @@ defmodule WweloWeb.Schema.EloStatsByYear do
   @moduledoc false
   use Absinthe.Schema.Notation
 
-  alias Wwelo.Stats
+  alias Wwelo.StatsCache
 
   object :elo_stats_of_year do
     field(:year, :integer)
@@ -25,7 +25,7 @@ defmodule WweloWeb.Schema.EloStatsByYear do
   object :elo_stats_by_year_queries do
     field :elo_stats_by_year, list_of(:elo_stats_of_year) do
       resolve(fn _, _ ->
-        {:ok, Stats.get_elo_stats_by_year()}
+        {:ok, StatsCache.get_elo_stats_by_year()}
       end)
     end
   end

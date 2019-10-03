@@ -2,7 +2,7 @@ defmodule WweloWeb.Schema.TitleHolders do
   @moduledoc false
   use Absinthe.Schema.Notation
 
-  alias Wwelo.Stats
+  alias Wwelo.StatsCache
 
   object :title_holder do
     field(:name, :string)
@@ -14,7 +14,7 @@ defmodule WweloWeb.Schema.TitleHolders do
   object :title_holders_queries do
     field :title_holders, list_of(:title_holder) do
       resolve(fn _, _ ->
-        {:ok, Stats.get_title_holders()}
+        {:ok, StatsCache.get_title_holders()}
       end)
     end
   end

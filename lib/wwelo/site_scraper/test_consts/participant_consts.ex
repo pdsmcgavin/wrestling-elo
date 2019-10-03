@@ -897,4 +897,79 @@ defmodule Wwelo.SiteScraper.TestConsts.ParticipantConsts do
       }
     ])
   end
+
+  def survivor_series_result_with_managers do
+    %{
+      match_id: 1337,
+      match_result: [
+        "Team RAW (",
+        {"a", [{"href", "?id=2&nr=5616&name=Bobby+Lashley"}],
+         ["Bobby Lashley"]},
+        ", ",
+        {"a", [{"href", "?id=2&nr=5616&name=Drew+McIntyre"}],
+         ["Drew McIntyre"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=5616&name=Finn+Balor"}], ["Finn Balor"]},
+        ") (w/",
+        {"a", [{"href", "?id=2&nr=5616&name=Baron+Corbin"}], ["Baron Corbin"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=5616&name=Lio+Rush"}], ["Lio Rush"]},
+        ") defeat Team SmackDown LIVE (",
+        {"a", [{"href", "?id=2&nr=5616&name=Jeff+Hardy"}], ["Jeff Hardy"]},
+        ", ",
+        {"a", [{"href", "?id=2&nr=5616&name=Shane+McMahon"}],
+         ["Shane McMahon"]},
+        " & ",
+        {"a", [{"href", "?id=2&nr=5616&name=The+Miz"}], ["The Miz"]},
+        ") (23:59)"
+      ]
+    }
+  end
+
+  def survivor_series_outcome_with_managers do
+    MapSet.new([
+      %{
+        alias: "Bobby Lashley",
+        profile_url: "?id=2&nr=5616&name=Bobby+Lashley",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Drew McIntyre",
+        profile_url: "?id=2&nr=5616&name=Drew+McIntyre",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Finn Balor",
+        profile_url: "?id=2&nr=5616&name=Finn+Balor",
+        outcome: "win",
+        match_id: 1337,
+        match_team: 0
+      },
+      %{
+        alias: "Jeff Hardy",
+        profile_url: "?id=2&nr=5616&name=Jeff+Hardy",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "Shane McMahon",
+        profile_url: "?id=2&nr=5616&name=Shane+McMahon",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      },
+      %{
+        alias: "The Miz",
+        profile_url: "?id=2&nr=5616&name=The+Miz",
+        outcome: "loss",
+        match_id: 1337,
+        match_team: 1
+      }
+    ])
+  end
 end

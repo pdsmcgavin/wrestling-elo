@@ -2,7 +2,7 @@ defmodule WweloWeb.Schema.WrestlerStats do
   @moduledoc false
   use Absinthe.Schema.Notation
 
-  alias Wwelo.{Stats, StatsCache}
+  alias Wwelo.StatsCache
 
   object :wrestler_stat do
     field(:id, :integer)
@@ -48,7 +48,7 @@ defmodule WweloWeb.Schema.WrestlerStats do
                  },
                  _ ->
         {:ok,
-         Stats.list_current_wrestlers_stats(
+         StatsCache.list_current_wrestlers_stats(
            min_matches,
            last_match_within_days,
            date
@@ -62,7 +62,7 @@ defmodule WweloWeb.Schema.WrestlerStats do
       resolve(fn %{ids: ids}, _ ->
         {:ok,
          Enum.map(ids, fn id ->
-           Stats.wrestler_elos_by_id(id)
+           StatsCache.wrestler_elos_by_id(id)
          end)}
       end)
     end

@@ -10,9 +10,17 @@ services:
     depends_on:
       - db
     command: bash -c "while ! nc -z db 5432; do sleep 2; done; mix do ecto.migrate, phx.server;"
+    volumes:
+      - ..:/opt/app
   db:
     image: postgres:9.5
     environment:
       - POSTGRES_USER=wwelo
       - POSTGRES_PASSWORD=wwelo
       - POSTGRES_DB=wwelo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

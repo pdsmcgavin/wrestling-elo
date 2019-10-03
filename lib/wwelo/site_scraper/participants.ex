@@ -28,8 +28,7 @@ defmodule Wwelo.SiteScraper.Participants do
         Logger.error(
           "Participants not found" <>
             Poison.encode!(%{
-              match_id: match_id,
-              match_result: match_result
+              match_id: match_id
             })
         )
 
@@ -50,214 +49,162 @@ defmodule Wwelo.SiteScraper.Participants do
     end
   end
 
-  @spec convert_result_to_participant_info(map) :: []
   def convert_result_to_participant_info(%{
-        match_id: match_id,
-        match_result: match_result
+        match_result: match_result,
+        match_id: match_id
       }) do
-    match_result =
-      match_result
-      |> Enum.reduce([], fn x, acc ->
-        acc ++
-          if is_bitstring(x) do
-            split_string =
-              String.split(x, ~r/ and /, include_captures: true, trim: true)
+    match_result
+    |> find_and_split_out_jobbers
+    |> Enum.filter(&(&1 != ""))
+    |> clean_up_tag_teams
+    |> remove_things_between_brackets
+    |> split_by_outcome_and_team
+    |> Enum.map(&convert_participant_info(&1))
+    |> List.flatten()
+    |> Enum.filter(&(!is_nil(&1)))
+    |> Enum.map(&Map.put(&1, :match_id, match_id))
+  end
 
-            if length(split_string) > 1 do
-              split_string
-              |> Enum.map(fn x ->
-                if String.match?(x, ~r/ and /) do
-                  x
-                else
-                  %{jobbers: x}
-                end
-              end)
-            else
-              split_string
-            end
-          else
-            [x]
+  def find_and_split_out_jobbers(match_result) do
+    match_result
+    |> Enum.reduce(
+      [],
+      fn x, acc ->
+        new_info =
+          cond do
+            is_tuple(x) ->
+              [x]
+
+            is_bitstring(x) ->
+              x
+              |> String.split(
+                ~r/[,&\(\)\[\]]|^and\s|\sand\s|\sand$|^defeats?\s|\sdefeats?\s|\sdefeats?$|^vs\.\s|\svs\.\s|\svs\.$|^y\s|\sy\s|\sy$/,
+                include_captures: true
+              )
+              |> Enum.map(&String.replace(&1, ~r/$by.*$|\sby.*$|w\/[^\)]*/, ""))
+              |> Enum.map(&String.trim(&1))
+              |> Enum.filter(&(&1 != ""))
+
+            x ->
+              x
           end
-      end)
 
-    case split_result_into_winners_and_losers(%{match_result: match_result}) do
-      %{winners: winners, losers: losers} ->
+        acc ++ new_info
+      end
+    )
+  end
+
+  # credo:disable-for-lines:52
+  def clean_up_tag_teams(array) do
+    array
+    |> Enum.reduce(
+      %{tag_team_found: false, brackets: 0, new_array: []},
+      fn x, acc ->
+        if acc.tag_team_found do
+          case x do
+            "(" ->
+              Map.put(acc, :brackets, acc.brackets + 1)
+
+            ")" ->
+              acc =
+                if acc.brackets > 0 do
+                  acc |> Map.put(:brackets, acc.brackets - 1)
+                else
+                  acc
+                end
+
+              acc |> Map.put(:tag_team_found, false)
+
+            text ->
+              acc =
+                if acc.brackets == 0 do
+                  acc |> Map.put(:tag_team_found, false)
+                else
+                  acc
+                end
+
+              acc |> Map.put(:new_array, acc.new_array ++ [text])
+          end
+        else
+          case x do
+            {_, [{"href", "?id=28" <> _}], _} ->
+              Map.put(acc, :tag_team_found, true)
+
+            {_, [{"href", "?id=29" <> _}], _} ->
+              Map.put(acc, :tag_team_found, true)
+
+            "Team RAW" ->
+              Map.put(acc, :tag_team_found, true)
+
+            "Team SmackDown LIVE" ->
+              Map.put(acc, :tag_team_found, true)
+
+            text ->
+              Map.put(acc, :new_array, acc.new_array ++ [text])
+          end
+        end
+      end
+    )
+    |> Map.get(:new_array)
+  end
+
+  # credo:disable-for-lines:19
+  def remove_things_between_brackets(array) do
+    array
+    |> Enum.reduce(%{brackets: 0, new_array: []}, fn x, acc ->
+      cond do
+        is_tuple(x) ->
+          if acc.brackets == 0 do
+            Map.put(acc, :new_array, acc.new_array ++ [x])
+          else
+            acc
+          end
+
+        String.match?(x, ~r/[\(\[\{]/) ->
+          Map.put(acc, :brackets, acc.brackets + 1)
+
+        String.match?(x, ~r/[\)\]\}]/) ->
+          Map.put(acc, :brackets, acc.brackets - 1)
+
+        true ->
+          if acc.brackets == 0 do
+            Map.put(acc, :new_array, acc.new_array ++ [x])
+          else
+            acc
+          end
+      end
+    end)
+    |> Map.get(:new_array)
+  end
+
+  def split_by_outcome_and_team(result) do
+    case result
+         |> Enum.chunk_by(fn x ->
+           is_bitstring(x) && String.contains?(x, "defeat")
+         end) do
+      [winners, _, losers] ->
         winners =
           winners
-          |> split_participants_into_teams(" and ")
-          |> Enum.map(&remove_managers(&1))
+          |> split_participants_into_teams("and")
 
         losers =
           losers
-          |> split_participants_into_teams(" and ", length(winners))
-          |> Enum.map(&remove_managers(&1))
+          |> split_participants_into_teams("and", length(winners))
 
         [{winners, "win"}, {losers, "loss"}]
-        |> Enum.map(&convert_participant_info(&1))
-        |> List.flatten()
-        |> Enum.filter(&(!is_nil(&1)))
-        |> Enum.map(&Map.put(&1, :match_id, match_id))
 
-      %{drawers: drawers} ->
+      [drawers] ->
         drawers =
           drawers
-          |> split_participants_into_teams(" vs. ")
-          |> Enum.map(&remove_managers(&1))
+          |> split_participants_into_teams("vs.")
 
         [{drawers, "draw"}]
-        |> Enum.map(&convert_participant_info(&1))
-        |> List.flatten()
-        |> Enum.filter(&(!is_nil(&1)))
-        |> Enum.map(&Map.put(&1, :match_id, match_id))
 
-      nil ->
-        Logger.error(
-          "Result could not be split into winners and losers" <>
-            Poison.encode!(%{
-              match_result: match_result
-            })
-        )
+      _ ->
+        Logger.error("Unexpeced match outcome")
 
         []
     end
-  end
-
-  @spec split_result_into_winners_and_losers(map) :: map | nil
-  defp split_result_into_winners_and_losers(%{match_result: match_result}) do
-    split_results =
-      match_result
-      |> Enum.chunk_by(fn x ->
-        is_bitstring(x) && String.contains?(x, "defeat")
-      end)
-
-    case split_results do
-      [winners, jobbers, losers] ->
-        split_results_with_jobbers(winners, jobbers, losers)
-
-      [winners, losers] ->
-        split_results_with_jobbers(winners, losers)
-
-      [[jobbers]] ->
-        split_results_with_jobbers(jobbers)
-
-      [drawers] ->
-        split_draws_with_jobbers(drawers)
-
-      _ ->
-        nil
-    end
-  end
-
-  @spec split_results_with_jobbers(
-          winners :: [],
-          jobbers :: [String.t()],
-          losers :: []
-        ) :: map
-  defp split_results_with_jobbers(winners, [jobbers], losers) do
-    [jobber_winners, _, jobber_losers] =
-      Regex.split(
-        ~r/ defeats? /,
-        jobbers,
-        include_captures: true,
-        parts: 3
-      )
-
-    winners =
-      if jobber_winners != "" do
-        winners ++ [%{jobbers: jobber_winners}]
-      else
-        winners
-      end
-
-    losers =
-      if jobber_losers != "" do
-        losers ++ [%{jobbers: jobber_losers}]
-      else
-        losers
-      end
-
-    %{winners: winners, losers: losers}
-  end
-
-  @spec split_results_with_jobbers(
-          winners :: [],
-          losers :: []
-        ) :: map
-  defp split_results_with_jobbers([winners], losers)
-       when is_bitstring(winners) do
-    [jobber_winners, _, _] =
-      Regex.split(
-        ~r/ defeats? /,
-        winners,
-        include_captures: true,
-        parts: 3
-      )
-
-    separate_jobbers =
-      ~r/[,&]/
-      |> Regex.split(jobber_winners, trim: true)
-      |> Enum.map(fn jobber ->
-        %{jobbers: jobber |> String.trim_leading() |> String.trim_trailing()}
-      end)
-
-    %{winners: separate_jobbers, losers: losers}
-  end
-
-  defp split_results_with_jobbers(winners, [losers])
-       when is_bitstring(losers) do
-    [_, _, jobber_losers] =
-      Regex.split(
-        ~r/ defeats? /,
-        losers,
-        include_captures: true,
-        parts: 3
-      )
-
-    separate_jobbers =
-      ~r/[,&]/
-      |> Regex.split(jobber_losers, trim: true)
-      |> Enum.map(fn jobber ->
-        %{jobbers: jobber |> String.trim_leading() |> String.trim_trailing()}
-      end)
-
-    %{winners: winners, losers: separate_jobbers}
-  end
-
-  @spec split_results_with_jobbers(jobbers :: String.t()) :: map | nil
-  defp split_results_with_jobbers(jobbers) do
-    split_results = jobbers |> String.split(" defeats ")
-
-    case split_results do
-      [winners, losers] ->
-        %{winners: [%{jobbers: winners}], losers: [%{jobbers: losers}]}
-
-      _ ->
-        nil
-    end
-  end
-
-  @spec split_draws_with_jobbers(drawers :: []) :: map
-  defp split_draws_with_jobbers(drawers) do
-    drawers =
-      Enum.reduce(drawers, [], fn x, acc ->
-        if is_bitstring(x) do
-          acc ++
-            Enum.map(
-              String.split(x, ~r/ vs. /, trim: true, include_captures: true),
-              fn x ->
-                if x == " vs. " do
-                  x
-                else
-                  %{jobbers: x}
-                end
-              end
-            )
-        else
-          acc ++ [x]
-        end
-      end)
-
-    %{drawers: drawers}
   end
 
   @spec split_participants_into_teams(
@@ -280,26 +227,6 @@ defmodule Wwelo.SiteScraper.Participants do
     |> Enum.with_index(offset)
   end
 
-  @spec remove_managers({participants :: [], match_team :: integer}) ::
-          {participants :: [], match_team :: integer}
-  defp remove_managers({participants, match_team}) do
-    participants =
-      participants
-      |> Enum.chunk_by(fn x ->
-        (is_bitstring(x) && String.contains?(x, "w/")) ||
-          (is_map(x) && String.contains?(Map.get(x, :jobbers), "w/"))
-      end)
-      |> Enum.at(0)
-
-    if is_bitstring(Enum.at(participants, 0)) &&
-         String.contains?(Enum.at(participants, 0), "w/") do
-      {[%{jobbers: participants |> Enum.at(0) |> String.replace("w/", "")}],
-       match_team}
-    else
-      {participants, match_team}
-    end
-  end
-
   # credo:disable-for-lines:32
   @spec convert_participant_info({participants :: [], outcome :: String.t()}) ::
           [[]]
@@ -317,11 +244,12 @@ defmodule Wwelo.SiteScraper.Participants do
               match_team: match_team
             }
 
-          %{jobbers: jobber_name} ->
-            jobber_name = jobber_name |> clean_jobber_name |> clean_jobber_name
-
-            if jobber_name != "" &&
-                 !Regex.match?(~r/^ ?[(),.\[\]] ?$/, jobber_name) do
+          jobber_name ->
+            if(
+              is_bitstring(jobber_name) &&
+                !String.contains?(jobber_name, ":") &&
+                !String.match?(jobber_name, ~r/^[&,\-a-z]/)
+            ) do
               %{
                 alias: jobber_name,
                 profile_url: nil,
@@ -329,17 +257,9 @@ defmodule Wwelo.SiteScraper.Participants do
                 match_team: match_team
               }
             end
-
-          _ ->
-            nil
         end
       end)
     end)
-  end
-
-  @spec clean_jobber_name(jobber_name :: String.t()) :: String.t()
-  def clean_jobber_name(jobber_name) do
-    Regex.replace(~r/( \[.+\]| & | \(.+\)$|^\)? - .*$| ?\($)/, jobber_name, "")
   end
 
   @spec get_and_add_alias_id(participant_info :: map) :: map

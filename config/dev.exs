@@ -29,8 +29,7 @@ config :wwelo, WweloWeb.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/wwelo_web/views/.*(ex)$},
-      ~r{lib/wwelo_web/templates/.*(eex)$}
+      ~r{lib/wwelo}
     ]
   ]
 
@@ -40,10 +39,10 @@ config :phoenix, :stacktrace_depth, 20
 
 config :wwelo, Wwelo.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "wwelo_dev",
-  hostname: "0.0.0.0",
+  username: "wwelo",
+  password: "wwelo",
+  database: "wwelo",
+  hostname: "db",
   pool_size: 10
 
 config :wwelo, :children, [

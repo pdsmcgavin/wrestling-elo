@@ -1,0 +1,54 @@
+@require "../consts/consts"
+
+div
+    &.event-matches
+        padding: padding[small]
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+
+    &.event-match
+        padding: padding[medium]
+        margin: padding[small]
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        border: lightgrey 1px solid
+        width: 100%
+        max-width: 800px
+        border-radius: 4px
+        align-self: center
+
+    &.event-teams
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-around
+        align-self: center
+
+    &.event-team
+        padding: padding[medium] padding[medium] 0 padding[medium]
+
+    &.event-participant
+        padding: padding[small] 0 padding[small] 0
+
+    &.event-elo-change-win
+        color: green
+        display: inline
+
+    &.event-elo-change-loss
+        color: red
+        display: inline
+
+h1
+    &.event-name
+        font-size: 18px
+        text-align: center
+
+h2
+    &.event-date
+        font-size: 16px
+        text-align: center
+
+h3
+    &.event-stipulation
+        text-align: center

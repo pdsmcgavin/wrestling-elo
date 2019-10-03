@@ -8,7 +8,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
         {_, _, [{_, _, ["Name of the event:"]}, {_, _, [event_name]}]},
         acc
       ) do
-    Map.put(acc, :name, event_name)
+    Map.put(acc, :name, event_name |> clean_event_name)
   end
 
   def convert_event_info(
@@ -19,7 +19,7 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Type:"]}, {_, _, [event_type]}]},
+        {_, _, [{_, _, ["Type:"]}, {_, _, [{_, _, [event_type]}]}]},
         acc
       ) do
     case event_type do
@@ -30,21 +30,21 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Location:"]}, {_, _, [location]}]},
+        {_, _, [{_, _, ["Location:"]}, {_, _, [{_, _, [location]}]}]},
         acc
       ) do
     Map.put(acc, :location, location)
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Arena:"]}, {_, _, [arena]}]},
+        {_, _, [{_, _, ["Arena:"]}, {_, _, [{_, _, [arena]}]}]},
         acc
       ) do
     Map.put(acc, :arena, arena)
   end
 
   def convert_event_info(
-        {_, _, [{_, _, ["Date:"]}, {_, _, [date]}]},
+        {_, _, [{_, _, ["Date:"]}, {_, _, [{_, _, [date]}]}]},
         acc
       ) do
     case DateHelper.format_date(date) do
@@ -65,5 +65,14 @@ defmodule Wwelo.SiteScraper.Utils.EventInfoConverterHelper do
 
   def convert_event_info(_, acc) do
     acc
+  end
+
+  def clean_event_name(event_name) do
+    event_name
+    |> String.replace(~r/^WW(E|W?F)\s/, "")
+    |> String.replace(~r/\([^\)]*\)/, "")
+    |> String.replace(~r/\s-\s.*$/, "")
+    |> String.replace(~r/\s+/, " ")
+    |> String.trim_trailing()
   end
 end

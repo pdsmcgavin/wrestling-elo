@@ -24,10 +24,6 @@ defmodule Wwelo.SiteScraper.Wrestlers do
     wrestler_info =
       case wrestler_info do
         [] ->
-          Logger.error(
-            "Wreslter profile empty: " <> Poison.encode!(wrestler_url_path)
-          )
-
           empty_wrestler_profile_info(alias)
 
         _ ->

@@ -20,13 +20,15 @@ defmodule Wwelo.EloCalculator.EloDatabaseCalls do
     query =
       from(
         [e, m, elos] in event_match_elo_join(),
-        select: m.id,
+        select: %{id: m.id, upcoming: e.upcoming},
         order_by: [
           asc: e.date,
           asc: e.id,
           asc: m.card_position
         ],
-        where: elos.id |> is_nil and e.date < ^Date.utc_today()
+        where:
+          elos.id |> is_nil and
+            (e.date < ^Date.utc_today() or e.upcoming == true)
       )
 
     Repo.all(query)
