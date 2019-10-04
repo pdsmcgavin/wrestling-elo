@@ -9,13 +9,16 @@ before_install:
 jobs:
   include:
     - stage: "Build and upload"
-      script: 
-        - docker build . -t wwelo
+      script:
+        - docker build . -t sashman/wwelo
+        - docker push sashman/wwelo:latest
         - docker save --output wwelo_image.tar wwelo
         - gzip wwelo_image.tar
         - rsync -aP wwelo_image.tar.gz mcgavin@wwelo.com:wwelo/
         - rsync -aP docker-compose/prod.yml mcgavin@wwelo.com:wwelo/docker-compose.yml
     - stage: "Deploy"
       script:
+        #   use image from dockerhub
+        # - docker -H ssh://mcgavin@wwelo.com stack deploy -c docker-compose.yml wwelo
         - ssh mcgavin@wwelo.com "docker load < wwelo/wwelo_image.tar.gz"
         - ssh mcgavin@wwelo.com "docker-compose -f wwelo/docker-compose.yml up -d"
