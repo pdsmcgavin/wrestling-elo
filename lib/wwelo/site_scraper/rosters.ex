@@ -38,23 +38,23 @@ defmodule Wwelo.SiteScraper.Rosters do
          _,
          _,
          {_, _, [{_, _, [wrestler]}]},
-         {_, _, jobs},
-         {_, _, brand},
+         _,
+         {_, _, brands},
          _,
          _
        ]} = worker
 
       trimmed_wrestler = wrestler |> String.trim()
 
-      wrestler_id = get_active_wrestler_id(trimmed_wrestler)
+      wrestler_id = Alias |> Repo.get_by(name: trimmed_wrestler)
 
-      case wrestler?(jobs, brand) && !is_nil(wrestler_id) do
+      case is_wrestler_active?(wrestler_id, brands) do
         true ->
           acc ++
             [
               %{
                 wrestler_id: wrestler_id,
-                brand: brand,
+                brand: brands,
                 alias: trimmed_wrestler
               }
             ]
@@ -70,34 +70,17 @@ defmodule Wwelo.SiteScraper.Rosters do
     UrlHelper.get_page_html_body("https://www.cagematch.net/?id=8&nr=1&page=15")
   end
 
-  @spec wrestler?(brand :: [String.t()], jobs :: [String.t()]) :: boolean
-  defp wrestler?(jobs, brand) do
-    !Enum.any?(brand, fn x -> x == "Legend" end) &&
-      Enum.any?(jobs, fn x -> String.contains?(x, "Wrestler") end) &&
-      Enum.any?(jobs, fn x -> !String.contains?(x, "Road Agent") end)
-  end
-
-  @spec get_active_wrestler_id(name :: String.t()) :: integer | nil
-  defp get_active_wrestler_id(name) do
-    wrestler_alias = Alias |> Repo.get_by(name: name)
-
-    if is_wrestler_active?(wrestler_alias) do
-      wrestler_alias |> Map.get(:wrestler_id)
-    else
-      nil
-    end
-  end
-
-  @spec is_wrestler_active?(wrestler_alias :: map | nil) :: boolean
-  defp is_wrestler_active?(nil) do
+  @spec is_wrestler_active?(wrestler_id :: map | nil, []) :: boolean
+  defp is_wrestler_active?(nil, _) do
     false
   end
 
-  defp is_wrestler_active?(wrestler_alias) do
-    Wrestler
-    |> Repo.get(wrestler_alias |> Map.get(:wrestler_id))
-    |> Map.get(:career_end_date)
-    |> is_nil
+  defp is_wrestler_active?(wrestler_id, brands) do
+    !Enum.any?(brands, &(&1 == 'Legend')) &&
+      Wrestler
+      |> Repo.get(wrestler_id)
+      |> Map.get(:career_end_date)
+      |> is_nil
   end
 
   @spec save_roster_member_to_database(map) :: :ok
