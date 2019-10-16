@@ -1,5 +1,7 @@
 defmodule Wwelo.Repo do
-  use Ecto.Repo, otp_app: :wwelo
+  use Ecto.Repo,
+    otp_app: :wwelo,
+    adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the
