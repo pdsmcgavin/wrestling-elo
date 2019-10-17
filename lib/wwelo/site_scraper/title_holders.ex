@@ -11,6 +11,8 @@ defmodule Wwelo.SiteScraper.TitleHolders do
 
   @spec save_current_title_holders_to_database :: :ok
   def save_current_title_holders_to_database do
+    Logger.warn("Updating title holders")
+
     title_holders = get_active_title_holders_list()
     Repo.delete_all(TitleHolder)
 

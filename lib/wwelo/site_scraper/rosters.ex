@@ -12,6 +12,8 @@ defmodule Wwelo.SiteScraper.Rosters do
 
   @spec save_current_roster_to_database :: :ok
   def save_current_roster_to_database do
+    Logger.warn("Updating roster")
+
     roster = get_active_roster_list()
     Repo.delete_all(Roster)
 

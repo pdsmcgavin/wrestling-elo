@@ -22,6 +22,8 @@ defmodule Wwelo.EloCalculator.EloCalculator do
   """
   @spec calculate_elos :: :ok
   def calculate_elos do
+    Logger.warn("Calculating Elos")
+
     EloDatabaseCalls.date_of_earliest_match_with_no_elo_calculation()
     |> EloDatabaseCalls.delete_elo_calculations_after_non_calculated_match()
 
