@@ -46,7 +46,7 @@ defmodule Wwelo.SiteScraper.Rosters do
 
       trimmed_wrestler = wrestler |> String.trim()
 
-      wrestler_id = Alias |> Repo.get_by(name: trimmed_wrestler)
+      wrestler_id = Alias |> Repo.get_by(name: trimmed_wrestler) |> Map.get(:id)
 
       case is_wrestler_active?(wrestler_id, brands) do
         true ->
