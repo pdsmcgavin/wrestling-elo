@@ -48,14 +48,14 @@ defmodule Wwelo.SiteScraper.Rosters do
 
       trimmed_wrestler = wrestler |> String.trim()
 
-      wrestler_id = Alias |> Repo.get_by(name: trimmed_wrestler) |> Map.get(:id)
+      alias = Alias |> Repo.get_by(name: trimmed_wrestler)
 
-      case is_wrestler_active?(wrestler_id, brands) do
+      case is_wrestler_active?(alias, brands) do
         true ->
           acc ++
             [
               %{
-                wrestler_id: wrestler_id,
+                wrestler_id: alias.wrestler_id,
                 brand: brands,
                 alias: trimmed_wrestler
               }
@@ -72,15 +72,15 @@ defmodule Wwelo.SiteScraper.Rosters do
     UrlHelper.get_page_html_body("https://www.cagematch.net/?id=8&nr=1&page=15")
   end
 
-  @spec is_wrestler_active?(wrestler_id :: map | nil, []) :: boolean
+  @spec is_wrestler_active?(alias :: map | nil, []) :: boolean
   defp is_wrestler_active?(nil, _) do
     false
   end
 
-  defp is_wrestler_active?(wrestler_id, brands) do
+  defp is_wrestler_active?(alias, brands) do
     !Enum.any?(brands, &(&1 == 'Legend')) &&
       Wrestler
-      |> Repo.get(wrestler_id)
+      |> Repo.get(alias.wrestler_id)
       |> Map.get(:career_end_date)
       |> is_nil
   end
