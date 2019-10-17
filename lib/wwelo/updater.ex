@@ -46,7 +46,7 @@ defmodule Wwelo.Updater do
     Logger.warn("Updating site complete")
     caches_cleared = Cachex.clear!(:wwelo_cache)
     Logger.warn(Integer.to_string(caches_cleared) <> " cleared from cache")
-    cache_queries()
+    StatsCache.cache_queries()
   end
 
   def generate_sitemap do
@@ -65,35 +65,5 @@ defmodule Wwelo.Updater do
       generate_sitemap_errors |> Logger.error()
       {:ok}
     end
-  end
-
-  def cache_queries do
-    StatsCache.get_elo_stats_by_year()
-    StatsCache.get_title_holders()
-    StatsCache.list_wrestlers_stats(50)
-
-    StatsCache.list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.to_string()
-    )
-
-    StatsCache.list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.add(1) |> Date.to_string()
-    )
-
-    StatsCache.list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.add(-7) |> Date.to_string()
-    )
-
-    StatsCache.list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.add(6) |> Date.to_string()
-    )
   end
 end
