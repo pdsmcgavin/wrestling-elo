@@ -4,36 +4,6 @@ defmodule Wwelo.StatsCache do
   """
   alias Wwelo.Stats
 
-  def cache_important_queries do
-    get_elo_stats_by_year()
-    get_title_holders()
-    list_wrestlers_stats(50)
-
-    list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.to_string()
-    )
-
-    list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.add(1) |> Date.to_string()
-    )
-
-    list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.add(-7) |> Date.to_string()
-    )
-
-    list_current_wrestlers_stats(
-      10,
-      365,
-      Date.utc_today() |> Date.add(6) |> Date.to_string()
-    )
-  end
-
   def get_brands do
     key = "get_brands"
 
